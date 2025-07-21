@@ -9,7 +9,7 @@ export default defineConfig({
     functionPerRoute: true,
     routes: {
       strategy: 'include',
-      include: ['/api/create-checkout-session', '[[path]]']
+      include: ['/api/create-checkout-session']
     },
     imageService: 'cloudflare'
   }),
