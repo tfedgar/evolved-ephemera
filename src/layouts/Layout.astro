@@ -13,49 +13,91 @@ import CookieConsent from '../components/CookieConsent.astro';
 		<meta name="description" content="Transform your body, health, and performance with personalized coaching, expert guidance, and data-driven results." />
 		<meta property="og:title" content="Edgar Coaching - Expert Training & Performance Optimization" />
 		<meta property="og:description" content="Transform your body, health, and performance with personalized coaching, expert guidance, and data-driven results." />
+		
+		<!-- Preload fonts -->
+		<link
+			rel="preload"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+				rel="stylesheet"
+				type="text/css"
+			/>
+		</noscript>
+
+		<!-- Preload critical images -->
+		<link rel="preload" as="image" href="/images/coach.jpg" />
+		
 		<style>
-		  html, body {
-		    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-		    background: #fafbfc;
-		    color: #181818;
-		    margin: 0;
-		    padding: 0;
-		    min-height: 100vh;
-		    font-size: 18px;
-		    line-height: 1.7;
-		  }
-		  *, *:before, *:after {
-		    box-sizing: border-box;
-		  }
-		  .container {
-		    max-width: 700px;
-		    margin: 0 auto;
-		    padding: 0 1.5rem;
-		  }
-		  h1, h2, h3, h4, h5, h6 {
-		    font-weight: 600;
-		    margin: 2.5rem 0 1rem 0;
-		    color: #181818;
-		    letter-spacing: -0.02em;
-		  }
-		  h1 {
-		    font-size: 2.5rem;
-		    margin-top: 3rem;
-		  }
-		  h2 {
-		    font-size: 1.7rem;
-		  }
-		  a {
-		    color: #2563eb;
-		    text-decoration: none;
-		    transition: color 0.2s;
-		  }
-		  a:hover {
-		    color: #1a47b8;
-		  }
-		  ::selection {
-		    background: #e0e7ef;
-		  }
+			/* Font display swap for better performance */
+			@font-face {
+				font-family: 'Inter';
+				font-style: normal;
+				font-weight: 400;
+				font-display: swap;
+				src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+			}
+			@font-face {
+				font-family: 'Inter';
+				font-style: normal;
+				font-weight: 500;
+				font-display: swap;
+				src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2) format('woff2');
+			}
+			@font-face {
+				font-family: 'Inter';
+				font-style: normal;
+				font-weight: 600;
+				font-display: swap;
+				src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2) format('woff2');
+			}
+
+			html, body {
+				font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+				background: #fafbfc;
+				color: #181818;
+				margin: 0;
+				padding: 0;
+				min-height: 100vh;
+				font-size: 18px;
+				line-height: 1.7;
+			}
+			*, *:before, *:after {
+				box-sizing: border-box;
+			}
+			.container {
+				max-width: 700px;
+				margin: 0 auto;
+				padding: 0 1.5rem;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				font-weight: 600;
+				margin: 2.5rem 0 1rem 0;
+				color: #181818;
+				letter-spacing: -0.02em;
+			}
+			h1 {
+				font-size: 2.5rem;
+				margin-top: 3rem;
+			}
+			h2 {
+				font-size: 1.7rem;
+			}
+			a {
+				color: #2563eb;
+				text-decoration: none;
+				transition: color 0.2s;
+			}
+			a:hover {
+				color: #1a47b8;
+			}
+			::selection {
+				background: #e0e7ef;
+			}
 		</style>
 	</head>
 	<body>
