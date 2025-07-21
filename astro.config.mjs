@@ -6,16 +6,27 @@ export default defineConfig({
   output: 'server',
   adapter: cloudflare({
     mode: 'directory',
+    functionPerRoute: true,
     routes: {
       strategy: 'include',
-      include: ['/api/create-checkout-session']
-    }
+      include: ['/api/create-checkout-session', '[[path]]']
+    },
+    imageService: 'cloudflare'
   }),
   image: {
     service: {
-      entrypoint: 'astro/assets/services/sharp'
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        quality: 80
+      }
     },
-    remotePatterns: [{ protocol: "https" }],
+    domains: ['i.ytimg.com'], // Allow YouTube thumbnails
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.gstatic.com'
+      }
+    ]
   },
   vite: {
     build: {

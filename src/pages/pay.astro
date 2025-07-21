@@ -1,220 +1,517 @@
 ---
+import Layout from '../layouts/Layout.astro';
 ---
-<section class="payment">
-<div class="container">
-  <div class="header">
-    <a href="/" class="back-link">Return</a>
-    <h1>Coaching Packages</h1>
-  </div>
-  <div class="packages">
-    <div class="package">
-      <h2>3-Month Kickstart</h2>
-      <div class="package-description">
-        <p class="headline">A strong start for serious change.</p>
-        <p class="main-desc">Build momentum with a full reset of your training, nutrition, recovery, and lifestyle. Perfect if you're ready to get results fast and want structure without fluff.</p>
-        <ul class="features">
-          <li>Customized training and nutrition plan</li>
-          <li>Weekly check-ins and adjustments</li>
-          <li>Direct coach access and ongoing support</li>
-          <li>Performance tracking and accountability</li>
-          <li>Basic cycle guidance and support</li>
-        </ul>
-        <p class="best-for">Best for: Getting unstuck, dialing in habits, and seeing visible progress</p>
-      </div>
-      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="priceId" value="price_1Rbtt9ATEGp1ZwvV8o8VBAWW" />
-        <button type="submit">Pay with Card</button>
-      </form>
-    </div>
 
-    <div class="package">
-      <h2>6-Month Rebuild</h2>
-      <div class="package-description">
-        <p class="headline">Deep results with full support - plus bloodwork included.</p>
-        <p class="main-desc">Six months gives us time to correct the root issues, optimize performance, and lock in lasting changes. Includes comprehensive bloodwork to guide smarter, safer decisions.</p>
-        <ul class="features">
-          <li>Everything in 3-month plan</li>
-          <li>Advanced progress tracking</li>
-          <li>1 bloodwork panel included ($500 value)</li>
-          <li>Lifestyle coaching: stress, sleep, routines</li>
-          <li>Intermediate cycle support and monitoring</li>
-        </ul>
-        <p class="best-for">Best for: Body recomposition, energy/lifestyle reset, enhanced athletes needing data</p>
+<Layout title="Coaching Packages - Edgar Coaching" description="Choose from our coaching packages designed to transform your fitness journey with personalized training and nutrition plans.">
+  <section class="payment">
+    <div class="payment-container">
+      <div class="header">
+        <a href="/" class="back-link">← Return Home</a>
+        <h1>Coaching Packages</h1>
+        <p class="subtitle">Choose the package that fits your goals and commitment level</p>
       </div>
-      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="priceId" value="price_1RbDBHATEGp1ZwvVgHoMRXSK" />
-        <button type="submit">Pay with Card</button>
-      </form>
-    </div>
+      
+      <div class="packages">
+        <div class="package featured">
+          <div class="package-badge">Most Popular</div>
+          <h2>6-Month Rebuild</h2>
+          <div class="package-description">
+            <p class="headline">Deep results with full support - plus bloodwork included.</p>
+            <p class="main-desc">Six months gives us time to correct the root issues, optimize performance, and lock in lasting changes. Includes comprehensive bloodwork to guide smarter, safer decisions.</p>
+            <ul class="features">
+              <li>Everything in 3-month plan</li>
+              <li>Advanced progress tracking</li>
+              <li>1 bloodwork panel included ($500 value)</li>
+              <li>Lifestyle coaching: stress, sleep, routines</li>
+              <li>Intermediate cycle support and monitoring</li>
+            </ul>
+            <p class="best-for">Best for: Body recomposition, energy/lifestyle reset, enhanced athletes needing data</p>
+          </div>
+          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="priceId" value="price_1RbDBHATEGp1ZwvVgHoMRXSK" />
+            <button type="submit" class="btn-primary">Get Started</button>
+          </form>
+        </div>
 
-    <div class="package">
-      <h2>12-Month Transformation</h2>
-      <div class="package-description">
-        <p class="headline">All-in commitment. Maximum value.</p>
-        <p class="main-desc">This package is built for men ready to fully transform their body, health, and mindset - with the long-term coaching, tools, and data to back it up.</p>
-        <ul class="features">
-          <li>Everything in the 6-month plan</li>
-          <li>1 month of coaching FREE</li>
-          <li>1 bloodwork panel included ($500 value)</li>
-          <li>Special discount on total plan cost</li>
-          <li>Long-term strategy, goal cycling, and lifestyle mastery</li>
-          <li>Advanced cycle support and year-long optimization</li>
-        </ul>
-        <p class="best-for">Ideal for: Complete lifestyle overhauls, body recomposition, enhanced or high-performing clients who want full-spectrum support</p>
+        <div class="package">
+          <h2>3-Month Kickstart</h2>
+          <div class="package-description">
+            <p class="headline">A strong start for serious change.</p>
+            <p class="main-desc">Build momentum with a full reset of your training, nutrition, recovery, and lifestyle. Perfect if you're ready to get results fast and want structure without fluff.</p>
+            <ul class="features">
+              <li>Customized training and nutrition plan</li>
+              <li>Weekly check-ins and adjustments</li>
+              <li>Direct coach access and ongoing support</li>
+              <li>Performance tracking and accountability</li>
+              <li>Basic cycle guidance and support</li>
+            </ul>
+            <p class="best-for">Best for: Getting unstuck, dialing in habits, and seeing visible progress</p>
+          </div>
+          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="priceId" value="price_1Rbtt9ATEGp1ZwvV8o8VBAWW" />
+            <button type="submit" class="btn-secondary">Get Started</button>
+          </form>
+        </div>
+
+        <div class="package">
+          <h2>12-Month Transformation</h2>
+          <div class="package-description">
+            <p class="headline">All-in commitment. Maximum value.</p>
+            <p class="main-desc">This package is built for men ready to fully transform their body, health, and mindset - with the long-term coaching, tools, and data to back it up.</p>
+            <ul class="features">
+              <li>Everything in the 6-month plan</li>
+              <li>1 month of coaching FREE</li>
+              <li>1 bloodwork panel included ($500 value)</li>
+              <li>Special discount on total plan cost</li>
+              <li>Long-term strategy, goal cycling, and lifestyle mastery</li>
+              <li>Advanced cycle support and year-long optimization</li>
+            </ul>
+            <p class="best-for">Ideal for: Complete lifestyle overhauls, body recomposition, enhanced or high-performing clients who want full-spectrum support</p>
+          </div>
+          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="priceId" value="price_1Rn5OMATEGp1ZwvV1n7orP1E" />
+            <button type="submit" class="btn-secondary">Get Started</button>
+          </form>
+        </div>
+
+        <div class="package">
+          <h2>6-Month Enhanced Support</h2>
+          <div class="package-description">
+            <p class="headline">Deep results with full support - plus premium cycle optimization.</p>
+            <p class="main-desc">Six months of dedicated coaching with our most comprehensive cycle support package. Includes advanced bloodwork analysis, specialized protocols, and expert cycle optimization.</p>
+            <ul class="features">
+              <li>Everything in 6-month plan</li>
+              <li>Premium cycle support and monitoring</li>
+              <li>Advanced cycle protocols and adjustments</li>
+              <li>Specialized ancillary guidance</li>
+              <li>1 bloodwork panel included ($500 value)</li>
+              <li>Priority support response</li>
+            </ul>
+            <p class="best-for">Best for: People just starting enhancement and want extra guidance and services</p>
+          </div>
+          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="priceId" value="price_1RnN54ATEGp1ZwvVGu1A4lA6" />
+            <button type="submit" class="btn-secondary">Get Started</button>
+          </form>
+        </div>
+
+        <div class="package consultation">
+          <h2>60 Minute Consultation Call</h2>
+          <div class="package-description">
+            <p class="main-desc">One-on-one strategy session to discuss your goals and create a personalized plan. Perfect for getting clarity before committing to a full program.</p>
+            <ul class="features">
+              <li>Comprehensive goal assessment</li>
+              <li>Personalized strategy recommendations</li>
+              <li>Q&A with expert coach</li>
+              <li>Next steps roadmap</li>
+            </ul>
+          </div>
+          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="priceId" value="price_1RJdKzATEGp1ZwvVjD6RRjZ5" />
+            <button type="submit" class="btn-consultation">Book Call</button>
+          </form>
+        </div>
       </div>
-      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="priceId" value="price_1Rn5OMATEGp1ZwvV1n7orP1E" />
-        <button type="submit">Pay with Card</button>
-      </form>
-    </div>
-
-    <div class="package">
-      <h2>60 Minute Consultation Call</h2>
-      <p>One-on-one strategy session to discuss your goals and create a personalized plan.</p>
-      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="priceId" value="price_1RJdKzATEGp1ZwvVjD6RRjZ5" />
-        <button type="submit">Pay with Card</button>
-      </form>
-    </div>
-
-    <div class="package">
-      <h2>6-Month Enhanced Support</h2>
-      <div class="package-description">
-        <p class="headline">Deep results with full support - plus premium cycle optimization.</p>
-        <p class="main-desc">Six months of dedicated coaching with our most comprehensive cycle support package. Includes advanced bloodwork analysis, specialized protocols, and expert cycle optimization.</p>
-        <ul class="features">
-          <li>Everything in 6-month plan</li>
-          <li>Premium cycle support and monitoring</li>
-          <li>Advanced cycle protocols and adjustments</li>
-          <li>Specialized ancillary guidance</li>
-          <li>1 bloodwork panel included ($500 value)</li>
-          <li>Priority support response</li>
-        </ul>
-        <p class="best-for">Best for: People just starting enhancement and want extra guidance and services</p>
+      
+      <div class="guarantee">
+        <p>✓ 30-day satisfaction guarantee on all coaching packages</p>
+        <p>✓ Secure payment processing via Stripe</p>
       </div>
-      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="priceId" value="price_1RnN54ATEGp1ZwvVGu1A4lA6" />
-        <button type="submit">Pay with Card</button>
-      </form>
     </div>
-  </div>
-</div>
-</section>
+  </section>
+</Layout>
 
 <style>
-.payment {
-  padding: 5rem 0 4rem 0;
-  background: #fff;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-}
-.header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.header h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-top: 1rem;
-}
-.back-link {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  padding: 0.7rem 1.5rem;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1rem;
-  border: 2px solid #181818;
-  border-radius: 2rem;
-  transition: all 0.2s;
-  background: #181818;
-}
-.back-link:hover {
-  background: #fff;
-  color: #181818;
-}
-.packages {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-  justify-content: center;
-  margin-top: 2.5rem;
-}
-.package {
-  background: #fafbfc;
-  border-radius: 1rem;
-  padding: 2.5rem 2rem;
-  width: 360px;
-  text-align: left;
-  border: 1px solid #f0f0f0;
-}
-.package h2 {
-  font-size: 1.7rem;
-  font-weight: 600;
-  margin-bottom: 0.7rem;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-.package p {
-  color: #444;
-  margin-bottom: 1.5rem;
-  font-size: 18px;
-  line-height: 1.7;
-}
-.package-description {
-  margin-bottom: 2rem;
-}
-.headline {
-  font-weight: 600;
-  color: #181818;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-.main-desc {
-  color: #444;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-.features {
-  list-style: none;
-  margin: 1.5rem 0;
-  padding: 0;
-}
-.features li {
-  padding-left: 1.5rem;
-  position: relative;
-  margin-bottom: 0.7rem;
-  color: #333;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-.features li::before {
-  content: "-";
-  position: absolute;
-  left: 0.5rem;
-  color: #2563eb;
-}
-.best-for {
-  color: #555;
-  font-size: 0.95rem;
-  font-style: italic;
-  margin-top: 1.2rem;
-}
-button[type="submit"] {
-  padding: 0.9rem 2.2rem;
-  background: #181818;
-  color: #fff;
-  border-radius: 2rem;
-  font-size: 1.1rem;
-  font-weight: 500;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-button[type="submit"]:hover {
-  background: #2563eb;
-}
-</style> 
+  .payment {
+    padding: 2rem 0 4rem 0;
+    background: var(--bg-primary);
+    min-height: 100vh;
+  }
+
+  .payment-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 2rem;
+    transition: all 0.2s ease;
+    background: transparent;
+  }
+
+  .back-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem 0;
+    color: var(--primary-color);
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: #666;
+    margin: 0;
+  }
+
+  /* Grid layout for packages - this is the key fix */
+  .packages {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+    gap: 2rem !important;
+    margin-bottom: 3rem;
+    width: 100%;
+    /* Debug styles to ensure grid is working */
+    background: transparent;
+    position: relative;
+  }
+
+  /* Ensure all packages are grid items */
+  .packages > .package {
+    grid-column: span 1;
+    min-height: 400px;
+  }
+
+  .package {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 2px solid #f0f0f0;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .package:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(24, 24, 24, 0.1);
+  }
+
+  .package.featured {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, #fafbfc 0%, #f8f9fa 100%);
+  }
+
+  .package-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .package h2 {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--primary-color);
+  }
+
+  .package-description {
+    flex-grow: 1;
+    margin-bottom: 2rem;
+  }
+
+  .headline {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .main-desc {
+    color: #555;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .features {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 0;
+  }
+
+  .features li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #22c55e;
+    font-weight: 600;
+  }
+
+  .best-for {
+    color: #666;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--primary-color);
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-consultation {
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .btn-primary {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #333;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .btn-consultation {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-consultation:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+  }
+
+  .guarantee {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+  }
+
+  .guarantee p {
+    margin: 0.5rem 0;
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  /* Mobile optimizations - stack vertically on small screens */
+  @media (max-width: 768px) {
+    .payment {
+      padding: 1rem 0 2rem 0;
+    }
+
+    .payment-container {
+      padding: 0 1rem;
+    }
+
+    .packages {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+
+    .package {
+      padding: 1.5rem;
+    }
+
+    .header {
+      margin-bottom: 2rem;
+    }
+
+    .back-link {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Tablet and small desktop - 2 columns */
+  @media (min-width: 769px) and (max-width: 1199px) {
+    .packages {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 2rem !important;
+    }
+    
+    .consultation {
+      grid-column: 1 / -1 !important;
+      max-width: 600px;
+      justify-self: center;
+    }
+  }
+
+  /* Large screens - 2 columns with consultation spanning full width */
+  @media (min-width: 1200px) {
+    .packages {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 2.5rem !important;
+    }
+
+    .consultation {
+      grid-column: 1 / -1 !important;
+      max-width: 600px;
+      justify-self: center;
+    }
+  }
+
+  /* Extra large screens - 3 columns with consultation in middle */
+  @media (min-width: 1400px) {
+    .packages {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 2rem !important;
+    }
+
+    .consultation {
+      grid-column: 2 / 3 !important;
+      justify-self: stretch;
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  // Handle payment form submissions with error handling
+  document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('form[action="/api/create-checkout-session"]');
+    
+    forms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+        
+        // Show loading state
+        if (button) {
+          button.textContent = 'Processing...';
+          button.disabled = true;
+        }
+        
+        // Let the form submit normally - don't prevent default
+        // This allows the browser to handle the 303 redirect properly
+      });
+    });
+    
+    // Function to show error messages
+    function showErrorMessage(message: string) {
+      // Remove existing error messages
+      const existingError = document.querySelector('.payment-error');
+      if (existingError) {
+        existingError.remove();
+      }
+      
+      // Create error message element
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'payment-error';
+      errorDiv.innerHTML = `
+        <div style="
+          background: #fee2e2;
+          border: 1px solid #fecaca;
+          color: #dc2626;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          margin: 1rem 0;
+          text-align: center;
+        ">
+          <strong>Payment Error:</strong> ${message}
+          <br><small>Please contact support if this issue persists.</small>
+        </div>
+      `;
+      
+      // Insert error message at the top of the packages section
+      const packagesSection = document.querySelector('.packages');
+      if (packagesSection) {
+        packagesSection.parentNode?.insertBefore(errorDiv, packagesSection);
+      }
+      
+      // Auto-remove error after 10 seconds
+      setTimeout(() => {
+        errorDiv.remove();
+      }, 10000);
+    }
+    
+    // Check for success/cancel URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+      showSuccessMessage('Payment successful! You will receive confirmation details shortly.');
+    } else if (urlParams.get('canceled') === 'true') {
+      showErrorMessage('Payment was canceled. You can try again anytime.');
+    }
+    
+    function showSuccessMessage(message: string) {
+      const successDiv = document.createElement('div');
+      successDiv.innerHTML = `
+        <div style="
+          background: #dcfce7;
+          border: 1px solid #bbf7d0;
+          color: #166534;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          margin: 1rem 0;
+          text-align: center;
+        ">
+          <strong>Success!</strong> ${message}
+        </div>
+      `;
+      
+      const packagesSection = document.querySelector('.packages');
+      if (packagesSection) {
+        packagesSection.parentNode?.insertBefore(successDiv, packagesSection);
+      }
+    }
+  });
+</script> 

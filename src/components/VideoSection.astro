@@ -1,61 +1,32 @@
 ---
+import YouTubeEmbed from './YouTubeEmbed.astro';
 ---
 
 <section class="video-section">
   <div class="container">
-    <div class="video-wrapper">
-      <iframe 
-        src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-        title="Coach Edgar Training Philosophy"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
+    <h2>Watch My Latest Video</h2>
+    <YouTubeEmbed 
+      videoId="YOUR_VIDEO_ID_HERE"
+      title="Latest Training Tips and Techniques"
+    />
   </div>
 </section>
 
 <style>
-.video-section {
-  padding: 2rem 0 4rem 0;
-  background: #181818;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-  height: 0;
-  overflow: hidden;
-  border-radius: 1rem;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem;
-}
-
-@media (max-width: 768px) {
   .video-section {
-    padding: 1rem 0 3rem 0;
+    padding: 4rem 0;
+    background: var(--bg-secondary);
   }
-  
-  .video-wrapper {
-    border-radius: 0.5rem;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
   }
-  
-  .video-wrapper iframe {
-    border-radius: 0.5rem;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
   }
-}
 </style> 

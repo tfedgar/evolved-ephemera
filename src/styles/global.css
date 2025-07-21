@@ -30,3 +30,85 @@ img {
 .text-center {
   text-align: center;
 }
+
+/* Non-critical styles */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  margin: 2.5rem 0 1rem 0;
+  color: var(--primary-color);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  margin-top: 3rem;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 1.7rem);
+}
+
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover, a:focus {
+  color: #1a47b8;
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #e0e7ef;
+}
+
+/* Component styles */
+.about-section,
+.services-section,
+.testimonials-section,
+.contact-section {
+  padding: 4rem 0;
+}
+
+.about-section {
+  background: var(--bg-primary);
+}
+
+.services-section {
+  background: var(--bg-secondary);
+}
+
+.testimonials-section {
+  background: var(--bg-primary);
+}
+
+.contact-section {
+  background: var(--bg-secondary);
+}

@@ -1,34 +1,35 @@
 ---
 const criticalResources = [
+  // DNS prefetch and preconnect
   { type: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
   { type: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
   { type: 'preconnect', href: 'https://fonts.googleapis.com' },
   { type: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+  
+  // Stripe preconnect
+  { type: 'dns-prefetch', href: 'https://js.stripe.com' },
+  { type: 'preconnect', href: 'https://js.stripe.com', crossorigin: true },
+  
+  // Calendly preconnect
+  { type: 'dns-prefetch', href: 'https://assets.calendly.com' },
+  { type: 'dns-prefetch', href: 'https://booking-dfp.calendly.com' },
+  { type: 'preconnect', href: 'https://assets.calendly.com', crossorigin: true },
+  { type: 'preconnect', href: 'https://booking-dfp.calendly.com', crossorigin: true },
+  
+  // YouTube preconnect
+  { type: 'dns-prefetch', href: 'https://www.youtube-nocookie.com' },
+  { type: 'dns-prefetch', href: 'https://i.ytimg.com' },
+  { type: 'preconnect', href: 'https://www.youtube-nocookie.com', crossorigin: true },
+  { type: 'preconnect', href: 'https://i.ytimg.com', crossorigin: true },
+  
+  // Critical assets
   { type: 'preload', href: '/images/optimized/coach-optimized.webp', as: 'image' },
   { type: 'modulepreload', href: '/sw.js' }
 ];
-
-const preloadedFonts = [
-  { href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2', as: 'font', type: 'font/woff2', crossorigin: true },
-  { href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2', as: 'font', type: 'font/woff2', crossorigin: true },
-  { href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2', as: 'font', type: 'font/woff2', crossorigin: true }
-];
 ---
 
-<Fragment>
-  {criticalResources.map(resource => (
-    resource.crossorigin ? 
-      <link rel={resource.type} href={resource.href} crossorigin /> :
-      <link rel={resource.type} href={resource.href} />
-  ))}
-  
-  {preloadedFonts.map(font => (
-    <link 
-      rel="preload" 
-      href={font.href} 
-      as={font.as} 
-      type={font.type} 
-      crossorigin={font.crossorigin} 
-    />
-  ))}
-</Fragment> 
+{criticalResources.map(resource => (
+  resource.crossorigin ? 
+    <link rel={resource.type} href={resource.href} crossorigin /> :
+    <link rel={resource.type} href={resource.href} />
+))} 
