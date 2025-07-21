@@ -1,0 +1,21 @@
+{
+  "name": "Edgar Coaching",
+  "short_name": "Edgar Coach",
+  "description": "Expert Training & Performance Optimization",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafbfc",
+  "theme_color": "#181818",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 
