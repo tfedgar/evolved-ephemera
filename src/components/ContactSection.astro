@@ -1,0 +1,135 @@
+---
+---
+
+<section class="contact" id="contact">
+  <div class="container">
+    <h2>Contact & Booking</h2>
+    <p>Ready to start your journey? Choose an option below to book a free consultation or leave your information.</p>
+    <div class="contact-options">
+      <div class="option calendly-option">
+        <h3>Book Instantly</h3>
+        <p>Schedule a session directly using Calendly:</p>
+        <div class="calendly-inline-widget" data-url="https://calendly.com/coach_edgar/30min" style="min-width:320px;height:630px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      </div>
+      <div class="divider">or</div>
+      <div class="option form-option">
+        <h3>Leave Your Information</h3>
+        <p>Prefer to be contacted? Fill out the form below and I'll get back to you soon.</p>
+        <form class="contact-form" action="https://formspree.io/f/xjkogark" method="POST">
+          <input type="text" name="full-name" placeholder="Full Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <input type="tel" name="phone" placeholder="Phone Number" required />
+          <textarea name="message" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.contact {
+  padding: 4.5rem 0 5rem 0;
+  background: #181818;
+  color: #fff;
+}
+.contact h2 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.contact > .container > p {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+.contact-options {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2.2rem;
+}
+.option {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem 1.2rem;
+  width: 350px;
+  max-width: 100%;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.option h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.option p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+}
+.divider {
+  align-self: center;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0 1rem;
+  font-size: 1.1rem;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 0.9rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  outline: none;
+  transition: border 0.2s;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border: 1.5px solid #fff;
+}
+.contact-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.contact-form button {
+  padding: 1rem;
+  background: #fff;
+  color: #181818;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.contact-form button:hover {
+  background: #2563eb;
+  color: #fff;
+}
+@media (max-width: 900px) {
+  .contact-options {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: stretch;
+  }
+  .divider {
+    text-align: center;
+    padding: 1rem 0;
+  }
+}
+</style> 

@@ -1,0 +1,101 @@
+---
+---
+
+<section class="services">
+  <div class="container">
+    <h2>What I Offer</h2>
+    <div class="services-list">
+      <div class="service">
+        <div class="icon">🏋️‍♂️</div>
+        <h3>Performance & Body Recomp Coaching</h3>
+        <p>Get stronger, leaner, and more focused with a plan built for real results - not generic workouts or guesswork.</p>
+      </div>
+      <div class="service">
+        <div class="icon">⚠️</div>
+        <h3>PED Risk Management & Strategy</h3>
+        <p>Using PEDs or thinking about it? I’ll help you avoid common mistakes and train smart - with a focus on risk reduction, not recklessness.</p>
+      </div>
+      <div class="service">
+        <div class="icon">🔄</div>
+        <h3>Energy, Lifestyle & Sexual Performance Reset</h3>
+        <p>Rebuild your energy, improve your sleep, sharpen your habits, and reignite your sex drive with a no-BS approach that actually works..</p>
+      </div>
+      <div class="service">
+        <div class="icon">📈</div>
+        <h3>Results-Based Accountability</h3>
+        <p>You don’t need more motivation — you need a system, consistent support, and someone who stays in your corner and won’t let you coast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.services {
+  padding: 4.5rem 0 4rem 0;
+  background: #181818;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.services h2 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #fff;
+}
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 2.2rem;
+}
+.service {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem 1.2rem;
+  text-align: center;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease;
+}
+.service:hover {
+  transform: translateY(-5px);
+}
+.icon {
+  font-size: 2.1rem;
+  margin-bottom: 1rem;
+}
+.service h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: #fff;
+}
+.service p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .services-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .services-list {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .services {
+    padding: 3rem 0;
+  }
+  .services h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+</style> 
