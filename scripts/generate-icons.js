@@ -1,10 +1,14 @@
-const sharp = require('sharp');
-const fs = require('fs');
-const path = require('path');
+import sharp from 'sharp';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import fs from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const sizes = [192, 512];
-const inputSvg = path.join(__dirname, '../public/favicon.svg');
-const outputDir = path.join(__dirname, '../public');
+const inputSvg = join(__dirname, '../public/favicon.svg');
+const outputDir = join(__dirname, '../public');
 
 async function generateIcons() {
   try {
@@ -16,7 +20,7 @@ async function generateIcons() {
       await sharp(svgBuffer)
         .resize(size, size)
         .toFormat('png')
-        .toFile(path.join(outputDir, `icon-${size}x${size}.png`));
+        .toFile(join(outputDir, `icon-${size}x${size}.png`));
       
       console.log(`Generated ${size}x${size} icon`);
     }
