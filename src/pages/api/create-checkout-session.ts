@@ -1,41 +1,44 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 
-// IMPORTANT: Set your Stripe secret key in your environment variables
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-06-30.basil',
+  apiVersion: '2023-10-16' as any, // Type assertion for now
 });
 
 export const POST: APIRoute = async ({ request }) => {
-  let priceId: string | null = null;
-  const contentType = request.headers.get('content-type') || '';
-  
-  console.log('Content-Type:', contentType);
-  console.log('Request headers:', Object.fromEntries(request.headers.entries()));
-
-  if (contentType.includes('application/json')) {
-    const body = await request.json();
-    console.log('Received JSON body:', body);
-    priceId = body.priceId;
-  } else if (
-    contentType.includes('application/x-www-form-urlencoded') ||
-    contentType.includes('multipart/form-data')
-  ) {
-    const formData = await request.formData();
-    console.log('Received FormData:', Array.from(formData.entries()));
-    priceId = formData.get('priceId') as string;
-  } else {
-    console.log('Content-Type not recognized:', contentType);
-  }
-
-  console.log('Extracted priceId:', priceId);
-
-  if (!priceId) {
-    console.error('Price ID is missing!');
-    return new Response('Price ID is required', { status: 400 });
-  }
-
   try {
+    let priceId: string | null = null;
+    const contentType = request.headers.get('content-type') || '';
+
+    // Parse request body based on content type
+    if (contentType.includes('application/json')) {
+      const body = await request.json();
+      priceId = body.priceId;
+    } else if (contentType.includes('application/x-www-form-urlencoded')) {
+      const formData = await request.formData();
+      priceId = formData.get('priceId') as string;
+    } else {
+      return new Response('Unsupported content type', { 
+        status: 415,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    }
+
+    if (!priceId) {
+      return new Response(JSON.stringify({ error: 'Price ID is required' }), { 
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    }
+
+    // Get origin for URLs
+    const origin = request.headers.get('origin') || 'https://evolved-ephemera.pages.dev';
+
+    // Create Stripe checkout session with modern options
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -45,11 +48,39 @@ export const POST: APIRoute = async ({ request }) => {
         },
       ],
       mode: 'payment',
-      success_url: `${request.headers.get('origin')}/pay?success=true`,
-      cancel_url: `${request.headers.get('origin')}/pay?canceled=true`,
+      success_url: `${origin}/pay?success=true`,
+      cancel_url: `${origin}/pay?canceled=true`,
+      expires_at: Math.floor(Date.now() / 1000) + (30 * 60), // 30 minutes
+      consent_collection: {
+        terms_of_service: 'none',
+      },
+      custom_text: {
+        submit: {
+          message: 'We will process your payment securely through Stripe.',
+        },
+      },
     });
-    return Response.redirect(session.url!, 303);
+
+    if (!session.url) {
+      throw new Error('No session URL returned');
+    }
+
+    // Use 303 See Other for POST-to-GET redirect
+    return new Response(null, {
+      status: 303,
+      headers: {
+        'Location': session.url,
+        'Cache-Control': 'no-store',
+      }
+    });
+
   } catch (err) {
-    return new Response('Error creating Stripe Checkout session', { status: 500 });
+    console.error('Stripe session creation error:', err);
+    return new Response(JSON.stringify({ error: 'Payment session creation failed' }), { 
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 }; 
