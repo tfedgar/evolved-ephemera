@@ -15,98 +15,106 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
-const sizes = [320, 640, 960, 1280, 1920];
+// Define image dimensions based on their display sizes
+const imageDimensions = {
+  'coach': { width: 425, height: 448 },
+  'testimonial1': { width: 400, height: 300 },
+  'testimonial2': { width: 461, height: 300 },
+  'testimonial3': { width: 429, height: 300 }
+};
 
 async function optimizeImage(inputPath) {
   const filename = path.parse(inputPath).name;
-  const stats = await fs.promises.stat(inputPath);
   
   // Skip if file is already optimized
   if (filename.includes('-optimized')) {
     return;
   }
 
-  console.log(`Optimizing ${filename}...`);
-
   try {
     const image = sharp(inputPath);
     const metadata = await image.metadata();
+    const dimensions = imageDimensions[filename] || { width: metadata.width, height: metadata.height };
+
+    // Calculate responsive sizes
+    const sizes = [
+      dimensions.width,                     // 1x
+      Math.round(dimensions.width * 2)      // 2x for high-DPI
+    ].filter(size => size > 0 && size <= 1920);
+
+    // Generate all versions in parallel
+    const tasks = [];
 
     // Generate responsive images
     for (const size of sizes) {
-      // Skip if target size is larger than original
-      if (metadata.width && size > metadata.width) {
-        continue;
-      }
+      if (metadata.width && size > metadata.width) continue;
 
-      // Generate WebP version
-      const webpPath = join(outputDir, `${filename}-${size}.webp`);
-      await image
-        .resize(size, null, {
-          withoutEnlargement: true,
-          fit: 'inside'
-        })
-        .webp({
-          quality: 80,
-          effort: 6
-        })
-        .toFile(webpPath);
-      console.log(`Generated ${size}px WebP`);
+      const aspectRatio = dimensions.height / dimensions.width;
+      const targetHeight = Math.round(size * aspectRatio);
 
-      // Generate JPEG version
-      const jpegPath = join(outputDir, `${filename}-${size}.jpg`);
-      await image
-        .resize(size, null, {
-          withoutEnlargement: true,
-          fit: 'inside'
-        })
-        .jpeg({
-          quality: 80,
-          progressive: true,
-          optimizeScans: true
-        })
-        .toFile(jpegPath);
-      console.log(`Generated ${size}px JPEG`);
+      // WebP version
+      tasks.push(
+        image
+          .clone()
+          .resize(size, targetHeight, {
+            withoutEnlargement: true,
+            fit: 'cover'
+          })
+          .webp({
+            quality: 80,
+            effort: 4, // Balanced between speed and compression
+            nearLossless: true // Better quality for Cloudflare's processing
+          })
+          .toFile(join(outputDir, `${filename}-${size}.webp`))
+          .then(() => console.log(`✓ ${filename} ${size}px WebP`))
+      );
+
+      // JPEG version
+      tasks.push(
+        image
+          .clone()
+          .resize(size, targetHeight, {
+            withoutEnlargement: true,
+            fit: 'cover'
+          })
+          .jpeg({
+            quality: 80,
+            progressive: true,
+            optimizeScans: true,
+            mozjpeg: true,
+            trellisQuantisation: true, // Better compression
+            overshootDeringing: true, // Reduce ringing artifacts
+            optimiseScans: true // Progressive rendering optimization
+          })
+          .toFile(join(outputDir, `${filename}-${size}.jpg`))
+          .then(() => console.log(`✓ ${filename} ${size}px JPEG`))
+      );
     }
 
-    // Generate optimized original size
-    const webpOriginal = join(outputDir, `${filename}-optimized.webp`);
-    await image
-      .webp({
-        quality: 80,
-        effort: 6
-      })
-      .toFile(webpOriginal);
-    console.log(`Generated optimized WebP`);
-
-    const jpegOriginal = join(outputDir, `${filename}-optimized.jpg`);
-    await image
-      .jpeg({
-        quality: 80,
-        progressive: true,
-        optimizeScans: true
-      })
-      .toFile(jpegOriginal);
-    console.log(`Generated optimized JPEG`);
+    // Wait for all tasks to complete
+    await Promise.all(tasks);
+    console.log(`✅ ${filename} complete`);
 
   } catch (error) {
-    console.error(`Error optimizing ${filename}:`, error);
+    console.error(`❌ Error optimizing ${filename}:`, error);
   }
 }
 
 async function processDirectory() {
   try {
     const files = await fs.promises.readdir(inputDir);
+    const imageFiles = files.filter(file => file.match(/\.(jpg|jpeg|png)$/i));
     
-    for (const file of files) {
-      if (file.match(/\.(jpg|jpeg|png)$/i)) {
-        await optimizeImage(join(inputDir, file));
-      }
-    }
+    console.log(`\nOptimizing ${imageFiles.length} images...\n`);
     
-    console.log('Image optimization complete!');
+    // Process all images in parallel
+    await Promise.all(
+      imageFiles.map(file => optimizeImage(join(inputDir, file)))
+    );
+    
+    console.log('\n✨ Image optimization complete!\n');
   } catch (error) {
-    console.error('Error processing directory:', error);
+    console.error('\n❌ Error processing directory:', error);
   }
 }
 

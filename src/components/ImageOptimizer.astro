@@ -2,8 +2,8 @@
 interface Props {
   src: string;
   alt: string;
-  width?: number;
-  height?: number;
+  displayWidth: number;
+  displayHeight: number;
   class?: string;
   loading?: "lazy" | "eager";
   decoding?: "async" | "sync" | "auto";
@@ -12,43 +12,58 @@ interface Props {
 const {
   src,
   alt,
-  width,
-  height,
+  displayWidth,
+  displayHeight,
   class: className,
   loading = "lazy",
   decoding = "async"
 } = Astro.props;
 
-// Generate srcset for responsive images
-const generateSrcSet = (src: string) => {
-  const sizes = [320, 640, 960, 1280, 1920];
-  const extension = src.split('.').pop();
-  const basePath = src.slice(0, -(extension?.length || 0) - 1);
-  
-  return sizes
-    .map(size => `${basePath}-${size}.${extension} ${size}w`)
-    .join(', ');
+// Calculate srcset sizes based on display dimensions
+const sizes = [
+  Math.round(displayWidth * 0.5),  // 0.5x
+  displayWidth,                     // 1x
+  Math.round(displayWidth * 1.5),  // 1.5x for retina
+  Math.round(displayWidth * 2)     // 2x for high-DPI
+].filter((size, index, self) => 
+  size > 0 && size <= 1920 && self.indexOf(size) === index
+).sort((a, b) => a - b);
+
+const getOptimizedPath = (path: string, size: number, format: string) => {
+  const extension = path.split('.').pop();
+  const basePath = path.slice(0, -(extension?.length || 0) - 1);
+  return `${basePath}-${size}.${format}`;
 };
 
-const srcset = generateSrcSet(src);
+const srcset = sizes
+  .map(size => `${getOptimizedPath(src, size, 'webp')} ${size}w`)
+  .join(', ');
+
+const fallbackSrcset = sizes
+  .map(size => `${getOptimizedPath(src, size, 'jpg')} ${size}w`)
+  .join(', ');
 ---
 
 <picture>
   <source
     type="image/webp"
-    srcset={srcset.replace(/\.(jpg|png)/g, '.webp')}
-    sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"
+    srcset={srcset}
+    sizes={`${displayWidth}px`}
+  />
+  <source
+    type="image/jpeg"
+    srcset={fallbackSrcset}
+    sizes={`${displayWidth}px`}
   />
   <img
-    src={src}
-    srcset={srcset}
+    src={getOptimizedPath(src, displayWidth, 'jpg')}
     alt={alt}
-    width={width}
-    height={height}
+    width={displayWidth}
+    height={displayHeight}
     class={className}
     loading={loading}
     decoding={decoding}
-    sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"
+    style={`aspect-ratio: ${displayWidth}/${displayHeight};`}
   />
 </picture>
 
@@ -57,5 +72,6 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+  object-fit: cover;
 }
 </style> 

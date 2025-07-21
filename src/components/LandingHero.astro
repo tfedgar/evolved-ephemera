@@ -1,91 +1,145 @@
 ---
+// No imports needed for now
 ---
 
 <section class="hero">
-  <div class="container">
-    <h1>Feel Strong, Focused, and in Control - with Coach Edgar</h1>
-    <p class="subtitle">Built for your body, goals, and mindset.</p>
-    <p class="description">If you're tired of second-guessing your workouts, frustrated with slow progress, or just not feeling like yourself—you're not alone. Coach Edgar helps you cut through the confusion with a clear, personalized plan.</p>
-    <div class="cta-group">
-      <a href="#contact" class="cta-button">Book a Free Consultation</a>
-      <a href="/pay" class="cta-button secondary">View Packages</a>
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Transform Your Body, Mind & Performance</h1>
+      <p>Expert coaching for enhanced athletes and high performers. Get the results you've been looking for with personalized training, nutrition, and lifestyle optimization.</p>
+      <div class="hero-buttons">
+        <a href="/pay" class="btn-primary">Start Your Transformation</a>
+        <a href="#contact" class="btn-secondary">Free Consultation Call</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img
+        src="/images/optimized/coach-425.webp"
+        alt="Edgar - Professional Fitness Coach"
+        width="425"
+        height="448"
+        loading="eager"
+        decoding="sync"
+        class="coach-image"
+      />
     </div>
   </div>
 </section>
 
 <style>
-.hero {
-  padding: 6rem 0 4rem 0;
-  background: #181818;
-  text-align: center;
-}
-.hero .container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-.hero h1 {
-  font-size: 2.8rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
-  line-height: 1.2;
-}
-.hero .subtitle {
-  font-size: 1.4rem;
-  color: #fff;
-  opacity: 0.9;
-  margin-bottom: 1.5rem;
-}
-.hero .description {
-  font-size: 1.15rem;
-  color: #fff;
-  opacity: 0.8;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
-}
-.cta-group {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.cta-button {
-  padding: 0.9rem 2.2rem;
-  background: #fff;
-  color: #181818;
-  border-radius: 2rem;
-  font-size: 1.1rem;
-  font-weight: 500;
-  border: none;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.cta-button:hover {
-  background: #2563eb;
-  color: #fff;
-}
-.cta-button.secondary {
-  background: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-}
-.cta-button.secondary:hover {
-  background: #fff;
-  color: #181818;
-}
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: var(--bg-dark);
+    padding: 2rem 0;
+  }
 
-@media (max-width: 768px) {
-  .hero .container {
-    padding: 0 1.5rem;
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
   }
-  .hero h1 {
-    font-size: 2.2rem;
+
+  .hero-text h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    letter-spacing: -0.02em;
   }
-  .hero .subtitle {
-    font-size: 1.2rem;
+
+  .hero-text p {
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
   }
-  .hero .description {
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
     font-size: 1.1rem;
+    display: inline-block;
   }
-}
+
+  .btn-primary {
+    background: var(--text-light);
+    color: var(--bg-dark);
+    border: 2px solid var(--text-light);
+  }
+
+  .btn-primary:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-light);
+    border: 2px solid var(--text-light);
+  }
+
+  .btn-secondary:hover {
+    background: var(--text-light);
+    color: var(--bg-dark);
+    transform: translateY(-1px);
+  }
+
+  .hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .coach-image {
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(24, 24, 24, 0.15);
+    transition: transform 0.3s ease;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 425/448;
+    object-fit: cover;
+  }
+
+  .coach-image:hover {
+    transform: translateY(-5px);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 90vh;
+      padding: 1rem 0;
+    }
+
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 0 1rem;
+      text-align: center;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 0.875rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
 </style> 

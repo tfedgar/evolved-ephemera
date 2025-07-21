@@ -31,17 +31,17 @@
 <style>
 .contact {
   padding: 4.5rem 0 5rem 0;
-  background: #181818;
-  color: #fff;
+  background: white;
+  color: var(--text-primary);
 }
 .contact h2 {
   text-align: center;
-  color: #fff;
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 .contact > .container > p {
   text-align: center;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   margin-bottom: 2rem;
 }
 .contact-options {
@@ -53,26 +53,26 @@
   margin-top: 2.2rem;
 }
 .option {
-  background: rgba(255, 255, 255, 0.1);
+  background: white;
   border-radius: 1rem;
   padding: 2rem 1.2rem;
   width: 350px;
   max-width: 100%;
-  box-shadow: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
 }
 .option h3 {
-  color: #fff;
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 .option p {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 .divider {
   align-self: center;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   padding: 0 1rem;
   font-size: 1.1rem;
 }
@@ -87,20 +87,21 @@
 .contact-form textarea {
   padding: 0.9rem 1rem;
   border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #d1d5db;
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  background: white;
+  color: var(--text-primary);
   outline: none;
   transition: border 0.2s;
 }
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-secondary);
 }
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border: 1.5px solid #fff;
+  border: 1.5px solid var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 .contact-form textarea {
   min-height: 100px;
@@ -108,18 +109,19 @@
 }
 .contact-form button {
   padding: 1rem;
-  background: #fff;
-  color: #181818;
+  background: var(--secondary-color);
+  color: white;
   border: none;
   border-radius: 2rem;
   font-size: 1.1rem;
   cursor: pointer;
   font-weight: 500;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 .contact-form button:hover {
-  background: #2563eb;
-  color: #fff;
+  background: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 @media (max-width: 900px) {
   .contact-options {

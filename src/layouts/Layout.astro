@@ -1,6 +1,7 @@
 ---
-import CookieConsent from '../components/CookieConsent.astro';
 import ResourceHints from '../components/ResourceHints.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import criticalCSS from '../styles/critical.css?raw';
 
 interface Props {
   title?: string;
@@ -9,208 +10,122 @@ interface Props {
 
 const {
   title = "Edgar Coaching - Expert Training & Performance Optimization",
-  description = "Transform your body, health, and performance with personalized coaching, expert guidance, and data-driven results."
+  description = "Transform your fitness journey with personalized coaching, expert guidance, and proven results. Start your transformation today."
 } = Astro.props;
+
+// Font files to preload
+const fontFiles = [
+  {
+    url: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2',
+    weight: '400'
+  },
+  {
+    url: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2',
+    weight: '500'
+  },
+  {
+    url: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2',
+    weight: '600'
+  }
+];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="theme-color" content="#181818" />
-		<ResourceHints />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="apple-touch-icon" href="/icon-192x192.png" />
-		<link rel="manifest" href="/manifest.json" />
+<!DOCTYPE html>
+<html lang="en" class="font-loading">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#181818" />
+    
+    <ResourceHints />
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192x192.png" />
+    <link rel="manifest" href="/manifest.json" />
 
-		<title>{title}</title>
-		<meta name="description" content={description} />
-		<meta name="robots" content="index, follow" />
-		
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content="/images/social-share.jpg" />
-		
-		<!-- Twitter -->
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
-		<meta name="twitter:image" content="/images/social-share.jpg" />
-		
-		<!-- Preload fonts -->
-		<link
-			rel="preload"
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-			as="style"
-			onload="this.onload=null;this.rel='stylesheet'"
-		/>
-		<noscript>
-			<link
-				href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-				rel="stylesheet"
-				type="text/css"
-			/>
-		</noscript>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/social-share.jpg" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/images/social-share.jpg" />
+    
+    <!-- Inline critical CSS -->
+    <style set:html={criticalCSS}></style>
+    
+    <!-- Preload LCP image with highest priority -->
+    <link rel="preload" as="image" href="/images/optimized/coach-425.webp" fetchpriority="high" />
+    
+    <!-- Preload font files -->
+    {fontFiles.map(font => (
+      <link
+        rel="preload"
+        href={font.url}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
+        fetchpriority="high"
+      />
+    ))}
 
-		<!-- Preload critical images -->
-		<link rel="preload" as="image" href="/images/optimized/coach-optimized.webp" />
-		
-		<style is:global>
-			/* Font display swap for better performance */
-			@font-face {
-				font-family: 'Inter';
-				font-style: normal;
-				font-weight: 400;
-				font-display: swap;
-				src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
-			}
-			@font-face {
-				font-family: 'Inter';
-				font-style: normal;
-				font-weight: 500;
-				font-display: swap;
-				src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2) format('woff2');
-			}
-			@font-face {
-				font-family: 'Inter';
-				font-style: normal;
-				font-weight: 600;
-				font-display: swap;
-				src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2) format('woff2');
-			}
+    <!-- Load non-critical CSS asynchronously -->
+    <link 
+      rel="preload" 
+      href="/styles/global.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="/styles/global.css" />
+    </noscript>
 
-			:root {
-				--primary-color: #181818;
-				--secondary-color: #2563eb;
-				--text-color: #444;
-				--background-color: #fafbfc;
-			}
+    <!-- Optimize font loading -->
+    <script>
+      // Preload fonts immediately
+      if ("fonts" in document) {
+        const fontPromises = [
+          document.fonts.load("400 1em Inter"),
+          document.fonts.load("500 1em Inter"), 
+          document.fonts.load("600 1em Inter")
+        ];
+        
+        Promise.all(fontPromises).then(() => {
+          document.documentElement.classList.remove("font-loading");
+          document.documentElement.classList.add("font-loaded");
+          sessionStorage.setItem("fontsLoaded", "true");
+        });
+      }
 
-			html {
-				scroll-behavior: smooth;
-			}
-
-			html, body {
-				font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-				background: var(--background-color);
-				color: var(--text-color);
-				margin: 0;
-				padding: 0;
-				min-height: 100vh;
-				font-size: 18px;
-				line-height: 1.7;
-			}
-
-			@media (prefers-reduced-motion: reduce) {
-				html {
-					scroll-behavior: auto;
-				}
-				*, *::before, *::after {
-					animation-duration: 0.01ms !important;
-					animation-iteration-count: 1 !important;
-					transition-duration: 0.01ms !important;
-					scroll-behavior: auto !important;
-				}
-			}
-
-			*, *:before, *:after {
-				box-sizing: border-box;
-			}
-
-			.container {
-				max-width: 700px;
-				margin: 0 auto;
-				padding: 0 1.5rem;
-				width: 100%;
-			}
-
-			h1, h2, h3, h4, h5, h6 {
-				font-weight: 600;
-				margin: 2.5rem 0 1rem 0;
-				color: var(--primary-color);
-				letter-spacing: -0.02em;
-				line-height: 1.2;
-			}
-
-			h1 {
-				font-size: clamp(2rem, 5vw, 2.5rem);
-				margin-top: 3rem;
-			}
-
-			h2 {
-				font-size: clamp(1.5rem, 4vw, 1.7rem);
-			}
-
-			a {
-				color: var(--secondary-color);
-				text-decoration: none;
-				transition: color 0.2s;
-			}
-
-			a:hover, a:focus {
-				color: #1a47b8;
-				outline: none;
-			}
-
-			a:focus-visible {
-				outline: 2px solid var(--secondary-color);
-				outline-offset: 2px;
-			}
-
-			img {
-				max-width: 100%;
-				height: auto;
-				display: block;
-			}
-
-			button {
-				cursor: pointer;
-			}
-
-			button:focus-visible {
-				outline: 2px solid var(--secondary-color);
-				outline-offset: 2px;
-			}
-
-			::selection {
-				background: #e0e7ef;
-			}
-
-			.sr-only {
-				position: absolute;
-				width: 1px;
-				height: 1px;
-				padding: 0;
-				margin: -1px;
-				overflow: hidden;
-				clip: rect(0, 0, 0, 0);
-				white-space: nowrap;
-				border: 0;
-			}
-		</style>
-	</head>
-	<body>
-		<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
-		<main id="main-content">
-			<slot />
-		</main>
-		<CookieConsent />
-		<script>
-			// Register Service Worker
-			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', () => {
-					navigator.serviceWorker.register('/sw.js')
-						.then(registration => {
-							console.log('ServiceWorker registration successful');
-						})
-						.catch(err => {
-							console.log('ServiceWorker registration failed: ', err);
-						});
-				});
-			}
-		</script>
-	</body>
+      // Check if fonts were already loaded
+      if (sessionStorage.getItem("fontsLoaded")) {
+        document.documentElement.classList.remove("font-loading");
+        document.documentElement.classList.add("font-loaded");
+      }
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content">
+      <slot />
+    </main>
+    <CookieConsent />
+    
+    <!-- Register service worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+  </body>
 </html>
