@@ -1,0 +1,61 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "sync" | "auto";
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className,
+  loading = "lazy",
+  decoding = "async"
+} = Astro.props;
+
+// Generate srcset for responsive images
+const generateSrcSet = (src: string) => {
+  const sizes = [320, 640, 960, 1280, 1920];
+  const extension = src.split('.').pop();
+  const basePath = src.slice(0, -(extension?.length || 0) - 1);
+  
+  return sizes
+    .map(size => `${basePath}-${size}.${extension} ${size}w`)
+    .join(', ');
+};
+
+const srcset = generateSrcSet(src);
+---
+
+<picture>
+  <source
+    type="image/webp"
+    srcset={srcset.replace(/\.(jpg|png)/g, '.webp')}
+    sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"
+  />
+  <img
+    src={src}
+    srcset={srcset}
+    alt={alt}
+    width={width}
+    height={height}
+    class={className}
+    loading={loading}
+    decoding={decoding}
+    sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"
+  />
+</picture>
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+</style> 

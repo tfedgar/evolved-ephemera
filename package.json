@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run generate-icons && astro build",
+    "build": "npm run optimize-images && npm run generate-icons && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-icons": "node scripts/generate-icons.js"
+    "generate-icons": "node scripts/generate-icons.js",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^7.0.0",

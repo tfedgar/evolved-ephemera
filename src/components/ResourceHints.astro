@@ -1,0 +1,34 @@
+---
+const criticalResources = [
+  { type: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
+  { type: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
+  { type: 'preconnect', href: 'https://fonts.googleapis.com' },
+  { type: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+  { type: 'preload', href: '/images/optimized/coach-optimized.webp', as: 'image' },
+  { type: 'modulepreload', href: '/sw.js' }
+];
+
+const preloadedFonts = [
+  { href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2', as: 'font', type: 'font/woff2', crossorigin: true },
+  { href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2', as: 'font', type: 'font/woff2', crossorigin: true },
+  { href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2', as: 'font', type: 'font/woff2', crossorigin: true }
+];
+---
+
+<Fragment>
+  {criticalResources.map(resource => (
+    resource.crossorigin ? 
+      <link rel={resource.type} href={resource.href} crossorigin /> :
+      <link rel={resource.type} href={resource.href} />
+  ))}
+  
+  {preloadedFonts.map(font => (
+    <link 
+      rel="preload" 
+      href={font.href} 
+      as={font.as} 
+      type={font.type} 
+      crossorigin={font.crossorigin} 
+    />
+  ))}
+</Fragment> 
