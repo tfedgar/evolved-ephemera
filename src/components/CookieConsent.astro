@@ -2,10 +2,10 @@
 ---
 <div id="cookie-consent" class="cookie-banner">
   <div class="cookie-content">
-    <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+    <p>We use essential cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. <a href="/privacy" class="cookie-link">Privacy Policy</a></p>
     <div class="cookie-buttons">
-      <button id="accept-cookies" class="cookie-button accept">Accept</button>
-      <button id="reject-cookies" class="cookie-button reject">Reject</button>
+      <button id="accept-cookies" class="cookie-button accept">Accept Essential Cookies</button>
+      <button id="reject-cookies" class="cookie-button reject">Reject Non-Essential</button>
     </div>
   </div>
 </div>
@@ -83,6 +83,16 @@
   border-color: #f0f0f0;
 }
 
+.cookie-link {
+  color: #fff;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+.cookie-link:hover {
+  opacity: 1;
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   .cookie-content {
     flex-direction: column;
@@ -108,7 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const date = new Date();
       date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+      const sameSite = 'Strict';
+      const secure = window.location.protocol === 'https:';
+      
+      document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/; SameSite=${sameSite}${secure ? '; Secure' : ''}`;
     } catch (error) {
       console.error('Error setting cookie:', error);
     }
@@ -116,13 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getCookie(name: string): string | null {
     try {
-      const nameEQ = name + "=";
-      const ca = document.cookie.split(';');
-      for(let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) {
-          return c.substring(nameEQ.length, c.length);
-        }
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) {
+        const cookieValue = parts.pop()?.split(';').shift();
+        return cookieValue ? decodeURIComponent(cookieValue) : null;
       }
       return null;
     } catch (error) {
@@ -133,16 +144,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showCookieBanner(): void {
     const banner = document.getElementById('cookie-consent');
-    if (banner) banner.style.display = 'block';
+    if (banner) {
+      banner.style.display = 'block';
+      // Ensure banner is announced to screen readers
+      banner.setAttribute('role', 'alert');
+      banner.setAttribute('aria-live', 'polite');
+    }
   }
 
   function hideCookieBanner(): void {
     const banner = document.getElementById('cookie-consent');
-    if (banner) banner.style.display = 'none';
+    if (banner) {
+      banner.style.display = 'none';
+      banner.removeAttribute('role');
+      banner.removeAttribute('aria-live');
+    }
   }
 
-  // Check if user has already made a choice
-  if (!getCookie('cookie-consent')) {
+  // Use localStorage as a fallback for cookies
+  function setLocalStorage(name: string, value: string): void {
+    try {
+      localStorage.setItem(name, value);
+    } catch (error) {
+      console.error('Error setting localStorage:', error);
+    }
+  }
+
+  function getLocalStorage(name: string): string | null {
+    try {
+      return localStorage.getItem(name);
+    } catch (error) {
+      console.error('Error getting localStorage:', error);
+      return null;
+    }
+  }
+
+  // Check for consent in both cookies and localStorage
+  const hasConsent = getCookie('cookie-consent') || getLocalStorage('cookie-consent');
+  if (!hasConsent) {
     showCookieBanner();
   }
 
@@ -150,7 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const acceptButton = document.getElementById('accept-cookies');
   if (acceptButton) {
     acceptButton.addEventListener('click', () => {
-      setCookie('cookie-consent', 'accepted', 365);
+      const consentValue = 'accepted';
+      setCookie('cookie-consent', consentValue, 365);
+      setLocalStorage('cookie-consent', consentValue);
       hideCookieBanner();
     });
   }
@@ -159,7 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const rejectButton = document.getElementById('reject-cookies');
   if (rejectButton) {
     rejectButton.addEventListener('click', () => {
-      setCookie('cookie-consent', 'rejected', 365);
+      const consentValue = 'rejected';
+      setCookie('cookie-consent', consentValue, 365);
+      setLocalStorage('cookie-consent', consentValue);
       hideCookieBanner();
     });
   }
