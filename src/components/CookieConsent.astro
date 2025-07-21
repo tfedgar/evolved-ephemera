@@ -103,47 +103,65 @@
 </style>
 
 <script>
-function setCookie(name: string, value: string, days: number) {
-  const date = new Date();
-  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-  document.cookie = name + "=" + value + ";expires=" + date.toUTCString() + ";path=/";
-}
-
-function getCookie(name: string) {
-  const nameEQ = name + "=";
-  const ca = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+document.addEventListener('DOMContentLoaded', () => {
+  function setCookie(name: string, value: string, days: number): void {
+    try {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+    } catch (error) {
+      console.error('Error setting cookie:', error);
+    }
   }
-  return null;
-}
 
-function showCookieBanner() {
-  const banner = document.getElementById('cookie-consent');
-  if (banner) banner.style.display = 'block';
-}
+  function getCookie(name: string): string | null {
+    try {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+          return c.substring(nameEQ.length, c.length);
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error('Error getting cookie:', error);
+      return null;
+    }
+  }
 
-function hideCookieBanner() {
-  const banner = document.getElementById('cookie-consent');
-  if (banner) banner.style.display = 'none';
-}
+  function showCookieBanner(): void {
+    const banner = document.getElementById('cookie-consent');
+    if (banner) banner.style.display = 'block';
+  }
 
-// Check if user has already made a choice
-if (!getCookie('cookie-consent')) {
-  showCookieBanner();
-}
+  function hideCookieBanner(): void {
+    const banner = document.getElementById('cookie-consent');
+    if (banner) banner.style.display = 'none';
+  }
 
-// Handle accept button click
-document.getElementById('accept-cookies')?.addEventListener('click', () => {
-  setCookie('cookie-consent', 'accepted', 365);
-  hideCookieBanner();
-});
+  // Check if user has already made a choice
+  if (!getCookie('cookie-consent')) {
+    showCookieBanner();
+  }
 
-// Handle reject button click
-document.getElementById('reject-cookies')?.addEventListener('click', () => {
-  setCookie('cookie-consent', 'rejected', 365);
-  hideCookieBanner();
+  // Handle accept button click
+  const acceptButton = document.getElementById('accept-cookies');
+  if (acceptButton) {
+    acceptButton.addEventListener('click', () => {
+      setCookie('cookie-consent', 'accepted', 365);
+      hideCookieBanner();
+    });
+  }
+
+  // Handle reject button click
+  const rejectButton = document.getElementById('reject-cookies');
+  if (rejectButton) {
+    rejectButton.addEventListener('click', () => {
+      setCookie('cookie-consent', 'rejected', 365);
+      hideCookieBanner();
+    });
+  }
 });
 </script> 
