@@ -1,109 +1,104 @@
 ---
 ---
-
 <section class="payment">
-  <div class="container">
-    <div class="header">
-      <a href="/" class="back-link">Return</a>
-      <h1>Coaching Packages</h1>
+<div class="container">
+  <div class="header">
+    <a href="/" class="back-link">Return</a>
+    <h1>Coaching Packages</h1>
+  </div>
+  <div class="packages">
+    <div class="package">
+      <h2>3-Month Kickstart</h2>
+      <div class="package-description">
+        <p class="headline">A strong start for serious change.</p>
+        <p class="main-desc">Build momentum with a full reset of your training, nutrition, recovery, and lifestyle. Perfect if you're ready to get results fast and want structure without fluff.</p>
+        <ul class="features">
+          <li>Customized training and nutrition plan</li>
+          <li>Weekly check-ins and adjustments</li>
+          <li>Direct coach access and ongoing support</li>
+          <li>Performance tracking and accountability</li>
+          <li>Basic cycle guidance and support</li>
+        </ul>
+        <p class="best-for">Best for: Getting unstuck, dialing in habits, and seeing visible progress</p>
+      </div>
+      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="priceId" value="price_1Rbtt9ATEGp1ZwvV8o8VBAWW" />
+        <button type="submit">Pay with Card</button>
+      </form>
     </div>
-    <div class="packages">
-      <div class="package">
-        <h2>3-Month Kickstart</h2>
-        <div class="package-description">
-          <p class="headline">A strong start for serious change.</p>
-          <p class="main-desc">Build momentum with a full reset of your training, nutrition, recovery, and lifestyle. Perfect if you're ready to get results fast and want structure without fluff.</p>
-          
-          <ul class="features">
-            <li>Customized training and nutrition plan</li>
-            <li>Weekly check-ins and adjustments</li>
-            <li>Direct coach access and ongoing support</li>
-            <li>Performance tracking and accountability</li>
-            <li>Basic cycle guidance and support</li>
-          </ul>
-          
-          <p class="best-for">Best for: Getting unstuck, dialing in habits, and seeing visible progress</p>
-        </div>
-        <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="priceId" value="price_1Rbtt9ATEGp1ZwvV8o8VBAWW" />
-          <button type="submit">Pay with Card</button>
-        </form>
+
+    <div class="package">
+      <h2>6-Month Rebuild</h2>
+      <div class="package-description">
+        <p class="headline">Deep results with full support - plus bloodwork included.</p>
+        <p class="main-desc">Six months gives us time to correct the root issues, optimize performance, and lock in lasting changes. Includes comprehensive bloodwork to guide smarter, safer decisions.</p>
+        <ul class="features">
+          <li>Everything in 3-month plan</li>
+          <li>Advanced progress tracking</li>
+          <li>1 bloodwork panel included ($500 value)</li>
+          <li>Lifestyle coaching: stress, sleep, routines</li>
+          <li>Intermediate cycle support and monitoring</li>
+        </ul>
+        <p class="best-for">Best for: Body recomposition, energy/lifestyle reset, enhanced athletes needing data</p>
       </div>
-      <div class="package">
-        <h2>6-Month Rebuild</h2>
-        <div class="package-description">
-          <p class="headline">Deep results with full support - plus bloodwork included.</p>
-          <p class="main-desc">Six months gives us time to correct the root issues, optimize performance, and lock in lasting changes. Includes comprehensive bloodwork to guide smarter, safer decisions.</p>
-          
-          <ul class="features">
-            <li>Everything in 3-month plan</li>
-            <li>Advanced progress tracking</li>
-            <li>1 bloodwork panel included ($500 value)</li>
-            <li>Lifestyle coaching: stress, sleep, routines</li>
-            <li>Intermediate cycle support and monitoring</li>
-          </ul>
-          
-          <p class="best-for">Best for: Body recomposition, energy/lifestyle reset, enhanced athletes needing data</p>
-        </div>
-        <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="priceId" value="price_1RbDBHATEGp1ZwvVgHoMRXSK" />
-          <button type="submit">Pay with Card</button>
-        </form>
+      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="priceId" value="price_1RbDBHATEGp1ZwvVgHoMRXSK" />
+        <button type="submit">Pay with Card</button>
+      </form>
+    </div>
+
+    <div class="package">
+      <h2>12-Month Transformation</h2>
+      <div class="package-description">
+        <p class="headline">All-in commitment. Maximum value.</p>
+        <p class="main-desc">This package is built for men ready to fully transform their body, health, and mindset - with the long-term coaching, tools, and data to back it up.</p>
+        <ul class="features">
+          <li>Everything in the 6-month plan</li>
+          <li>1 month of coaching FREE</li>
+          <li>1 bloodwork panel included ($500 value)</li>
+          <li>Special discount on total plan cost</li>
+          <li>Long-term strategy, goal cycling, and lifestyle mastery</li>
+          <li>Advanced cycle support and year-long optimization</li>
+        </ul>
+        <p class="best-for">Ideal for: Complete lifestyle overhauls, body recomposition, enhanced or high-performing clients who want full-spectrum support</p>
       </div>
-      <div class="package">
-        <h2>12-Month Transformation</h2>
-        <div class="package-description">
-          <p class="headline">All-in commitment. Maximum value.</p>
-          <p class="main-desc">This package is built for men ready to fully transform their body, health, and mindset - with the long-term coaching, tools, and data to back it up.</p>
-          
-          <ul class="features">
-            <li>Everything in the 6-month plan</li>
-            <li>1 month of coaching FREE</li>
-            <li>1 bloodwork panel included ($500 value)</li>
-            <li>Special discount on total plan cost</li>
-            <li>Long-term strategy, goal cycling, and lifestyle mastery</li>
-            <li>Advanced cycle support and year-long optimization</li>
-          </ul>
-          
-          <p class="best-for">Ideal for: Complete lifestyle overhauls, body recomposition, enhanced or high-performing clients who want full-spectrum support</p>
-        </div>
-        <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="priceId" value="price_1Rn5OMATEGp1ZwvV1n7orP1E" />
-          <button type="submit">Pay with Card</button>
-        </form>
+      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="priceId" value="price_1Rn5OMATEGp1ZwvV1n7orP1E" />
+        <button type="submit">Pay with Card</button>
+      </form>
+    </div>
+
+    <div class="package">
+      <h2>60 Minute Consultation Call</h2>
+      <p>One-on-one strategy session to discuss your goals and create a personalized plan.</p>
+      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="priceId" value="price_1RJdKzATEGp1ZwvVjD6RRjZ5" />
+        <button type="submit">Pay with Card</button>
+      </form>
+    </div>
+
+    <div class="package">
+      <h2>6-Month Enhanced Support</h2>
+      <div class="package-description">
+        <p class="headline">Deep results with full support - plus premium cycle optimization.</p>
+        <p class="main-desc">Six months of dedicated coaching with our most comprehensive cycle support package. Includes advanced bloodwork analysis, specialized protocols, and expert cycle optimization.</p>
+        <ul class="features">
+          <li>Everything in 6-month plan</li>
+          <li>Premium cycle support and monitoring</li>
+          <li>Advanced cycle protocols and adjustments</li>
+          <li>Specialized ancillary guidance</li>
+          <li>1 bloodwork panel included ($500 value)</li>
+          <li>Priority support response</li>
+        </ul>
+        <p class="best-for">Best for: People just starting enhancement and want extra guidance and services</p>
       </div>
-      <div class="package">
-        <h2>60 Minute Consultation Call</h2>
-        <p>One-on-one strategy session to discuss your goals and create a personalized plan.</p>
-        <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="priceId" value="price_1RJdKzATEGp1ZwvVjD6RRjZ5" />
-          <button type="submit">Pay with Card</button>
-        </form>
-      </div>
-      <div class="package">
-        <h2>6-Month Enhanced Support</h2>
-        <div class="package-description">
-          <p class="headline">Deep results with full support - plus premium cycle optimization.</p>
-          <p class="main-desc">Six months of dedicated coaching with our most comprehensive cycle support package. Includes advanced bloodwork analysis, specialized protocols, and expert cycle optimization.</p>
-          
-          <ul class="features">
-            <li>Everything in 6-month plan</li>
-            <li>Premium cycle support and monitoring</li>
-            <li>Advanced cycle protocols and adjustments</li>
-            <li>Specialized ancillary guidance</li>
-            <li>1 bloodwork panel included ($500 value)</li>
-            <li>Priority support response</li>
-          </ul>
-          
-          <p class="best-for">Best for: People just starting enhancement and want extra guidance and services</p>
-        </div>
-        <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="priceId" value="price_1RnN54ATEGp1ZwvVGu1A4lA6" />
-          <button type="submit">Pay with Card</button>
-        </form>
-      </div>
+      <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="priceId" value="price_1RnN54ATEGp1ZwvVGu1A4lA6" />
+        <button type="submit">Pay with Card</button>
+      </form>
     </div>
   </div>
+</div>
 </section>
 
 <style>
@@ -196,9 +191,9 @@
   line-height: 1.4;
 }
 .features li::before {
-  content: "\2022";
+  content: "-";
   position: absolute;
-  left: 0.2rem;
+  left: 0.5rem;
   color: #2563eb;
 }
 .best-for {
