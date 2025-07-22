@@ -37,7 +37,7 @@ const { videoId, title } = Astro.props;
       if (LiteYTEmbed.isPreconnected) return;
       
       // Add resource hints
-      this.addPrefetch('preconnect', 'https://www.youtube-nocookie.com');
+      this.addPrefetch('preconnect', 'https://www.youtube.com');
       this.addPrefetch('preconnect', 'https://www.google.com');
       this.addPrefetch('preconnect', 'https://googleads.g.doubleclick.net');
       this.addPrefetch('preconnect', 'https://static.doubleclick.net');
@@ -57,16 +57,18 @@ const { videoId, title } = Astro.props;
     private addIframe(): void {
       if (this.isIframeLoaded) return;
       
+      const videoId = this.getAttribute('videoid');
       const params = new URLSearchParams(this.getAttribute('params') || '');
       params.append('autoplay', '1');
       params.append('playsinline', '1');
 
       const iframeHTML = `
         <iframe width="560" height="315" 
-          src="https://www.youtube-nocookie.com/embed/${this.getAttribute('videoid')}?${params.toString()}"
+          src="https://www.youtube.com/embed/${videoId}?${params.toString()}"
           title="${this.querySelector('.lyt-visually-hidden')?.textContent || 'YouTube video player'}"
           frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen>
         </iframe>`;
       
