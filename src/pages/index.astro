@@ -9,9 +9,18 @@ import ContactSection from '../components/ContactSection.astro';
 
 <Layout>
   <LandingHero />
-  <section style="display: flex; justify-content: center; margin: 2rem 0;">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/UDcph7re74c?si=O5RK47xb4sDo4P1h" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  </section>
+  <div class="container" style="margin: 2rem auto; display: flex; justify-content: center;">
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube.com/embed/UDcph7re74c"
+        title="Coach Edgar Training Philosophy"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style="max-width: 100%; width: 560px; height: 315px; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.12);"
+      ></iframe>
+    </div>
+  </div>
   <AboutCoach />
   <CoachingServices />
   <Testimonials />
