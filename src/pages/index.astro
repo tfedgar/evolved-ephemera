@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import LandingHero from '../components/LandingHero.astro';
-import VideoSection from '../components/VideoSection.astro';
 import AboutCoach from '../components/AboutCoach.astro';
 import CoachingServices from '../components/CoachingServices.astro';
 import Testimonials from '../components/Testimonials.astro';
@@ -10,7 +9,9 @@ import ContactSection from '../components/ContactSection.astro';
 
 <Layout>
   <LandingHero />
-  <VideoSection />
+  <section style="display: flex; justify-content: center; margin: 2rem 0;">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/UDcph7re74c?si=O5RK47xb4sDo4P1h" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </section>
   <AboutCoach />
   <CoachingServices />
   <Testimonials />
