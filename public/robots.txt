@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://evolved-ephemera.pages.dev/sitemap.xml 
+Sitemap: https://coachedgar.com/sitemap.xml

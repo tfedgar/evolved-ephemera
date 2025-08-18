@@ -1,0 +1,45 @@
+---
+export interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  className?: string;
+  textColor?: string;
+}
+
+const { 
+  href, 
+  variant = 'primary', 
+  size = 'md', 
+  fullWidth = false,
+  className = '',
+  textColor = ''
+} = Astro.props;
+
+// Base classes
+const baseClasses = "inline-block font-bold text-center transition-all duration-200 hover:-translate-y-1 shadow-lg";
+
+// Variant classes
+const variantClasses = {
+  primary: "bg-gray-900 border-2 border-gray-900 hover:bg-gray-800 hover:shadow-xl",
+  secondary: "bg-blue-600 border-2 border-blue-600 hover:bg-blue-700 hover:shadow-xl"
+};
+
+// Size classes
+const sizeClasses = {
+  sm: "px-6 py-3 text-base rounded-lg",
+  md: "px-8 py-4 text-lg rounded-xl",
+  lg: "px-12 py-6 text-xl rounded-xl"
+};
+
+// Width classes
+const widthClasses = fullWidth ? "w-full" : "w-auto";
+
+// Combine all classes
+const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${widthClasses} ${textColor} ${className}`;
+---
+
+<a href={href} class={buttonClasses}>
+  <slot />
+</a>

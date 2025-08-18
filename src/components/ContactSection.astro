@@ -1,137 +1,75 @@
 ---
 ---
 
-<section class="contact" id="contact">
-  <div class="container">
-    <h2>Contact & Booking</h2>
-    <p>Ready to start your journey? Choose an option below to book a free consultation or leave your information.</p>
-    <div class="contact-options">
-      <div class="option calendly-option">
-        <h3>Book Instantly</h3>
-        <p>Schedule a session directly using Calendly:</p>
+<section class="pt-12 lg:pt-16 pb-12 lg:pb-16 bg-white text-gray-900" id="contact">
+  <div class="max-w-6xl mx-auto px-4 lg:px-6">
+    <h2 class="section-title text-center text-gray-900 !mb-12 lg:!mb-16 font-bold">
+      Contact & Booking
+    </h2>
+    <p class="text-center text-gray-600 mb-12 text-xl">
+      Ready to start your journey? Choose an option below to book a free consultation or leave your information.
+    </p>
+    <div class="flex flex-col gap-12 lg:gap-16 justify-center items-center">
+      <div class="bg-white rounded-2xl p-8 lg:p-10 w-full max-w-2xl shadow-lg border border-gray-200">
+        <h3 class="text-gray-900 mb-6 text-2xl font-bold">
+          Book Instantly
+        </h3>
+        <p class="text-gray-600 mb-8 text-lg">
+          Schedule a session directly using Calendly:
+        </p>
         <div class="calendly-inline-widget" data-url="https://calendly.com/coach_edgar/30min" style="min-width:320px;height:630px;"></div>
         <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
       </div>
-      <div class="divider">or</div>
-      <div class="option form-option">
-        <h3>Leave Your Information</h3>
-        <p>Prefer to be contacted? Fill out the form below and I'll get back to you soon.</p>
-        <form class="contact-form" action="https://formspree.io/f/xjkogark" method="POST">
-          <input type="text" name="full-name" placeholder="Full Name" required />
-          <input type="email" name="email" placeholder="Your Email" required />
-          <input type="tel" name="phone" placeholder="Phone Number" required />
-          <textarea name="message" placeholder="Your Message" required></textarea>
-          <button type="submit">Send Message</button>
+      
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-200 rounded-full">
+          <span class="text-gray-600 font-bold text-xl">or</span>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-2xl p-8 lg:p-10 w-full max-w-2xl shadow-lg border border-gray-200">
+        <h3 class="text-gray-900 mb-6 text-2xl font-bold">
+          Leave Your Information
+        </h3>
+        <p class="text-gray-600 mb-8 text-lg">
+          Prefer to be contacted? Fill out the form below and I'll get back to you soon.
+        </p>
+        <form class="flex flex-col gap-6" action="https://formspree.io/f/xjkogark" method="POST">
+          <input 
+            type="text" 
+            name="full-name" 
+            placeholder="Full Name" 
+            required 
+            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+          />
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="Your Email" 
+            required 
+            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+          />
+          <input 
+            type="tel" 
+            name="phone" 
+            placeholder="Phone Number" 
+            required 
+            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+          />
+          <textarea 
+            name="message" 
+            placeholder="Your Message" 
+            required 
+            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100 min-h-32 resize-y"
+          ></textarea>
+          <button 
+            type="submit" 
+            class="py-5 bg-blue-600 text-white border-none rounded-full text-xl cursor-pointer font-bold transition-all duration-200 hover:bg-blue-700 hover:-translate-y-1 hover:shadow-lg"
+          >
+            Send Message
+          </button>
         </form>
       </div>
     </div>
   </div>
-</section>
-
-<style>
-.contact {
-  padding: 4.5rem 0 5rem 0;
-  background: white;
-  color: var(--text-primary);
-}
-.contact h2 {
-  text-align: center;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-}
-.contact > .container > p {
-  text-align: center;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-}
-.contact-options {
-  display: flex;
-  flex-direction: row;
-  gap: 2.5rem;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 2.2rem;
-}
-.option {
-  background: white;
-  border-radius: 1rem;
-  padding: 2rem 1.2rem;
-  width: 350px;
-  max-width: 100%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-}
-.option h3 {
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-}
-.option p {
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-}
-.divider {
-  align-self: center;
-  font-weight: 500;
-  color: var(--text-secondary);
-  padding: 0 1rem;
-  font-size: 1.1rem;
-}
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  max-width: 400px;
-  margin: 0 auto;
-}
-.contact-form input,
-.contact-form textarea {
-  padding: 0.9rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  font-size: 1rem;
-  background: white;
-  color: var(--text-primary);
-  outline: none;
-  transition: border 0.2s;
-}
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: var(--text-secondary);
-}
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border: 1.5px solid var(--secondary-color);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-.contact-form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-.contact-form button {
-  padding: 1rem;
-  background: var(--secondary-color);
-  color: white;
-  border: none;
-  border-radius: 2rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-.contact-form button:hover {
-  background: var(--primary-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-@media (max-width: 900px) {
-  .contact-options {
-    flex-direction: column;
-    gap: 2rem;
-    align-items: stretch;
-  }
-  .divider {
-    text-align: center;
-    padding: 1rem 0;
-  }
-}
-</style> 
+</section> 

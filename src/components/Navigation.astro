@@ -1,0 +1,103 @@
+---
+// Navigation component
+---
+
+<!-- Navigation Header -->
+<nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50">
+  <div class="max-w-6xl mx-auto px-4 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <a href="/" class="text-2xl font-bold text-gray-900">
+          CoachEdgar
+        </a>
+      </div>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="/#about" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">About</a>
+        <a href="/#services" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Services</a>
+        <a href="/#testimonials" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Results</a>
+        <a href="/#contact" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Contact</a>
+      </div>
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-md p-2">
+          <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="/#about" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">About</a>
+        <a href="/#services" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">Services</a>
+        <a href="/#testimonials" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">Results</a>
+        <a href="/#contact" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">Contact</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    if (mobileMenuButton && mobileMenu && hamburgerIcon && closeIcon) {
+      mobileMenuButton.addEventListener('click', function() {
+        const isHidden = mobileMenu.classList.contains('hidden');
+        
+        if (isHidden) {
+          // Show menu
+          mobileMenu.classList.remove('hidden');
+          hamburgerIcon.classList.add('hidden');
+          closeIcon.classList.remove('hidden');
+        } else {
+          // Hide menu
+          mobileMenu.classList.add('hidden');
+          hamburgerIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+        }
+      });
+      
+      // Handle smooth scrolling with offset for all navigation links
+      const allNavLinks = document.querySelectorAll('nav a[href^="/#"]');
+      allNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const href = this.getAttribute('href');
+          if (href.startsWith('/#')) {
+            const targetId = href.substring(2); // Remove '/#'
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+              // Close mobile menu if open
+              if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+              }
+              
+              // Calculate offset for fixed navigation - measure actual height
+              const navElement = document.querySelector('nav');
+              const navHeight = navElement ? navElement.offsetHeight : 64;
+              const targetPosition = targetElement.offsetTop - navHeight;
+              
+              // Smooth scroll to target
+              window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
+    }
+  });
+</script>

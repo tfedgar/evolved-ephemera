@@ -1,145 +1,66 @@
 ---
-// No imports needed for now
+import Navigation from './Navigation.astro';
+import Button from './Button.astro';
 ---
 
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-text">
-      <h1>Transform Your Body, Mind & Performance</h1>
-      <p>Expert coaching for enhanced athletes and high performers. Get the results you've been looking for with personalized training, nutrition, and lifestyle optimization.</p>
-      <div class="hero-buttons">
-        <a href="/pay" class="btn-primary">Start Your Transformation</a>
-        <a href="#contact" class="btn-secondary">Free Consultation Call</a>
+<Navigation />
+
+<!-- Hero Section -->
+<section class="min-h-screen flex items-center relative overflow-hidden py-16 pt-24">
+
+  
+
+  
+  <!-- Subtle Fitness Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(59, 130, 246, 0.1) 20px, rgba(59, 130, 246, 0.1) 40px);"></div>
+  </div>
+  
+  <!-- Content Container -->
+  <div class="relative z-10 max-w-6xl mx-auto px-4 lg:px-8 w-full">
+    <!-- Centered Title and Description -->
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight !mb-2 text-gray-900 tracking-tight">
+        Feel Strong, Focused, and in Control
+      </h1>
+      <p class="text-2xl md:text-3xl lg:text-4xl text-blue-600 font-bold mb-10">
+        with Coach Edgar
+      </p>
+      <p class="text-xl md:text-2xl lg:text-3xl leading-relaxed text-gray-700 max-w-4xl mx-auto mb-10">
+        Built for your body, goals, and mindset.
+      </p>
+      <p class="text-lg md:text-xl lg:text-2xl leading-relaxed text-gray-600 max-w-4xl mx-auto">
+        If you're tired of second-guessing your workouts, frustrated with slow progress, or just not feeling like yourself—you're not alone. Coach Edgar helps you cut through the confusion with a clear, personalized plan.
+      </p>
+    </div>
+    
+    <!-- YouTube Video -->
+    <div class="flex justify-center mb-16">
+      <div class="w-full max-w-4xl">
+        <div class="relative w-full" style="padding-bottom: 56.25%;">
+          <iframe
+            class="absolute top-0 left-0 w-full h-full rounded-2xl shadow-2xl"
+            src="https://www.youtube.com/embed/UDcph7re74c"
+            title="Coach Edgar - Transform Your Body, Mind & Performance"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
       </div>
     </div>
-    <div class="hero-image">
-      <img
-        src="/images/optimized/coach-425.webp"
-        alt="Edgar - Professional Fitness Coach"
-        width="425"
-        height="448"
-        loading="eager"
-        decoding="sync"
-        class="coach-image"
-      />
+    
+    <!-- Centered Buttons -->
+    <div class="text-center">
+      <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <Button href="/pay" variant="primary" size="lg" fullWidth={false} textColor="!text-white" className="sm:w-auto">
+          Start Your Transformation
+        </Button>
+        <Button href="#contact" variant="secondary" size="lg" fullWidth={false} textColor="!text-white" className="sm:w-auto">
+          Free Consultation Call
+        </Button>
+      </div>
     </div>
   </div>
-</section>
-
-<style>
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    background: var(--bg-dark);
-    padding: 2rem 0;
-  }
-
-  .hero-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .hero-text h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    color: var(--text-light);
-    letter-spacing: -0.02em;
-  }
-
-  .hero-text p {
-    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary, .btn-secondary {
-    padding: 1rem 2rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    font-size: 1.1rem;
-    display: inline-block;
-  }
-
-  .btn-primary {
-    background: var(--text-light);
-    color: var(--bg-dark);
-    border: 2px solid var(--text-light);
-  }
-
-  .btn-primary:hover {
-    background: #f0f0f0;
-    transform: translateY(-1px);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text-light);
-    border: 2px solid var(--text-light);
-  }
-
-  .btn-secondary:hover {
-    background: var(--text-light);
-    color: var(--bg-dark);
-    transform: translateY(-1px);
-  }
-
-  .hero-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .coach-image {
-    border-radius: 1rem;
-    box-shadow: 0 20px 40px rgba(24, 24, 24, 0.15);
-    transition: transform 0.3s ease;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 425/448;
-    object-fit: cover;
-  }
-
-  .coach-image:hover {
-    transform: translateY(-5px);
-  }
-
-  @media (max-width: 768px) {
-    .hero {
-      min-height: 90vh;
-      padding: 1rem 0;
-    }
-
-    .hero-content {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      padding: 0 1rem;
-      text-align: center;
-    }
-
-    .hero-buttons {
-      justify-content: center;
-    }
-
-    .btn-primary, .btn-secondary {
-      padding: 0.875rem 1.5rem;
-      font-size: 1rem;
-    }
-  }
-</style> 
+  </div>
+</section> 

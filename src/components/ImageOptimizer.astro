@@ -60,18 +60,9 @@ const fallbackSrcset = sizes
     alt={alt}
     width={displayWidth}
     height={displayHeight}
-    class={className}
+    class={`max-w-full h-auto block object-cover ${className || ''}`}
     loading={loading}
     decoding={decoding}
     style={`aspect-ratio: ${displayWidth}/${displayHeight};`}
   />
-</picture>
-
-<style>
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-}
-</style> 
+</picture> 

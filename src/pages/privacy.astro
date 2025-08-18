@@ -1,95 +1,75 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
 ---
 
 <Layout>
-  <div class="privacy-container">
-    <h1>Privacy Policy</h1>
+  <Navigation />
+  <div class="max-w-4xl mx-auto py-8 px-6">
+    <h1 class="mb-8 text-4xl font-semibold text-gray-900">
+      Privacy Policy
+    </h1>
     
-    <section>
-      <h2>Cookie Policy</h2>
-      <p>We use only essential cookies to provide core functionality of our website. These cookies are strictly necessary for the website to function and cannot be switched off in our systems.</p>
+    <section class="mb-12">
+      <h2 class="text-gray-900 mb-6 text-2xl font-semibold">
+        Cookie Policy
+      </h2>
+      <p class="mb-4 text-gray-700">
+        We use only essential cookies to provide core functionality of our website. These cookies are strictly necessary for the website to function and cannot be switched off in our systems.
+      </p>
       
-      <h3>Essential Cookies We Use:</h3>
-      <ul>
-        <li><strong>cookie-consent</strong>: Stores your cookie preferences</li>
+      <h3 class="text-gray-800 mt-8 mb-4 text-xl font-medium">
+        Essential Cookies We Use:
+      </h3>
+      <ul class="my-4 ml-5 text-gray-700">
+        <li class="mb-2">
+          <span class="font-semibold text-gray-900">cookie-consent</span>: Stores your cookie preferences
+        </li>
       </ul>
 
-      <h3>Cookie Settings</h3>
-      <p>Our cookies are:</p>
-      <ul>
-        <li>First-party only (no third-party cookies)</li>
-        <li>Secure (on HTTPS connections)</li>
-        <li>SameSite=Strict (enhanced security)</li>
-        <li>Essential only (no tracking or analytics)</li>
+      <h3 class="text-gray-800 mt-8 mb-4 text-xl font-medium">
+        Cookie Settings
+      </h3>
+      <p class="mb-4 text-gray-700">Our cookies are:</p>
+      <ul class="my-4 ml-5 text-gray-700">
+        <li class="mb-2">First-party only (no third-party cookies)</li>
+        <li class="mb-2">Secure (on HTTPS connections)</li>
+        <li class="mb-2">SameSite=Strict (enhanced security)</li>
+        <li class="mb-2">Essential only (no tracking or analytics)</li>
       </ul>
 
-      <h3>Your Rights</h3>
-      <p>You have the right to:</p>
-      <ul>
-        <li>Accept or reject non-essential cookies</li>
-        <li>Clear cookies through your browser settings</li>
-        <li>Use browser privacy modes to prevent cookie storage</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Data Collection</h2>
-      <p>We collect only the minimum amount of data necessary to provide our services:</p>
-      <ul>
-        <li>Contact information you provide</li>
-        <li>Payment information (processed securely by Stripe)</li>
-        <li>Cookie preferences</li>
+      <h3 class="text-gray-800 mt-8 mb-4 text-xl font-medium">
+        Your Rights
+      </h3>
+      <p class="mb-4 text-gray-700">You have the right to:</p>
+      <ul class="my-4 ml-5 text-gray-700">
+        <li class="mb-2">Accept or reject non-essential cookies</li>
+        <li class="mb-2">Clear cookies through your browser settings</li>
+        <li class="mb-2">Use browser privacy modes to prevent cookie storage</li>
       </ul>
     </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p>For any privacy-related questions, please contact us directly.</p>
+    <section class="mb-12">
+      <h2 class="text-gray-900 mb-6 text-2xl font-semibold">
+        Data Collection
+      </h2>
+      <p class="mb-4 text-gray-700">
+        We collect only the minimum amount of data necessary to provide our services:
+      </p>
+      <ul class="my-4 ml-5 text-gray-700">
+        <li class="mb-2">Contact information you provide</li>
+        <li class="mb-2">Payment information (processed securely by Stripe)</li>
+        <li class="mb-2">Cookie preferences</li>
+      </ul>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-gray-900 mb-6 text-2xl font-semibold">
+        Contact
+      </h2>
+      <p class="mb-4 text-gray-700">
+        For any privacy-related questions, please contact us directly.
+      </p>
     </section>
   </div>
-</Layout>
-
-<style>
-.privacy-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-}
-
-h1 {
-  margin-bottom: 2rem;
-}
-
-section {
-  margin-bottom: 3rem;
-}
-
-h2 {
-  color: #181818;
-  margin-bottom: 1.5rem;
-}
-
-h3 {
-  color: #333;
-  margin: 2rem 0 1rem 0;
-}
-
-p {
-  margin-bottom: 1rem;
-  color: #444;
-}
-
-ul {
-  margin: 1rem 0 1.5rem 1.2rem;
-  color: #444;
-}
-
-li {
-  margin-bottom: 0.5rem;
-}
-
-strong {
-  color: #181818;
-}
-</style> 
+</Layout> 

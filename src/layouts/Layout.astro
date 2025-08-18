@@ -1,16 +1,28 @@
 ---
 import ResourceHints from '../components/ResourceHints.astro';
 import CookieConsent from '../components/CookieConsent.astro';
-import criticalCSS from '../styles/critical.css?raw';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  image?: string;
+  type?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
 }
 
 const {
   title = "Edgar Coaching - Expert Training & Performance Optimization",
-  description = "Transform your fitness journey with personalized coaching, expert guidance, and proven results. Start your transformation today."
+  description = "Transform your fitness journey with personalized coaching, expert guidance, and proven results. Start your transformation today.",
+  canonical = Astro.url.href,
+  image = "/images/social-share.jpg",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  author = "Coach Edgar"
 } = Astro.props;
 
 // Font files to preload
@@ -36,6 +48,9 @@ const fontFiles = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#181818" />
+    <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     
     <ResourceHints />
     
@@ -46,24 +61,28 @@ const fontFiles = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/images/social-share.jpg" />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Edgar Coaching" />
+    <meta property="og:locale" content="en_US" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {author && <meta property="article:author" content={author} />}
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/images/social-share.jpg" />
+    <meta name="twitter:image" content={new URL(image, Astro.url)} />
+    <meta name="twitter:site" content="@coachedgar" />
+    <meta name="twitter:creator" content="@coachedgar" />
     
-    <!-- Inline critical CSS -->
-    <style set:html={criticalCSS}></style>
-    
-    <!-- Preload LCP image with highest priority -->
-    <link rel="preload" as="image" href="/images/optimized/coach-425.webp" fetchpriority="high" />
     
     <!-- Preload font files -->
     {fontFiles.map(font => (
@@ -76,17 +95,6 @@ const fontFiles = [
         fetchpriority="high"
       />
     ))}
-
-    <!-- Load non-critical CSS asynchronously -->
-    <link 
-      rel="preload" 
-      href="/styles/global.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="/styles/global.css" />
-    </noscript>
 
     <!-- Optimize font loading -->
     <script>
@@ -111,6 +119,60 @@ const fontFiles = [
         document.documentElement.classList.add("font-loaded");
       }
     </script>
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Coach Edgar",
+      "jobTitle": "Personal Fitness Coach",
+      "description": "Expert personal trainer specializing in performance optimization, body recomposition, and PED risk management",
+      "url": "https://coachedgar.com",
+      "image": "https://coachedgar.com/images/optimized/coach-425.webp",
+      "sameAs": [
+        "https://twitter.com/coachedgar",
+        "https://instagram.com/coachedgar"
+      ],
+      "knowsAbout": [
+        "Personal Training",
+        "Body Recomposition",
+        "Performance Optimization",
+        "PED Risk Management",
+        "Nutrition Coaching",
+        "Strength Training"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Coaching Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "3-Month Kickstart Coaching",
+              "description": "Build momentum with a full reset of your training, nutrition, recovery, and lifestyle"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "6-Month Rebuild Coaching",
+              "description": "Deep results with full support including bloodwork and comprehensive progress tracking"
+            }
+          }
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableLanguage": "English"
+      }
+    })} />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -118,14 +180,5 @@ const fontFiles = [
       <slot />
     </main>
     <CookieConsent />
-    
-    <!-- Register service worker -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
-        });
-      }
-    </script>
   </body>
 </html>

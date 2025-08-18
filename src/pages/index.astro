@@ -1,18 +1,77 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import LandingHero from '../components/LandingHero.astro';
-import VideoSection from '../components/VideoSection.astro';
 import AboutCoach from '../components/AboutCoach.astro';
 import CoachingServices from '../components/CoachingServices.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ContactSection from '../components/ContactSection.astro';
 ---
 
-<Layout>
+<Layout 
+  title="Coach Edgar - Expert Personal Training & Performance Optimization"
+  description="Transform your fitness journey with personalized coaching from Coach Edgar. Get stronger, leaner, and more confident with expert guidance in training, nutrition, and PED risk management."
+  canonical="https://coachedgar.com/"
+  image="/images/optimized/coach-425.webp"
+>
   <LandingHero />
-  <VideoSection />
   <AboutCoach />
   <CoachingServices />
   <Testimonials />
   <ContactSection />
+  
+  <!-- Local Business Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Edgar Coaching",
+    "description": "Expert personal training and performance optimization coaching",
+    "url": "https://coachedgar.com",
+    "telephone": "+1-555-123-4567",
+    "email": "coach@coachedgar.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "40.7128",
+      "longitude": "-74.0060"
+    },
+    "openingHours": "Mo-Su 06:00-22:00",
+    "priceRange": "$$",
+    "currenciesAccepted": "USD",
+    "paymentAccepted": "Credit Card, PayPal",
+    "areaServed": "Worldwide",
+    "serviceArea": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": "40.7128",
+        "longitude": "-74.0060"
+      },
+      "geoRadius": "10000"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Coaching Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "3-Month Kickstart Coaching",
+            "description": "Build momentum with a full reset of your training, nutrition, recovery, and lifestyle"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "6-Month Rebuild Coaching",
+            "description": "Deep results with full support including bloodwork and comprehensive progress tracking"
+          }
+        }
+      ]
+    }
+  })} />
 </Layout>

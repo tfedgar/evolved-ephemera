@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run extract-critical && npm run optimize-images && npm run generate-icons && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate-icons": "node scripts/generate-icons.js",
@@ -13,10 +13,11 @@
     "extract-critical": "node scripts/extract-critical.js"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^7.0.0",
-    "@astrojs/image": "^0.18.0",
-    "astro": "^3.6.5",
-    "sharp": "^0.32.6",
-    "stripe": "^18.3.0"
+    "@astrojs/cloudflare": "^12.6.4",
+    "@astrojs/sitemap": "^3.5.0",
+    "@tailwindcss/vite": "^4.1.12",
+    "astro": "^5.13.2",
+    "stripe": "^18.3.0",
+    "tailwindcss": "^4.1.12"
   }
 }
