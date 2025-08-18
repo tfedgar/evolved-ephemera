@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://coachedgar.com/sitemap.xml
+Sitemap: https://www.coachedgar.com/sitemap-index.xml
