@@ -1,15 +1,27 @@
 import Stripe from 'stripe';
 
-const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
+export async function POST({ request, locals }: { request: Request; locals: any }) {
+  // Try multiple ways to access the environment variable
+  const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY || 
+                         locals?.env?.STRIPE_SECRET_KEY || 
+                         (request as any).cf?.env?.STRIPE_SECRET_KEY ||
+                         process.env.STRIPE_SECRET_KEY;
+  
+  console.log('Environment check:', {
+    importMeta: !!import.meta.env.STRIPE_SECRET_KEY,
+    locals: !!locals?.env?.STRIPE_SECRET_KEY,
+    requestCf: !!(request as any).cf?.env?.STRIPE_SECRET_KEY,
+    process: !!process.env.STRIPE_SECRET_KEY,
+    finalKey: !!stripeSecretKey
+  });
 
-export async function POST({ request }: { request: Request }) {
   // Check if Stripe key is available
   if (!stripeSecretKey) {
     console.error('STRIPE_SECRET_KEY environment variable is not set');
     return new Response(
       JSON.stringify({ 
         error: 'Payment system configuration error. Please contact support.',
-        details: 'Missing Stripe API key'
+        details: 'Missing Stripe API key - Environment variable not accessible'
       }), 
       { 
         status: 500,
