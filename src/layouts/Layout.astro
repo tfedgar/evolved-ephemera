@@ -51,8 +51,7 @@ const fontFiles = [
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="Permissions-Policy" content="payment=(self)" />
-    
+
     <ResourceHints />
     
     <!-- Favicon -->
@@ -86,19 +85,6 @@ const fontFiles = [
     <meta name="twitter:image" content={new URL(image, Astro.url)} />
     <meta name="twitter:site" content="@coachedgar" />
     <meta name="twitter:creator" content="@coachedgar" />
-    
-    
-    <!-- Preload font files -->
-    {fontFiles.map(font => (
-      <link
-        rel="preload"
-        href={font.url}
-        as="font"
-        type="font/woff2"
-        crossorigin="anonymous"
-        fetchpriority="high"
-      />
-    ))}
 
     <!-- Optimize font loading -->
     <script>
