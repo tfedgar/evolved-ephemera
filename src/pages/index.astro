@@ -4,7 +4,9 @@ import LandingHero from '../components/LandingHero.astro';
 import AboutCoach from '../components/AboutCoach.astro';
 import CoachingServices from '../components/CoachingServices.astro';
 import Testimonials from '../components/Testimonials.astro';
+import PDFDownloadSection from '../components/PDFDownloadSection.astro';
 import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout 
@@ -17,7 +19,9 @@ import ContactSection from '../components/ContactSection.astro';
   <AboutCoach />
   <CoachingServices />
   <Testimonials />
+  <PDFDownloadSection />
   <ContactSection />
+  <Footer />
   
   <!-- Local Business Schema -->
   <script type="application/ld+json" set:html={JSON.stringify({

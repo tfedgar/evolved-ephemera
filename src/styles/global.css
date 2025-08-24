@@ -70,10 +70,31 @@ a {
   transition: color 0.2s;
 }
 
-a:hover, a:focus {
+/* Remove global hover override to allow Tailwind classes to work */
+/* a:hover, a:focus {
   color: #1a47b8;
   outline: none;
+} */
+
+/* Ensure navigation and footer link hover states work */
+nav a:hover {
+  color: #059669 !important; /* emerald-600 */
 }
+
+footer a:hover {
+  color: #34d399 !important; /* emerald-400 */
+}
+
+/* Ensure Button component hover animations work */
+a.button-component {
+  transition: all 0.3s ease !important;
+}
+
+a.button-component:hover {
+  transform: translateY(-4px) !important;
+}
+
+
 
 a:focus-visible {
   outline: 2px solid var(--secondary-color);

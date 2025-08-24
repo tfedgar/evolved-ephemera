@@ -9,8 +9,9 @@
     <p class="text-center text-gray-600 mb-12 text-xl">
       Ready to start your journey? Choose an option below to book a free consultation or leave your information.
     </p>
-    <div class="flex flex-col gap-12 lg:gap-16 justify-center items-center">
-      <div class="bg-white rounded-2xl p-8 lg:p-10 w-full max-w-2xl shadow-lg border border-gray-200">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-12 justify-center items-start">
+      <!-- Calendar Section -->
+      <div class="bg-white rounded-2xl p-8 lg:p-10 w-full shadow-lg border border-gray-200">
         <h3 class="text-gray-900 mb-6 text-2xl font-bold">
           Book Instantly
         </h3>
@@ -21,13 +22,8 @@
         <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
       </div>
       
-      <div class="text-center">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-200 rounded-full">
-          <span class="text-gray-600 font-bold text-xl">or</span>
-        </div>
-      </div>
-      
-      <div class="bg-white rounded-2xl p-8 lg:p-10 w-full max-w-2xl shadow-lg border border-gray-200">
+      <!-- Contact Form Section -->
+      <div class="bg-white rounded-2xl p-8 lg:p-10 w-full shadow-lg border border-gray-200">
         <h3 class="text-gray-900 mb-6 text-2xl font-bold">
           Leave Your Information
         </h3>
@@ -40,33 +36,35 @@
             name="full-name" 
             placeholder="Full Name" 
             required 
-            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+            class="py-4 px-6 rounded-lg border border-slate-300 text-lg bg-white text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
           />
           <input 
             type="email" 
             name="email" 
             placeholder="Your Email" 
             required 
-            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+            class="py-4 px-6 rounded-lg border border-slate-300 text-lg bg-white text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
           />
           <input 
             type="tel" 
             name="phone" 
             placeholder="Phone Number" 
             required 
-            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+            class="py-4 px-6 rounded-lg border border-slate-300 text-lg bg-white text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
           />
           <textarea 
             name="message" 
             placeholder="Your Message" 
             required 
-            class="py-4 px-6 rounded-lg border border-gray-300 text-lg bg-white text-gray-900 outline-none transition-colors focus:border-blue-600 focus:ring-4 focus:ring-blue-100 min-h-32 resize-y"
+            class="py-4 px-6 rounded-lg border border-slate-300 text-lg bg-white text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100 min-h-32 resize-y"
           ></textarea>
           <button 
             type="submit" 
-            class="py-5 bg-blue-600 text-white border-none rounded-full text-xl cursor-pointer font-bold transition-all duration-200 hover:bg-blue-700 hover:shadow-lg transform hover:scale-105"
+            class="py-5 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-xl cursor-pointer font-bold tracking-wide capitalize transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1 group overflow-hidden"
           >
-            Send Message
+                        <span class="relative z-10">Send Message</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
           </button>
         </form>
       </div>

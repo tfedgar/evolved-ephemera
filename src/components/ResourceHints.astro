@@ -1,5 +1,12 @@
 ---
-const criticalResources = [
+interface Resource {
+  type: string;
+  href: string;
+  crossorigin?: boolean;
+  as?: string;
+}
+
+const criticalResources: Resource[] = [
   // DNS prefetch and preconnect
   { type: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
   { type: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
@@ -21,15 +28,22 @@ const criticalResources = [
   { type: 'dns-prefetch', href: 'https://i.ytimg.com' },
   { type: 'preconnect', href: 'https://www.youtube-nocookie.com', crossorigin: true },
   { type: 'preconnect', href: 'https://i.ytimg.com', crossorigin: true },
-  
-  // Critical assets
-  { type: 'preload', href: '/images/optimized/coach-optimized.webp', as: 'image' },
-  { type: 'modulepreload', href: '/sw.js' }
 ];
 ---
 
-{criticalResources.map(resource => (
-  resource.crossorigin ? 
-    <link rel={resource.type} href={resource.href} crossorigin /> :
-    <link rel={resource.type} href={resource.href} />
-))} 
+{criticalResources.map(resource => {
+  const linkProps: any = {
+    rel: resource.type,
+    href: resource.href
+  };
+  
+  if (resource.crossorigin) {
+    linkProps.crossorigin = true;
+  }
+  
+  if (resource.as) {
+    linkProps.as = resource.as;
+  }
+  
+  return <link {...linkProps} />;
+})} 

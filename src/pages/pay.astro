@@ -5,11 +5,12 @@ import Navigation from '../components/Navigation.astro';
 
 <Layout title="Coaching Packages - Edgar Coaching" description="Choose from our coaching packages designed to transform your fitness journey with personalized training and nutrition plans.">
   <Navigation />
-  <section class="py-16 lg:py-20 bg-gray-50 min-h-screen">
+  <section class="pt-24 pb-16 lg:pt-28 lg:pb-20 bg-slate-50 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 lg:px-6">
-      <div class="text-center mb-12">
-        <a href="/" class="inline-flex items-center gap-2 mb-8 px-6 py-3 text-gray-900 no-underline font-medium text-base border-2 border-gray-900 rounded-full transition-all duration-200 hover:bg-gray-900 hover:text-white hover:-translate-y-1">
-          ← Return Home
+      <div class="mb-12">
+        <a href="/" class="inline-flex items-center gap-2 mb-8 px-6 py-3 text-slate-900 no-underline font-medium text-base border-2 border-slate-900 transition-all duration-200 hover:bg-slate-900 hover:text-white group relative overflow-hidden">
+          <span class="relative z-10 text-slate-900 group-hover:text-white">← Return Home</span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </a>
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight m-0 mb-4 text-gray-900">
           Coaching Packages
@@ -62,9 +63,11 @@ import Navigation from '../components/Navigation.astro';
           </div>
           <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="priceId" value="price_1RbDBHATEGp1ZwvVgHoMRXSK" />
-            <button type="submit" class="w-full py-4 px-8 bg-gray-900 text-white rounded-xl text-base font-bold border-none cursor-pointer transition-all duration-200 hover:bg-gray-800 hover:-translate-y-1 mt-auto shadow-lg">
-              Get Started
-            </button>
+            <!-- <input type="hidden" name="priceId" value="price_1RzlwSPDLGEkO1ERueC8Kavy" /> -->
+            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
+                    <span class="relative z-10">Get Started</span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </button>
           </form>
         </div>
 
@@ -107,8 +110,9 @@ import Navigation from '../components/Navigation.astro';
           </div>
           <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="priceId" value="price_1Rbtt9ATEGp1ZwvV8o8VBAWW" />
-            <button type="submit" class="w-full py-4 px-8 bg-transparent text-gray-900 border-2 border-gray-900 rounded-xl text-base font-bold cursor-pointer transition-all duration-200 hover:bg-gray-900 hover:text-white hover:-translate-y-1 mt-auto">
-              Get Started
+            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
+              <span class="relative z-10">Get Started</span>
+              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </form>
         </div>
@@ -156,8 +160,9 @@ import Navigation from '../components/Navigation.astro';
           </div>
           <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="priceId" value="price_1Rn5OMATEGp1ZwvV1n7orP1E" />
-            <button type="submit" class="w-full py-4 px-8 bg-transparent text-gray-900 border-2 border-gray-900 rounded-xl text-base font-bold cursor-pointer transition-all duration-200 hover:bg-gray-900 hover:text-white hover:-translate-y-1 mt-auto">
-              Get Started
+            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
+              <span class="relative z-10">Get Started</span>
+              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </form>
         </div>
@@ -205,8 +210,9 @@ import Navigation from '../components/Navigation.astro';
           </div>
           <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="priceId" value="price_1RnN54ATEGp1ZwvVGu1A4lA6" />
-            <button type="submit" class="w-full py-4 px-8 bg-transparent text-gray-900 border-2 border-gray-900 rounded-xl text-base font-bold cursor-pointer transition-all duration-200 hover:bg-gray-900 hover:text-white hover:-translate-y-1 mt-auto">
-              Get Started
+            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
+              <span class="relative z-10">Get Started</span>
+              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </form>
         </div>
@@ -240,16 +246,17 @@ import Navigation from '../components/Navigation.astro';
           </div>
           <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="priceId" value="price_1RJdKzATEGp1ZwvVjD6RRjZ5" />
-            <button type="submit" class="w-full py-4 px-8 bg-blue-600 text-white rounded-xl text-base font-bold border-none cursor-pointer transition-all duration-200 hover:bg-blue-700 hover:-translate-y-1 mt-auto shadow-lg">
-              Book Call
+            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
+              <span class="relative z-10">Book Call</span>
+              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </form>
         </div>
       </div>
       
-      <div class="text-center py-8 px-8 bg-gray-100 rounded-2xl border border-gray-200">
-        <p class="m-2 text-gray-600 text-sm">✓ 30-day satisfaction guarantee on all coaching packages</p>
-        <p class="m-2 text-gray-600 text-sm">✓ Secure payment processing via Stripe</p>
+              <div class="text-center py-8 px-8 bg-slate-100 rounded-2xl border border-slate-200">
+                  <p class="m-2 text-slate-600 text-sm">✓ 30-day satisfaction guarantee on all coaching packages</p>
+          <p class="m-2 text-slate-600 text-sm">✓ Secure payment processing via Stripe</p>
       </div>
     </div>
   </section>
@@ -308,16 +315,41 @@ import Navigation from '../components/Navigation.astro';
     // Check for success/cancel URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true') {
-      showSuccessMessage('Payment successful! You will receive confirmation details shortly.');
+      const product = urlParams.get('product');
+      if (product === 'pdf') {
+        showPDFSuccessMessage('PDF purchase successful! Your download link has been sent to your email.');
+      } else {
+        showSuccessMessage('Payment successful! You will receive confirmation details shortly.');
+      }
     } else if (urlParams.get('canceled') === 'true') {
-      showErrorMessage('Payment was canceled. You can try again anytime.');
+      const product = urlParams.get('product');
+      if (product === 'pdf') {
+        showErrorMessage('PDF purchase was canceled. You can try again anytime.');
+      } else {
+        showErrorMessage('Payment was canceled. You can try again anytime.');
+      }
     }
     
     function showSuccessMessage(message: string) {
       const successDiv = document.createElement('div');
       successDiv.innerHTML = `
-        <div class="bg-green-50 border border-green-200 text-green-800 p-4 rounded-lg my-4 text-center">
+        <div class="bg-green-50 border border-green-200 text-green-800 p-6 rounded-lg my-8 text-center">
           <strong>Success!</strong> ${message}
+        </div>
+      `;
+      
+      const packagesSection = document.querySelector('.grid');
+      if (packagesSection) {
+        packagesSection.parentNode?.insertBefore(successDiv, packagesSection);
+      }
+    }
+    
+    function showPDFSuccessMessage(message: string) {
+      const successDiv = document.createElement('div');
+      successDiv.innerHTML = `
+        <div class="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-lg my-8 text-center">
+          <strong>PDF Purchase Successful!</strong> ${message}
+          <br><small>Check your email for the download link.</small>
         </div>
       `;
       

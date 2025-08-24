@@ -18,19 +18,19 @@ const {
 } = Astro.props;
 
 // Base classes
-const baseClasses = "inline-block font-bold text-center transition-all duration-200 translate-y-0 hover:-translate-y-1 shadow-lg relative";
+const baseClasses = "inline-block font-bold text-center transition-all duration-300 shadow-lg relative transform button-component capitalize";
 
 // Variant classes
 const variantClasses = {
-  primary: "bg-gray-900 border-2 border-gray-900 hover:bg-gray-800 hover:shadow-xl",
-  secondary: "bg-blue-600 border-2 border-blue-600 hover:bg-blue-700 hover:shadow-xl"
+  primary: "bg-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden group",
+  secondary: "bg-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden group"
 };
 
 // Size classes
 const sizeClasses = {
-  sm: "px-6 py-3 text-base rounded-lg",
-  md: "px-8 py-4 text-lg rounded-xl",
-  lg: "px-12 py-6 text-xl rounded-xl"
+  sm: "px-6 py-3 text-base",
+  md: "px-8 py-4 text-lg",
+  lg: "px-12 py-6 text-xl"
 };
 
 // Width classes
@@ -41,5 +41,9 @@ const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[s
 ---
 
 <a href={href} class={buttonClasses}>
-  <slot />
+  <span class="relative z-10">
+    <slot />
+  </span>
+  <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
 </a>

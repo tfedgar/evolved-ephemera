@@ -4,7 +4,7 @@
 
 <!-- Navigation Header -->
 <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50">
-  <div class="max-w-6xl mx-auto px-4 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 lg:px-6">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
         <a href="/" class="text-2xl font-bold text-gray-900">
@@ -12,11 +12,21 @@
         </a>
       </div>
       <div class="hidden md:flex items-center space-x-8">
-        <a href="/#about" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">About</a>
-        <a href="/#services" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Services</a>
-        <a href="/#testimonials" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Results</a>
-        <a href="/#contact" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Contact</a>
+        <a href="/#about" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">About</a>
+        <a href="/#services" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">Services</a>
+        <a href="/#testimonials" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">Results</a>
+        <a href="/#contact" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">Contact</a>
       </div>
+      
+      <!-- CTA Button -->
+      <div class="hidden md:flex items-center">
+        <a href="/pay" class="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white px-8 py-3 font-bold tracking-wide capitalize text-sm border-2 border-slate-700 hover:border-slate-500 transition-all duration-300 hover:shadow-2xl group overflow-hidden">
+          <span class="relative z-10 text-white group-hover:text-white">Start Training</span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
+        </a>
+      </div>
+      
       <div class="md:hidden">
         <button id="mobile-menu-button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-md p-2">
           <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,10 +42,18 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a href="/#about" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">About</a>
-        <a href="/#services" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">Services</a>
-        <a href="/#testimonials" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">Results</a>
-        <a href="/#contact" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md font-medium transition-colors">Contact</a>
+                    <a href="/#about" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">About</a>
+            <a href="/#services" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">Services</a>
+            <a href="/#testimonials" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">Results</a>
+            <a href="/#contact" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">Contact</a>
+        
+        <!-- Mobile CTA Button -->
+        <div class="pt-2 border-t border-slate-200 mt-2">
+          <a href="/pay" class="block w-full relative bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-4 font-bold tracking-wide capitalize text-center border-2 border-slate-700 hover:border-slate-500 transition-all duration-300 group overflow-hidden">
+            <span class="relative z-10 text-white group-hover:text-white">Start Training</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -84,6 +102,7 @@
                 closeIcon.classList.add('hidden');
               }
               
+              // Use global smooth scroll function
               // Calculate offset for fixed navigation - measure actual height
               const navElement = document.querySelector('nav');
               const navHeight = navElement ? navElement.offsetHeight : 64;
@@ -94,6 +113,9 @@
                 top: targetPosition,
                 behavior: 'smooth'
               });
+              
+              // Update URL
+              history.pushState(null, '', '#' + targetId);
             }
           }
         });

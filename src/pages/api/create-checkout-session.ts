@@ -21,6 +21,10 @@ export async function POST({ request }: { request: Request }) {
 
     const origin = new URL(request.url).origin;
 
+    // Check if this is a recurring price (subscription) or one-time payment
+    const price = await stripe.prices.retrieve(priceId);
+    const isRecurring = price.type === 'recurring';
+    
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -29,13 +33,13 @@ export async function POST({ request }: { request: Request }) {
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: isRecurring ? 'subscription' : 'payment',
       success_url: `${origin}/pay?success=true`,
       cancel_url: `${origin}/pay?canceled=true`,
       expires_at: Math.floor(Date.now() / 1000) + (30 * 60), // 30 minutes
       custom_text: {
         submit: {
-          message: 'Complete your coaching package purchase',
+          message: isRecurring ? 'Complete your coaching subscription' : 'Complete your coaching package purchase',
         },
       },
     });

@@ -51,6 +51,7 @@ const fontFiles = [
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="payment=(self)" />
     
     <ResourceHints />
     
@@ -180,5 +181,79 @@ const fontFiles = [
       <slot />
     </main>
     <CookieConsent />
+    
+    <!-- Global Smooth Scroll Functionality -->
+    <script>
+      // Global smooth scroll function for all hash links
+      document.addEventListener('DOMContentLoaded', function() {
+        // Function to smooth scroll to element with navigation offset
+        function smoothScrollToElement(targetElement: HTMLElement, updateUrl = true) {
+          // Calculate offset for fixed navigation - measure actual height
+          const navElement = document.querySelector('nav');
+          const navHeight = navElement ? navElement.offsetHeight : 64;
+          const targetPosition = targetElement.offsetTop - navHeight;
+          
+          // Smooth scroll to target
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          
+          // Update URL if requested
+          if (updateUrl) {
+            const targetId = targetElement.id;
+            history.pushState(null, '', '#' + targetId);
+          }
+        }
+        
+        // Handle all hash links (navigation, footer, buttons, etc.)
+        const hashLinks = document.querySelectorAll('a[href*="#"]');
+        
+        hashLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            const href = (link as HTMLAnchorElement).getAttribute('href');
+            if (!href || !href.includes('#')) return;
+            
+            // Extract the hash part from the href
+            const hashIndex = href.indexOf('#');
+            const targetId = href.substring(hashIndex + 1);
+            if (!targetId) return; // Skip if just "#"
+            
+            // Check if we're on the homepage
+            const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
+            
+            // If it's a homepage link (starts with /) and we're not on homepage, navigate first
+            if (href.startsWith('/#') && !isHomepage) {
+              // Navigate to homepage with hash
+              window.location.href = href;
+              return;
+            }
+            
+            // If it's a relative hash link and we're on homepage, handle smooth scroll
+            if ((href.startsWith('#') || href.startsWith('/#')) && isHomepage) {
+              e.preventDefault();
+              
+              const targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                smoothScrollToElement(targetElement);
+              }
+            }
+          });
+        });
+        
+        // Handle direct hash links in URL on page load
+        if (window.location.hash) {
+          const targetId = window.location.hash.substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            // Small delay to ensure page is fully loaded
+            setTimeout(() => {
+              smoothScrollToElement(targetElement, false);
+            }, 100);
+          }
+        }
+      });
+    </script>
   </body>
 </html>
