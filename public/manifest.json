@@ -4,8 +4,8 @@
   "description": "Expert Training & Performance Optimization",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fafbfc",
-  "theme_color": "#181818",
+  "background_color": "#0f172a",
+  "theme_color": "#10b981",
   "icons": [
     {
       "src": "/icon-192x192.png",
