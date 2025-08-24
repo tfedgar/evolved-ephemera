@@ -1,19 +1,10 @@
 import Stripe from 'stripe';
 
 export async function POST({ request, locals }: { request: Request; locals: any }) {
-  // Try multiple ways to access the environment variable
-  const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY || 
-                         locals?.env?.STRIPE_SECRET_KEY || 
+  // Try multiple ways to access the environment variable at runtime
+  const stripeSecretKey = locals?.env?.STRIPE_SECRET_KEY || 
                          (request as any).cf?.env?.STRIPE_SECRET_KEY ||
                          process.env.STRIPE_SECRET_KEY;
-  
-  console.log('Environment check:', {
-    importMeta: !!import.meta.env.STRIPE_SECRET_KEY,
-    locals: !!locals?.env?.STRIPE_SECRET_KEY,
-    requestCf: !!(request as any).cf?.env?.STRIPE_SECRET_KEY,
-    process: !!process.env.STRIPE_SECRET_KEY,
-    finalKey: !!stripeSecretKey
-  });
 
   // Check if Stripe key is available
   if (!stripeSecretKey) {
