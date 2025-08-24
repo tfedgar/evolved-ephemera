@@ -1,10 +1,27 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-10-16' as any, // Type assertion for now
-});
+const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
 
 export async function POST({ request }: { request: Request }) {
+  // Check if Stripe key is available
+  if (!stripeSecretKey) {
+    console.error('STRIPE_SECRET_KEY environment variable is not set');
+    return new Response(
+      JSON.stringify({ 
+        error: 'Payment system configuration error. Please contact support.',
+        details: 'Missing Stripe API key'
+      }), 
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: '2023-10-16' as any, // Type assertion for now
+  });
+
   try {
     const formData = await request.formData();
     const priceId = formData.get('priceId') as string;
@@ -57,6 +74,9 @@ export async function POST({ request }: { request: Request }) {
 
   } catch (error: any) {
     console.error('Stripe session creation error:', error);
+    console.error('Error type:', error.type);
+    console.error('Error message:', error.message);
+    console.error('Error code:', error.code);
     
     // Handle specific Stripe errors
     if (error.type === 'StripeAuthenticationError') {
@@ -67,6 +87,19 @@ export async function POST({ request }: { request: Request }) {
         }), 
         { 
           status: 503,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    if (error.type === 'StripeInvalidRequestError') {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid payment request. Please try again.',
+          details: error.message
+        }), 
+        { 
+          status: 400,
           headers: { 'Content-Type': 'application/json' }
         }
       );

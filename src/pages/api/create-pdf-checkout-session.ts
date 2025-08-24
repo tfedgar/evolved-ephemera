@@ -1,10 +1,27 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-10-16' as any,
-});
+const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
 
 export async function POST({ request }: { request: Request }) {
+  // Check if Stripe key is available
+  if (!stripeSecretKey) {
+    console.error('STRIPE_SECRET_KEY environment variable is not set');
+    return new Response(
+      JSON.stringify({ 
+        error: 'Payment system configuration error. Please contact support.',
+        details: 'Missing Stripe API key'
+      }), 
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: '2023-10-16' as any,
+  });
+
   try {
     const formData = await request.formData();
     const productType = formData.get('productType') as string;
