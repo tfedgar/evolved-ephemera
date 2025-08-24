@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 
 export async function POST({ request, locals }: { request: Request; locals: any }) {
   // Try multiple ways to access the environment variable at runtime
-  const stripeSecretKey = locals?.env?.STRIPE_SECRET_KEY || 
+  const stripeSecretKey = locals?.runtime.env?.STRIPE_SECRET_KEY || 
                          (request as any).cf?.env?.STRIPE_SECRET_KEY ||
                          process.env.STRIPE_SECRET_KEY;
 
