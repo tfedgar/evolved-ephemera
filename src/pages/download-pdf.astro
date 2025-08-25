@@ -16,9 +16,10 @@ if (sessionId) {
     // Access environment variables - try different methods
     let stripeSecretKey;
     
-    // Try Astro.locals first (for some adapters)
-    if (Astro.locals.runtime && 'env' in Astro.locals.runtime) {
-      stripeSecretKey = (Astro.locals as any).runtime.env?.STRIPE_SECRET_KEY;
+    // Try Astro.locals.runtime first (for Cloudflare)
+    if ((Astro.locals as any).runtime && 'env' in (Astro.locals as any).runtime) {
+      const { env } = (Astro.locals as any).runtime;
+      stripeSecretKey = env.STRIPE_SECRET_KEY;
     }
     
     // Fallback to import.meta.env
@@ -249,10 +250,16 @@ if (sessionId) {
           body: formData
         });
         
-        const data = await response.json();
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          console.error('Failed to parse JSON response:', jsonError);
+          throw new Error('Server returned invalid response. Please try again.');
+        }
         
         if (!response.ok) {
-          throw new Error(data.error || 'Failed to generate download link');
+          throw new Error(data?.error || `Server error: ${response.status} ${response.statusText}`);
         }
         
         // Set the secure download URL

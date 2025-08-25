@@ -2,12 +2,26 @@ import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { createHmac, randomBytes } from 'crypto';
 
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
+// Access environment variables - try different methods
+let stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
+let tokenSecret = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+
+// Try to get from locals if available (for some adapters)
+if (typeof globalThis !== 'undefined' && (globalThis as any).env) {
+  stripeSecretKey = stripeSecretKey || (globalThis as any).env.STRIPE_SECRET_KEY;
+  tokenSecret = tokenSecret || (globalThis as any).env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+}
+
+if (!stripeSecretKey) {
+  throw new Error('STRIPE_SECRET_KEY environment variable is not set');
+}
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: '2023-10-16' as any,
 });
 
 // Create a secret key for signing tokens (use environment variable in production)
-const TOKEN_SECRET = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+const TOKEN_SECRET = tokenSecret;
 
 interface TokenPayload {
   sessionId: string;
