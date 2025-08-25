@@ -38,27 +38,6 @@ function randomBytes(length: number): Uint8Array {
   return array;
 }
 
-// Access environment variables - try different methods
-let stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
-let tokenSecret = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
-
-// Try to get from locals if available (for some adapters)
-if (typeof globalThis !== 'undefined' && (globalThis as any).env) {
-  stripeSecretKey = stripeSecretKey || (globalThis as any).env.STRIPE_SECRET_KEY;
-  tokenSecret = tokenSecret || (globalThis as any).env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
-}
-
-if (!stripeSecretKey) {
-  throw new Error('STRIPE_SECRET_KEY environment variable is not set');
-}
-
-const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: '2023-10-16' as any,
-});
-
-// Create a secret key for signing tokens (use environment variable in production)
-const TOKEN_SECRET = tokenSecret;
-
 interface TokenPayload {
   sessionId: string;
   customerEmail: string;
@@ -66,6 +45,30 @@ interface TokenPayload {
   productType: string;
   nonce: string;
 }
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  try {
+    // Access environment variables - try different methods
+    let stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
+    let tokenSecret = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+
+    // Try to get from Cloudflare runtime context
+    if (locals && (locals as any).runtime && (locals as any).runtime.env) {
+      const { env } = (locals as any).runtime;
+      stripeSecretKey = stripeSecretKey || env.STRIPE_SECRET_KEY;
+      tokenSecret = tokenSecret || env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+    }
+
+    if (!stripeSecretKey) {
+      throw new Error('STRIPE_SECRET_KEY environment variable is not set');
+    }
+
+    const stripe = new Stripe(stripeSecretKey, {
+      apiVersion: '2023-10-16' as any,
+    });
+
+    // Create a secret key for signing tokens (use environment variable in production)
+    const TOKEN_SECRET = tokenSecret;
 
 function createSignedToken(payload: TokenPayload): string {
   const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
@@ -200,4 +203,4 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-};
+  };
