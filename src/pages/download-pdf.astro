@@ -17,8 +17,8 @@ if (sessionId) {
     let stripeSecretKey;
     
     // Try Astro.locals first (for some adapters)
-    if (Astro.locals && 'env' in Astro.locals) {
-      stripeSecretKey = (Astro.locals as any).env?.STRIPE_SECRET_KEY;
+    if (Astro.locals.runtime && 'env' in Astro.locals.runtime) {
+      stripeSecretKey = (Astro.locals as any).runtime.env?.STRIPE_SECRET_KEY;
     }
     
     // Fallback to import.meta.env
