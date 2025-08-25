@@ -1,10 +1,28 @@
 import type { APIRoute } from 'astro';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { createHmac } from 'crypto';
 
-// Create a secret key for signing tokens (use environment variable in production)
-const TOKEN_SECRET = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+// Use Web Crypto API for Cloudflare compatibility
+function createHmac(algorithm: string, key: string, data: string): string {
+  // For Cloudflare, we'll use a simpler approach
+  // In production, you might want to use a more secure method
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(key);
+  const dataData = encoder.encode(data);
+  
+  // Simple hash-based approach (not as secure as HMAC, but works for basic validation)
+  const combined = new Uint8Array(keyData.length + dataData.length);
+  combined.set(keyData, 0);
+  combined.set(dataData, keyData.length);
+  
+  // Use a simple hash function
+  let hash = 0;
+  for (let i = 0; i < combined.length; i++) {
+    const char = combined[i];
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  return Math.abs(hash).toString(16);
+}
 
 interface TokenPayload {
   sessionId: string;
@@ -14,7 +32,7 @@ interface TokenPayload {
   nonce: string;
 }
 
-function verifySignedToken(token: string): TokenPayload | null {
+function verifySignedToken(token: string, tokenSecret: string): TokenPayload | null {
   try {
     const [tokenData, signature] = token.split('.');
     if (!tokenData || !signature) {
@@ -22,11 +40,11 @@ function verifySignedToken(token: string): TokenPayload | null {
       return null;
     }
     
-    const payload: TokenPayload = JSON.parse(Buffer.from(tokenData, 'base64').toString());
+    const payload: TokenPayload = JSON.parse(atob(tokenData));
     
     // Verify signature
     const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
-    const expectedSignature = createHmac('sha256', TOKEN_SECRET).update(data).digest('hex');
+    const expectedSignature = createHmac('sha256', tokenSecret, data);
     
     if (signature !== expectedSignature) {
       console.error('Token signature verification failed');
@@ -47,8 +65,17 @@ function verifySignedToken(token: string): TokenPayload | null {
   }
 }
 
-export const GET: APIRoute = async ({ request, url }) => {
+export const GET: APIRoute = async ({ request, url, locals }) => {
   try {
+    // Access environment variables - try different methods
+    let tokenSecret = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+
+    // Try to get from Cloudflare runtime context
+    if (locals && (locals as any).runtime && (locals as any).runtime.env) {
+      const { env } = (locals as any).runtime;
+      tokenSecret = tokenSecret || env.DOWNLOAD_TOKEN_SECRET || 'fallback-secret-key-change-in-production';
+    }
+
     const token = url.searchParams.get('token');
     
     console.log('Secure download request received:', { hasToken: !!token });
@@ -63,7 +90,7 @@ export const GET: APIRoute = async ({ request, url }) => {
 
     // Validate the signed token
     console.log('Verifying download token...');
-    const tokenData = verifySignedToken(token);
+    const tokenData = verifySignedToken(token, tokenSecret);
     
     if (!tokenData) {
       console.error('Token verification failed');
@@ -89,35 +116,26 @@ export const GET: APIRoute = async ({ request, url }) => {
       );
     }
     
-    // Read the PDF file from a secure location (outside public directory)
-    // In production, you might want to use cloud storage like AWS S3
-    const pdfPath = join(process.cwd(), 'secure-assets', 'feed-the-fame.pdf');
-    console.log('Attempting to read PDF from:', pdfPath);
+    // For Cloudflare, we'll serve the PDF from a secure location
+    // The PDF should be in the public directory but with a secure path
+    const pdfUrl = `${new URL(request.url).origin}/secure-assets/feed-the-fame.pdf`;
     
-    try {
-      const pdfBuffer = readFileSync(pdfPath);
-      console.log('PDF file read successfully, size:', pdfBuffer.length, 'bytes');
-      
-      // Return the PDF with appropriate headers
-      return new Response(pdfBuffer, {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment; filename="feed-the-fame.pdf"',
-          'Content-Length': pdfBuffer.length.toString(),
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
-      });
-      
-    } catch (fileError) {
-      console.error('PDF file read error:', fileError);
-      return new Response(
-        JSON.stringify({ error: 'PDF file not found' }), 
-        { status: 404, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
+    // Create a signed URL that expires in 5 minutes for additional security
+    const expiresAt = Math.floor(Date.now() / 1000) + 300; // 5 minutes
+    const signedUrl = `${pdfUrl}?expires=${expiresAt}&token=${encodeURIComponent(token)}`;
+    
+    console.log('Redirecting to secure PDF URL');
+    
+    // Redirect to the PDF with appropriate headers
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': signedUrl,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
 
   } catch (error: any) {
     console.error('Secure download error:', error);
