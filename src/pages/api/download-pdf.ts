@@ -46,6 +46,37 @@ interface TokenPayload {
   nonce: string;
 }
 
+function createSignedToken(payload: TokenPayload, tokenSecret: string): string {
+  const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
+  const signature = createHmac('sha256', tokenSecret, data);
+  const tokenData = btoa(JSON.stringify(payload));
+  return `${tokenData}.${signature}`;
+}
+
+function verifySignedToken(token: string, tokenSecret: string): TokenPayload | null {
+  try {
+    const [tokenData, signature] = token.split('.');
+    if (!tokenData || !signature) return null;
+    
+    const payload: TokenPayload = JSON.parse(atob(tokenData));
+    
+    // Verify signature
+    const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
+    const expectedSignature = createHmac('sha256', tokenSecret, data);
+    
+    if (signature !== expectedSignature) return null;
+    
+    // Check if token has expired
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (payload.expiresAt < currentTime) return null;
+    
+    return payload;
+  } catch (error) {
+    console.error('Token verification error:', error);
+    return null;
+  }
+}
+
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Access environment variables - try different methods
@@ -67,42 +98,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       apiVersion: '2023-10-16' as any,
     });
 
-    // Create a secret key for signing tokens (use environment variable in production)
-    const TOKEN_SECRET = tokenSecret;
-
-function createSignedToken(payload: TokenPayload): string {
-  const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
-  const signature = createHmac('sha256', TOKEN_SECRET, data);
-  const tokenData = btoa(JSON.stringify(payload));
-  return `${tokenData}.${signature}`;
-}
-
-function verifySignedToken(token: string): TokenPayload | null {
-  try {
-    const [tokenData, signature] = token.split('.');
-    if (!tokenData || !signature) return null;
-    
-    const payload: TokenPayload = JSON.parse(atob(tokenData));
-    
-    // Verify signature
-    const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
-    const expectedSignature = createHmac('sha256', TOKEN_SECRET, data);
-    
-    if (signature !== expectedSignature) return null;
-    
-    // Check if token has expired
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (payload.expiresAt < currentTime) return null;
-    
-    return payload;
-  } catch (error) {
-    console.error('Token verification error:', error);
-    return null;
-  }
-}
-
-export const POST: APIRoute = async ({ request }) => {
-  try {
     const formData = await request.formData();
     const sessionId = formData.get('sessionId') as string;
     const customerEmail = formData.get('customerEmail') as string;
@@ -169,7 +164,7 @@ export const POST: APIRoute = async ({ request }) => {
       nonce
     };
     
-    const downloadToken = createSignedToken(tokenPayload);
+    const downloadToken = createSignedToken(tokenPayload, tokenSecret);
     console.log('Download token generated successfully for session:', sessionId);
 
     // Return the download URL
@@ -203,4 +198,4 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-  };
+};
