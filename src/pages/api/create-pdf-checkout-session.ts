@@ -30,6 +30,7 @@ export async function POST({ request, locals }: { request: Request; locals: any 
     const productType = formData.get('productType') as string;
     // Define the price ID for the PDF (you'll need to create this in your Stripe dashboard)
     const PDF_PRICE_ID = 'price_1S04trATEGp1ZwvVC5GARSK6';
+    // const PDF_PRICE_ID = 'price_1RzgvMPDLGEkO1ERAdJCBBpi';
     
     if (!productType || productType !== 'pdf') {
       return new Response(

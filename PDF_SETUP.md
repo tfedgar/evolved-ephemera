@@ -28,6 +28,7 @@ The system includes:
    ```bash
    STRIPE_SECRET_KEY=sk_test_... # Your Stripe secret key
    STRIPE_WEBHOOK_SECRET=whsec_... # Your webhook endpoint secret
+   DOWNLOAD_TOKEN_SECRET=your-secure-random-string-here # New: for signing download tokens
    ```
 
 ### 2. Webhook Configuration
@@ -35,7 +36,7 @@ The system includes:
 1. **Create Webhook Endpoint:**
    - Go to [Stripe Webhooks](https://dashboard.stripe.com/webhooks)
    - Add endpoint: `https://yourdomain.com/api/stripe-webhook`
-   - Select events: `checkout.session.completed`, `payment_intent.succeeded`, `payment_intent.payment_failed`
+   - Select events: `checkout.session.completed`
 
 2. **Copy Webhook Secret:**
    - Copy the signing secret from your webhook endpoint
@@ -56,104 +57,68 @@ The system includes:
 
 1. **Secure Assets Directory:**
    - The PDF is stored in `secure-assets/` (outside public directory)
-   - This prevents direct access without authentication
-   - Ensure your server doesn't serve files from this directory
+   - This prevents direct access to the PDF file
+   - Only authenticated users with valid tokens can download
 
-2. **Download Token System:**
-   - Temporary download links are generated for each purchase
-   - Links expire after 1 hour for security
-   - One-time use tokens prevent unauthorized sharing
+2. **Download Token Secret:**
+   - Generate a secure random string for `DOWNLOAD_TOKEN_SECRET`
+   - This is used to sign and verify download tokens
+   - Example: `openssl rand -hex 32`
 
-### 5. Email Integration (Optional)
+### 5. Production Deployment
 
-To send download links via email after successful payment:
+1. **Environment Variables:**
+   - Ensure all environment variables are set in your production environment
+   - Double-check `DOWNLOAD_TOKEN_SECRET` is properly configured
 
-1. **Install Email Service:**
-   ```bash
-   npm install @sendgrid/mail
-   # or
-   npm install nodemailer
-   ```
-
-2. **Update Webhook Handler:**
-   - Modify `src/pages/api/stripe-webhook.ts`
-   - Add email sending logic in the `checkout.session.completed` case
-
-## Usage
-
-### For Customers:
-1. Visit the PDF download section
-2. Click "Purchase & Download"
-3. Complete payment via Stripe
-4. Get redirected to secure download page
-5. Generate secure download link
-6. Download PDF (link valid for 1 hour)
-
-### For Developers:
-1. The system automatically handles payment processing
-2. Successful payments trigger the webhook
-3. Failed payments show appropriate error messages
-4. All transactions are logged for debugging
-
-## Testing
-
-1. **Test Mode:**
-   - Use Stripe test keys for development
-   - Test with test card numbers (e.g., 4242 4242 4242 4242)
-
-2. **Webhook Testing:**
-   - Use Stripe CLI for local webhook testing
-   - Monitor webhook events in Stripe Dashboard
-
-## Security Considerations
-
-1. **Webhook Verification:**
-   - Always verify webhook signatures
-   - Use HTTPS in production
-   - Keep webhook secrets secure
-
-2. **Access Control:**
-   - Implement proper access controls for PDF downloads
-   - Consider rate limiting for download attempts
-   - Log all access attempts
+2. **File Permissions:**
+   - Ensure the `secure-assets/` directory is readable by your application
+   - The PDF file should be accessible to the server process
 
 ## Troubleshooting
 
-### Common Issues:
+### Common Issues
 
-1. **Payment Not Processing:**
-   - Check Stripe API keys
-   - Verify price ID is correct
-   - Check browser console for errors
+1. **"Invalid access" errors:**
+   - Check that `DOWNLOAD_TOKEN_SECRET` is set correctly
+   - Verify the PDF file exists in `secure-assets/feed-the-fame.pdf`
+   - Check server logs for detailed error messages
 
-2. **Webhook Not Working:**
-   - Verify webhook endpoint URL
-   - Check webhook secret
-   - Monitor webhook events in Stripe Dashboard
+2. **"Payment not completed" errors:**
+   - Verify the Stripe session is in "paid" status
+   - Check that the webhook is properly configured
+   - Ensure the customer email matches the session
 
-3. **PDF Not Downloading:**
-   - Ensure PDF file exists in public directory
+3. **"PDF file not found" errors:**
+   - Verify the PDF file exists in the correct location
    - Check file permissions
-   - Verify download link generation
+   - Ensure the file path is correct for your deployment environment
 
-### Debug Mode:
+### Debugging
 
-Enable debug logging by adding console.log statements in the webhook handler and payment processing code.
+The system now includes comprehensive logging. Check your server logs for:
+- Download request details
+- Stripe session verification results
+- Token generation and verification steps
+- File read operations
 
-## Support
+### Testing
 
-For technical support:
-1. Check Stripe Dashboard for payment status
-2. Review server logs for error messages
-3. Verify all environment variables are set correctly
-4. Test with Stripe test mode first
+1. **Test the complete flow:**
+   - Make a test purchase
+   - Verify the download link is generated
+   - Test the download functionality
+   - Check that tokens expire correctly
 
-## Future Enhancements
+2. **Monitor logs:**
+   - Watch for any error messages
+   - Verify all steps complete successfully
+   - Check that security validations work
 
-Consider adding:
-- User authentication system
-- Download tracking and analytics
-- Multiple PDF products
-- Subscription-based access
-- Advanced payment methods
-- Automated email sequences
+## Security Notes
+
+- Download tokens are signed and expire after 1 hour
+- Tokens include a nonce to prevent replay attacks
+- The PDF file is stored outside the public directory
+- All requests are validated against Stripe session data
+- Customer email verification prevents unauthorized access
