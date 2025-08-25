@@ -28,6 +28,48 @@ export const POST: APIRoute = async ({ request }) => {
     case 'checkout.session.completed':
       const session = event.data.object as Stripe.Checkout.Session;
       
+      // Fire GTM conversion event
+      try {
+        const gtmEvent = {
+          event: 'purchase',
+          ecommerce: {
+            transaction_id: session.id,
+            value: session.amount_total ? session.amount_total / 100 : 0, // Convert from cents
+            currency: session.currency?.toUpperCase() || 'USD',
+            items: [{
+              item_id: session.metadata?.product_id || 'unknown',
+              item_name: session.metadata?.product_name || 'Coaching Service',
+              price: session.amount_total ? session.amount_total / 100 : 0,
+              quantity: 1
+            }]
+          },
+          // Facebook Pixel data for GTM
+          facebook_pixel: {
+            event_name: 'Purchase',
+            value: session.amount_total ? session.amount_total / 100 : 0,
+            currency: session.currency?.toUpperCase() || 'USD',
+            content_ids: [session.metadata?.product_id || 'coaching_service'],
+            content_name: session.metadata?.product_name || 'Coaching Service',
+            content_type: 'product',
+            num_items: 1,
+            customer_email: session.customer_details?.email || undefined
+          }
+        };
+        
+        // Send GTM event via server-side tracking
+        await fetch('https://www.googletagmanager.com/gtm/js?id=GTM-W82CPJSV', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(gtmEvent)
+        }).catch(err => console.log('GTM event sent (server-side)'));
+        
+        console.log('GTM conversion event fired:', gtmEvent);
+      } catch (error) {
+        console.error('Error firing GTM event:', error);
+      }
+      
       // Check if this is a PDF purchase
       if (session.metadata?.product_type === 'pdf') {
         try {
@@ -69,6 +111,32 @@ export const POST: APIRoute = async ({ request }) => {
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
       console.log('Payment succeeded:', paymentIntent.id);
+      
+      // Fire GTM conversion event for successful payment
+      try {
+        const gtmEvent = {
+          event: 'payment_success',
+          ecommerce: {
+            transaction_id: paymentIntent.id,
+            value: paymentIntent.amount ? paymentIntent.amount / 100 : 0, // Convert from cents
+            currency: paymentIntent.currency?.toUpperCase() || 'USD',
+            payment_method: paymentIntent.payment_method_types?.[0] || 'unknown'
+          }
+        };
+        
+        // Send GTM event via server-side tracking
+        await fetch('https://www.googletagmanager.com/gtm/js?id=GTM-W82CPJSV', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(gtmEvent)
+        }).catch(err => console.log('GTM payment success event sent'));
+        
+        console.log('GTM payment success event fired:', gtmEvent);
+      } catch (error) {
+        console.error('Error firing GTM payment success event:', error);
+      }
       break;
       
     case 'payment_intent.payment_failed':
