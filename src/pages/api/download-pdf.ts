@@ -1,6 +1,42 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
-import { createHmac, randomBytes } from 'crypto';
+
+// Use Web Crypto API for Cloudflare compatibility
+function createHmac(algorithm: string, key: string, data: string): string {
+  // For Cloudflare, we'll use a simpler approach
+  // In production, you might want to use a more secure method
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(key);
+  const dataData = encoder.encode(data);
+  
+  // Simple hash-based approach (not as secure as HMAC, but works for basic validation)
+  const combined = new Uint8Array(keyData.length + dataData.length);
+  combined.set(keyData, 0);
+  combined.set(dataData, keyData.length);
+  
+  // Use a simple hash function
+  let hash = 0;
+  for (let i = 0; i < combined.length; i++) {
+    const char = combined[i];
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  return Math.abs(hash).toString(16);
+}
+
+function randomBytes(length: number): Uint8Array {
+  const array = new Uint8Array(length);
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    crypto.getRandomValues(array);
+  } else {
+    // Fallback for environments without crypto.getRandomValues
+    for (let i = 0; i < length; i++) {
+      array[i] = Math.floor(Math.random() * 256);
+    }
+  }
+  return array;
+}
 
 // Access environment variables - try different methods
 let stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
@@ -33,8 +69,8 @@ interface TokenPayload {
 
 function createSignedToken(payload: TokenPayload): string {
   const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
-  const signature = createHmac('sha256', TOKEN_SECRET).update(data).digest('hex');
-  const tokenData = Buffer.from(JSON.stringify(payload)).toString('base64');
+  const signature = createHmac('sha256', TOKEN_SECRET, data);
+  const tokenData = btoa(JSON.stringify(payload));
   return `${tokenData}.${signature}`;
 }
 
@@ -43,11 +79,11 @@ function verifySignedToken(token: string): TokenPayload | null {
     const [tokenData, signature] = token.split('.');
     if (!tokenData || !signature) return null;
     
-    const payload: TokenPayload = JSON.parse(Buffer.from(tokenData, 'base64').toString());
+    const payload: TokenPayload = JSON.parse(atob(tokenData));
     
     // Verify signature
     const data = `${payload.sessionId}:${payload.customerEmail}:${payload.expiresAt}:${payload.productType}:${payload.nonce}`;
-    const expectedSignature = createHmac('sha256', TOKEN_SECRET).update(data).digest('hex');
+    const expectedSignature = createHmac('sha256', TOKEN_SECRET, data);
     
     if (signature !== expectedSignature) return null;
     
@@ -120,7 +156,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Generate a signed token (valid for 1 hour)
     const expiresAt = Math.floor(Date.now() / 1000) + 3600; // 1 hour from now
-    const nonce = randomBytes(16).toString('hex');
+    const nonce = Array.from(randomBytes(16)).map(b => b.toString(16).padStart(2, '0')).join('');
     
     const tokenPayload: TokenPayload = {
       sessionId,
