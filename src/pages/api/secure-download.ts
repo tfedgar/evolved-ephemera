@@ -116,26 +116,55 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
       );
     }
     
-    // For Cloudflare, we'll serve the PDF from a secure location
-    // The PDF should be in the public directory but with a secure path
-    const pdfUrl = `${new URL(request.url).origin}/secure-assets/feed-the-fame.pdf`;
+    // Get R2 bucket binding
+    let r2Bucket;
+    if (locals && (locals as any).runtime && (locals as any).runtime.env) {
+      const { env } = (locals as any).runtime;
+      r2Bucket = env.PDF_STORAGE;
+    }
     
-    // Create a signed URL that expires in 5 minutes for additional security
-    const expiresAt = Math.floor(Date.now() / 1000) + 300; // 5 minutes
-    const signedUrl = `${pdfUrl}?expires=${expiresAt}&token=${encodeURIComponent(token)}`;
+    if (!r2Bucket) {
+      console.error('R2 bucket not available');
+      return new Response(
+        JSON.stringify({ error: 'Storage not configured' }), 
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
     
-    console.log('Redirecting to secure PDF URL');
-    
-    // Redirect to the PDF with appropriate headers
-    return new Response(null, {
-      status: 302,
-      headers: {
-        'Location': signedUrl,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
+    try {
+      // Get the PDF from R2
+      const pdfObject = await r2Bucket.get('feed-the-fame.pdf');
+      
+      if (!pdfObject) {
+        console.error('PDF not found in R2 storage');
+        return new Response(
+          JSON.stringify({ error: 'PDF not found' }), 
+          { status: 404, headers: { 'Content-Type': 'application/json' } }
+        );
       }
-    });
+      
+      // Log successful download
+      console.log('PDF served successfully to:', tokenData.customerEmail);
+      
+      // Return the PDF with appropriate headers
+      return new Response(pdfObject.body, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="feed-the-fame.pdf"',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
+    } catch (r2Error) {
+      console.error('Error accessing R2 storage:', r2Error);
+      return new Response(
+        JSON.stringify({ error: 'Failed to retrieve PDF' }), 
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
   } catch (error: any) {
     console.error('Secure download error:', error);
