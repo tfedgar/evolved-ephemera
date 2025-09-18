@@ -38,14 +38,7 @@ content:
         required: true
         description: The main title of the blog post (used for SEO title tag)
         
-      - name: slug
-        label: URL Slug
-        type: string
-        required: true
-        description: URL-friendly version of the title (e.g., my-awesome-post)
-        pattern:
-          regex: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-          message: 'Slug must be lowercase letters, numbers, and hyphens only (e.g., my-awesome-post)'
+      # Note: slug is auto-generated from filename, no need to define it here
           
       - name: description
         label: Meta Description
