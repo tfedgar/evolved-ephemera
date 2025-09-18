@@ -1,0 +1,46 @@
+/*hide the publish button when we're on my sites or network admin*/
+body.my-sites-php #wp-admin-bar-publish-changes,
+body.network-admin #wp-admin-bar-publish-changes {
+	display: none;
+}
+
+#build-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	background: rgba(0, 0, 0, .5);
+	width: 100%;
+	height: 100%;
+}
+
+#build-modal .pop {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	background: #0073aa;
+	z-index: 1001;
+	text-align: center;
+	padding: 20px;
+}
+
+#build-modal .pop p {
+	color: #fff;
+	font-size: 14px;
+}
+
+#build-modal .pop p.close {
+	display: none;
+}
+
+#build-modal .pop span.anim {
+	background: url(../img/ripple.gif) no-repeat center center;
+	background-size: cover;
+	width: 200px;
+	height: 200px;
+	display: inline-block;	
+}
+
+.acf-postbox>.hndle .acf-hndle-cog { display: none !important; visibility: hidden }

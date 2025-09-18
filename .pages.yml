@@ -1,0 +1,307 @@
+# Pages CMS Configuration for Coach Edgar Blog
+# This file configures the CMS interface for managing blog content
+
+# Media configuration for handling images, videos, and other files
+media:
+  - name: blog-media
+    label: Blog Media
+    input: src/content/blog/media
+    output: /blog/media
+    categories: [image, video, document]
+  - name: general-media
+    label: General Media
+    input: public/images
+    output: /images
+    categories: [image]
+
+# Content types configuration
+content:
+  # Blog posts collection
+  - name: blog
+    label: Blog Posts
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    filename: '{year}-{month}-{day}-{slug}'
+    view:
+      fields: [title, publishDate, featured, author, excerpt]
+      primary: title
+      sort: [publishDate, title]
+      default_sort: publishDate
+      default_sort_direction: desc
+      search: [title, excerpt, content, tags]
+    fields:
+      # SEO and Meta Fields
+      - name: title
+        label: Title
+        type: string
+        required: true
+        description: The main title of the blog post (used for SEO title tag)
+        
+      - name: slug
+        label: URL Slug
+        type: string
+        required: true
+        description: URL-friendly version of the title (e.g., my-awesome-post)
+        pattern:
+          regex: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          message: 'Slug must be lowercase letters, numbers, and hyphens only (e.g., my-awesome-post)'
+          
+      - name: description
+        label: Meta Description
+        type: text
+        required: true
+        description: SEO meta description (150-160 characters recommended)
+        
+      - name: excerpt
+        label: Excerpt
+        type: text
+        required: true
+        description: Short summary shown on blog listing pages
+        
+      # Publishing Fields
+      - name: publishDate
+        label: Publish Date
+        type: date
+        required: true
+        default: '{now}'
+        
+      - name: featured
+        label: Featured Post
+        type: boolean
+        default: false
+        description: Mark as featured to highlight on blog homepage
+        
+      - name: draft
+        label: Draft
+        type: boolean
+        default: false
+        description: Keep as draft (won't be published)
+        
+      # Content Fields
+      - name: heroImage
+        label: Hero Image
+        type: image
+        description: Main image for the blog post
+        options:
+          media: blog-media
+          
+      - name: heroImageAlt
+        label: Hero Image Alt Text
+        type: string
+        description: Accessibility description for the hero image
+        
+      - name: author
+        label: Author
+        type: object
+        required: true
+        fields:
+          - name: name
+            label: Name
+            type: string
+            required: true
+            default: 'Coach Edgar'
+          - name: bio
+            label: Bio
+            type: text
+          - name: avatar
+            label: Avatar
+            type: image
+            options:
+              media: general-media
+              
+      # Categorization
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          choices:
+            - label: Training
+              value: training
+            - label: Nutrition
+              value: nutrition
+            - label: Recovery
+              value: recovery
+            - label: Mindset
+              value: mindset
+            - label: Client Success
+              value: client-success
+            - label: General Health
+              value: general-health
+              
+      - name: tags
+        label: Tags
+        type: string
+        list:
+          min: 1
+          max: 8
+        description: Add relevant tags for better content organization
+        
+      # Media Content
+      - name: gallery
+        label: Image Gallery
+        type: image
+        list: true
+        description: Additional images for the post
+        options:
+          media: blog-media
+          
+      - name: videos
+        label: Videos
+        type: object
+        list: true
+        description: Embedded videos (YouTube, Vimeo, etc.)
+        fields:
+          - name: title
+            label: Video Title
+            type: string
+            required: true
+          - name: url
+            label: Video URL
+            type: string
+            required: true
+            description: YouTube, Vimeo, or other video platform URL
+          - name: thumbnail
+            label: Custom Thumbnail
+            type: image
+            options:
+              media: blog-media
+              
+      # SEO Advanced
+      - name: seo
+        label: Advanced SEO
+        type: object
+        description: Advanced SEO settings (optional)
+        fields:
+          - name: canonicalUrl
+            label: Canonical URL
+            type: string
+            description: Override canonical URL if needed
+          - name: ogImage
+            label: Social Media Image
+            type: image
+            description: Custom image for social media sharing (defaults to hero image)
+            options:
+              media: blog-media
+          - name: ogTitle
+            label: Social Media Title
+            type: string
+            description: Override title for social media (defaults to post title)
+          - name: ogDescription
+            label: Social Media Description
+            type: text
+            description: Override description for social media (defaults to meta description)
+          - name: noindex
+            label: No Index
+            type: boolean
+            default: false
+            description: Prevent search engines from indexing this post
+            
+      # Content Body (Markdown)
+      - name: body
+        label: Content
+        type: rich-text
+        required: true
+        description: The main content of your blog post (supports Markdown)
+        
+      # Related Content
+      - name: relatedPosts
+        label: Related Posts
+        type: reference
+        list:
+          max: 3
+        description: Link to related blog posts
+        options:
+          collection: blog
+          value_field: slug
+          display_field: title
+
+  # Blog settings/configuration
+  - name: blog-config
+    label: Blog Configuration
+    type: file
+    path: src/content/config/blog.yml
+    fields:
+      - name: title
+        label: Blog Title
+        type: string
+        required: true
+        default: "Coach Edgar's Blog"
+        
+      - name: description
+        label: Blog Description
+        type: text
+        required: true
+        default: "Expert insights on training, nutrition, and performance optimization"
+        
+      - name: postsPerPage
+        label: Posts Per Page
+        type: number
+        required: true
+        default: 10
+        
+      - name: featuredPostsCount
+        label: Featured Posts Count
+        type: number
+        required: true
+        default: 3
+        description: Number of featured posts to show on blog homepage
+        
+      - name: categories
+        label: Category Settings
+        type: object
+        list: true
+        fields:
+          - name: slug
+            label: Category Slug
+            type: string
+            required: true
+          - name: name
+            label: Display Name
+            type: string
+            required: true
+          - name: description
+            label: Description
+            type: text
+          - name: color
+            label: Color
+            type: string
+            description: Hex color code for category styling
+
+# Reusable components
+components:
+  # Author component for reuse across different content types
+  author:
+    type: object
+    fields:
+      - name: name
+        label: Name
+        type: string
+        required: true
+      - name: bio
+        label: Bio
+        type: text
+      - name: avatar
+        label: Avatar Image
+        type: image
+        options:
+          media: general-media
+      - name: social
+        label: Social Links
+        type: object
+        fields:
+          - name: twitter
+            label: Twitter/X
+            type: string
+          - name: instagram
+            label: Instagram
+            type: string
+          - name: linkedin
+            label: LinkedIn
+            type: string
+
+# Global settings
+settings:
+  content:
+    merge: true

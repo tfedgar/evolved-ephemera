@@ -1,0 +1,30 @@
+title: "Coach Edgar's Blog"
+description: "Expert insights on training, nutrition, and performance optimization from Coach Edgar"
+postsPerPage: 10
+featuredPostsCount: 3
+
+categories:
+  - slug: training
+    name: Training
+    description: Workout routines, exercise techniques, and training methodologies
+    color: "#3B82F6"
+  - slug: nutrition
+    name: Nutrition
+    description: Diet strategies, meal planning, and nutritional guidance
+    color: "#10B981"
+  - slug: recovery
+    name: Recovery
+    description: Rest, sleep, and recovery optimization techniques
+    color: "#8B5CF6"
+  - slug: mindset
+    name: Mindset
+    description: Mental health, motivation, and psychological aspects of fitness
+    color: "#F59E0B"
+  - slug: client-success
+    name: Client Success
+    description: Success stories and transformations from coaching clients
+    color: "#EF4444"
+  - slug: general-health
+    name: General Health
+    description: Overall wellness and health optimization tips
+    color: "#06B6D4"

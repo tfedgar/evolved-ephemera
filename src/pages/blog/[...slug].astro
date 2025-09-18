@@ -1,0 +1,250 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.draft !== true;
+  });
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+// Category colors for styling
+const categoryColors = {
+  'training': 'bg-blue-100 text-blue-800',
+  'nutrition': 'bg-green-100 text-green-800',
+  'recovery': 'bg-purple-100 text-purple-800',
+  'mindset': 'bg-yellow-100 text-yellow-800',
+  'client-success': 'bg-red-100 text-red-800',
+  'general-health': 'bg-cyan-100 text-cyan-800'
+};
+
+// Generate structured data for the blog post
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "image": post.data.heroImage ? `https://coachedgar.com${post.data.heroImage}` : undefined,
+  "datePublished": post.data.publishDate.toISOString(),
+  "dateModified": post.data.publishDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": post.data.author.name,
+    "description": post.data.author.bio,
+    "image": post.data.author.avatar ? `https://coachedgar.com${post.data.author.avatar}` : undefined
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Coach Edgar",
+    "url": "https://coachedgar.com/"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://coachedgar.com/blog/${post.slug}/`
+  },
+  "keywords": post.data.tags.join(", "),
+  "articleSection": post.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())
+};
+---
+
+<Layout 
+  title={post.data.seo?.ogTitle || post.data.title}
+  description={post.data.seo?.ogDescription || post.data.description}
+  canonical={post.data.seo?.canonicalUrl || `https://coachedgar.com/blog/${post.slug}/`}
+  image={post.data.seo?.ogImage || post.data.heroImage}
+  noindex={post.data.seo?.noindex}
+>
+  <main class="min-h-screen bg-white">
+    <!-- Breadcrumb -->
+    <nav class="bg-gray-50 border-b">
+      <div class="max-w-4xl mx-auto px-4 py-3">
+        <ol class="flex items-center space-x-2 text-sm">
+          <li><a href="/" class="text-blue-600 hover:text-blue-800">Home</a></li>
+          <li class="text-gray-400">/</li>
+          <li><a href="/blog/" class="text-blue-600 hover:text-blue-800">Blog</a></li>
+          <li class="text-gray-400">/</li>
+          <li class="text-gray-600 truncate">{post.data.title}</li>
+        </ol>
+      </div>
+    </nav>
+
+    <article class="max-w-4xl mx-auto px-4 py-8">
+      <!-- Article Header -->
+      <header class="mb-8">
+        <div class="flex items-center gap-2 mb-4">
+          <span class={`px-3 py-1 rounded-full text-sm font-medium ${categoryColors[post.data.category] || 'bg-gray-100 text-gray-800'}`}>
+            {post.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+          </span>
+          <time 
+            datetime={post.data.publishDate.toISOString()}
+            class="text-gray-600 text-sm"
+          >
+            {new Date(post.data.publishDate).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+          {post.data.title}
+        </h1>
+
+        <p class="text-xl text-gray-600 mb-6 leading-relaxed">
+          {post.data.excerpt}
+        </p>
+
+        <!-- Author Info -->
+        <div class="flex items-center gap-4 pb-6 border-b border-gray-200">
+          {post.data.author.avatar && (
+            <img 
+              src={post.data.author.avatar} 
+              alt={post.data.author.name}
+              class="w-12 h-12 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <div class="font-medium text-gray-900">{post.data.author.name}</div>
+            {post.data.author.bio && (
+              <div class="text-sm text-gray-600">{post.data.author.bio}</div>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero Image -->
+      {post.data.heroImage && (
+        <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
+          <img 
+            src={post.data.heroImage} 
+            alt={post.data.heroImageAlt || post.data.title}
+            class="w-full aspect-video object-cover"
+          />
+        </div>
+      )}
+
+      <!-- Article Content -->
+      <div class="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic">
+        <Content />
+      </div>
+
+      <!-- Videos Section -->
+      {post.data.videos && post.data.videos.length > 0 && (
+        <section class="mt-12 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Related Videos</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            {post.data.videos.map((video) => (
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-2">{video.title}</h3>
+                <div class="aspect-video bg-gray-200 rounded-lg mb-2 flex items-center justify-center">
+                  <a 
+                    href={video.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="text-blue-600 hover:text-blue-800 font-medium"
+                  >
+                    Watch Video →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Gallery Section -->
+      {post.data.gallery && post.data.gallery.length > 0 && (
+        <section class="mt-12 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Gallery</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {post.data.gallery.map((image, index) => (
+              <img 
+                src={image} 
+                alt={`Gallery image ${index + 1}`}
+                class="w-full aspect-square object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Tags -->
+      {post.data.tags && post.data.tags.length > 0 && (
+        <section class="mt-12 mb-8">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
+          <div class="flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Navigation -->
+      <nav class="mt-12 pt-8 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <a 
+            href="/blog/" 
+            class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2"
+          >
+            ← Back to Blog
+          </a>
+          <div class="text-right">
+            <p class="text-sm text-gray-600 mb-1">Share this post</p>
+            <div class="flex gap-2">
+              <a 
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://coachedgar.com/blog/${post.slug}/`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-500 hover:text-blue-700"
+              >
+                Twitter
+              </a>
+              <span class="text-gray-400">|</span>
+              <a 
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://coachedgar.com/blog/${post.slug}/`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-700 hover:text-blue-900"
+              >
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </article>
+
+    <!-- Call to Action -->
+    <section class="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Fitness?</h2>
+        <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+          Get personalized coaching and take your training to the next level with expert guidance.
+        </p>
+        <a 
+          href="/pay/" 
+          class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+        >
+          Start Coaching Today
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</Layout>
