@@ -76,8 +76,8 @@ content:
             url: "http://localhost:4321/api/categories"
             method: "GET"
             results: "items"
-            value: "value"
-            label: "label"
+            value: "login"
+            label: "name"
             minlength: 0
           default: true
         
