@@ -75,9 +75,11 @@ content:
           fetch:
             url: "http://localhost:4321/api/categories"
             method: "GET"
+            results: "categories"
             value: "value"
             label: "label"
             minlength: 0
+          default: true
         
       # Content Fields
       - name: heroImage
