@@ -18,8 +18,6 @@ seo:
   ogDescription: "Separate fact from fiction with these common nutrition myths that could be holding back your fitness progress"
 ---
 
-# 5 Nutrition Myths That Are Sabotaging Your Results
-
 The fitness industry is full of misinformation, especially when it comes to nutrition. I've seen countless clients struggle because they believed these common myths. Let's set the record straight with science-based facts.
 
 ## Myth #1: "You Must Eat 6 Small Meals Per Day"

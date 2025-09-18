@@ -22,9 +22,9 @@ content:
     type: collection
     path: src/content/blog
     format: yaml-frontmatter
-    filename: '{year}-{month}-{day}-{slug}'
+    filename: '{year}-{month}-{day}-{primary}'
     view:
-      fields: [title, publishDate, featured, author, excerpt]
+      fields: [title, publishDate, featured, excerpt, "author.name", category]
       primary: title
       sort: [publishDate, title]
       default_sort: publishDate
