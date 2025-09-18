@@ -16,7 +16,7 @@ const blog = defineCollection({
       bio: z.string().optional(),
       avatar: z.string().optional(),
     }),
-    category: z.enum(['training', 'nutrition', 'recovery', 'mindset', 'client-success', 'general-health']),
+    category: z.string(),
     tags: z.array(z.string()),
     gallery: z.array(z.string()).optional(),
     videos: z.array(z.object({

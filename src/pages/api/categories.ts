@@ -2,6 +2,17 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    }
+  });
+}
+
 export async function GET() {
   try {
     // Read the blog.yml config file
@@ -26,7 +37,10 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
+        'Cache-Control': 'public, max-age=300', // Cache for 5 minutes
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
     });
   } catch (error) {
@@ -37,7 +51,10 @@ export async function GET() {
     }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
     });
   }
