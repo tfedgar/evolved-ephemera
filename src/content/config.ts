@@ -36,6 +36,24 @@ const blog = defineCollection({
   }),
 });
 
+// Define the config collection to prevent auto-generation warning
+const config = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    postsPerPage: z.number(),
+    featuredPostsCount: z.number(),
+    categories: z.array(z.object({
+      slug: z.string(),
+      name: z.string(),
+      description: z.string(),
+      color: z.string(),
+    })),
+  }),
+});
+
 export const collections = {
   blog,
+  config,
 };
