@@ -72,7 +72,13 @@ content:
         required: true
         options:
           creatable: true
-          values: [Training, Nutrition, Recovery, Mindset, Client Success, General Health]
+          fetch:
+            url: "http://localhost:4321/api/categories"
+            method: "GET"
+            results: "categories"
+            value: "value"
+            label: "label"
+            minlength: 0
         
       # Content Fields
       - name: heroImage

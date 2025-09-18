@@ -15,7 +15,7 @@ author:
   name: Coach Edgar
   bio: Expert personal trainer and performance optimization coach
   avatar: /images/coach.jpg
-category: Testing
+category: "recovery"
 tags:
   - muscle building
   - hypertrophy
