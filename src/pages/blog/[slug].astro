@@ -1,0 +1,576 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.draft !== true;
+  });
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { entry: post },
+  }));
+}
+
+type Props = {
+  entry: CollectionEntry<'blog'>;
+};
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Get all posts for navigation
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+// Find current post index and get previous/next posts
+const currentIndex = sortedPosts.findIndex(post => post.slug === entry.slug);
+const previousPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
+// Category colors for styling
+const categoryColors = {
+  'training': 'bg-blue-100 text-blue-800',
+  'nutrition': 'bg-green-100 text-green-800',
+  'recovery': 'bg-purple-100 text-purple-800',
+  'mindset': 'bg-yellow-100 text-yellow-800',
+  'client-success': 'bg-red-100 text-red-800',
+  'general-health': 'bg-cyan-100 text-cyan-800'
+};
+
+// Generate structured data for the blog post
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": entry.data.title,
+  "description": entry.data.description,
+  "image": entry.data.heroImage ? `https://coachedgar.com${entry.data.heroImage}` : undefined,
+  "datePublished": entry.data.publishDate.toISOString(),
+  "dateModified": entry.data.publishDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": entry.data.author.name,
+    "description": entry.data.author.bio,
+    "image": entry.data.author.avatar ? `https://coachedgar.com${entry.data.author.avatar}` : undefined
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Coach Edgar",
+    "url": "https://coachedgar.com/"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://coachedgar.com/blog/${entry.slug}/`
+  },
+  "keywords": entry.data.tags.join(", "),
+  "articleSection": entry.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())
+};
+---
+
+<Layout 
+  title={entry.data.seo?.ogTitle || entry.data.title}
+  description={entry.data.seo?.ogDescription || entry.data.description}
+  canonical={entry.data.seo?.canonicalUrl || `https://coachedgar.com/blog/${entry.slug}/`}
+  image={entry.data.seo?.ogImage || entry.data.heroImage}
+  noindex={entry.data.seo?.noindex}
+>
+  <Navigation />
+  <main class="min-h-screen bg-white pt-16">
+    <!-- Breadcrumb -->
+    <nav class="bg-gray-50 border-b">
+      <div class="max-w-4xl mx-auto px-4 py-3">
+        <ol class="flex items-center space-x-2 text-sm">
+          <li><a href="/" class="text-blue-600 hover:text-blue-800">Home</a></li>
+          <li class="text-gray-400">/</li>
+          <li><a href="/blog/" class="text-blue-600 hover:text-blue-800">Blog</a></li>
+          <li class="text-gray-400">/</li>
+          <li class="text-gray-600 truncate">{entry.data.title}</li>
+        </ol>
+      </div>
+    </nav>
+
+    <article class="max-w-4xl mx-auto px-4 py-8">
+      <!-- Article Header -->
+      <header class="mb-8">
+        <div class="flex items-center gap-2 mb-4">
+          <span class={`px-3 py-1 rounded-full text-sm font-medium ${categoryColors[entry.data.category] || 'bg-gray-100 text-gray-800'}`}>
+            {entry.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+          </span>
+          <time 
+            datetime={entry.data.publishDate.toISOString()}
+            class="text-gray-600 text-sm"
+          >
+            {new Date(entry.data.publishDate).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+          {entry.data.title}
+        </h1>
+
+        <p class="text-xl text-gray-600 mb-6 leading-relaxed">
+          {entry.data.excerpt}
+        </p>
+      </header>
+
+      <!-- Hero Image -->
+      {entry.data.heroImage && (
+        <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
+          <img 
+            src={entry.data.heroImage} 
+            alt={entry.data.heroImageAlt || entry.data.title}
+            class="w-full aspect-video object-cover"
+          />
+        </div>
+      )}
+
+      <!-- Article Content -->
+      <div class="blog-content">
+        <Content />
+      </div>
+
+      <!-- Videos Section -->
+      {entry.data.videos && entry.data.videos.length > 0 && (
+        <section class="mt-12 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Related Videos</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            {entry.data.videos.map((video) => (
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-2">{video.title}</h3>
+                <div class="aspect-video bg-gray-200 rounded-lg mb-2 flex items-center justify-center">
+                  <a 
+                    href={video.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="text-blue-600 hover:text-blue-800 font-medium"
+                  >
+                    Watch Video →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Gallery Section -->
+      {entry.data.gallery && entry.data.gallery.length > 0 && (
+        <section class="mt-12 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Gallery</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {entry.data.gallery.map((image, index) => (
+              <img 
+                src={image} 
+                alt={`Gallery image ${index + 1}`}
+                class="w-full aspect-square object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Share Post -->
+      <section class="mt-12 mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Share Post</h3>
+        <div class="flex gap-4">
+          <a 
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(`https://coachedgar.com/blog/${entry.slug}/`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+            title="Share on Twitter"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span class="text-sm font-medium">Twitter</span>
+          </a>
+          <a 
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://coachedgar.com/blog/${entry.slug}/`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+            title="Share on LinkedIn"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            <span class="text-sm font-medium">LinkedIn</span>
+          </a>
+          <button 
+            onclick="navigator.share({title: '${entry.data.title}', url: 'https://coachedgar.com/blog/${entry.slug}/'})"
+            class="flex items-center gap-2 px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            title="Share via native share"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+            </svg>
+            <span class="text-sm font-medium">Share</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Tags -->
+      {entry.data.tags && entry.data.tags.length > 0 && (
+        <section class="mt-8 mb-8">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
+          <div class="flex flex-wrap gap-2">
+            {entry.data.tags.map((tag) => (
+              <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Author Info -->
+      <div class="flex items-center gap-4 pb-6 mb-8">
+        {entry.data.author.avatar && (
+          <img 
+            src={entry.data.author.avatar} 
+            alt={entry.data.author.name}
+            class="w-12 h-12 rounded-full object-cover"
+          />
+        )}
+        <div>
+          <div class="font-medium text-gray-900">{entry.data.author.name}</div>
+          {entry.data.author.bio && (
+            <div class="text-sm text-gray-600">{entry.data.author.bio}</div>
+          )}
+        </div>
+      </div>
+
+      <!-- Post Navigation -->
+      <nav class="mt-12 pt-8 border-t border-gray-200">
+        <!-- Mobile Layout -->
+        <div class="block md:hidden">
+          <!-- Navigation Links - Mobile -->
+          <div class="flex justify-between items-center">
+            <div>
+              {previousPost ? (
+                <a 
+                  href={`/blog/${previousPost.slug}/`}
+                  class="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center gap-1"
+                >
+                  ← Previous
+                </a>
+              ) : (
+                <a 
+                  href="/blog/" 
+                  class="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center gap-1"
+                >
+                  ← Back to Blog
+                </a>
+              )}
+            </div>
+            <div>
+              {nextPost ? (
+                <a 
+                  href={`/blog/${nextPost.slug}/`}
+                  class="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center gap-1"
+                >
+                  Next →
+                </a>
+              ) : (
+                <a 
+                  href="/blog/" 
+                  class="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center gap-1"
+                >
+                  Back to Blog →
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Layout -->
+        <div class="hidden md:grid md:grid-cols-3 gap-6 items-center">
+          <!-- Previous Post -->
+          <div class="text-left">
+            {previousPost ? (
+              <a 
+                href={`/blog/${previousPost.slug}/`}
+                class="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2"
+              >
+                ← Previous Post
+              </a>
+            ) : (
+              <a 
+                href="/blog/" 
+                class="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2"
+              >
+                ← Back to Blog
+              </a>
+            )}
+          </div>
+
+          <!-- Center spacer for desktop -->
+          <div></div>
+
+          <!-- Next Post -->
+          <div class="text-right">
+            {nextPost ? (
+              <a 
+                href={`/blog/${nextPost.slug}/`}
+                class="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2 justify-end"
+              >
+                Next Post →
+              </a>
+            ) : (
+              <a 
+                href="/blog/" 
+                class="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2 justify-end"
+              >
+                Back to Blog →
+              </a>
+            )}
+          </div>
+        </div>
+      </nav>
+
+    </article>
+
+    <!-- Call to Action - Full Width -->
+    <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-16">
+      <div class="max-w-6xl mx-auto px-8 text-center">
+        <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Fitness?</h2>
+        <p class="text-xl opacity-90 mb-8 max-w-4xl mx-auto">
+          Get personalized coaching and take your training to the next level with expert guidance.
+        </p>
+        <Button href="/pay/" variant="cta" size="md">
+          Start Coaching Today
+        </Button>
+      </div>
+    </section>
+
+  <article>
+
+  </main>
+
+  <Footer />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</Layout>
+
+<style is:global>
+  /* Reset all margins and apply proper spacing */
+  .blog-content * {
+    margin: 0 !important;
+  }
+
+  .blog-content {
+    color: #374151 !important;
+    line-height: 1.6 !important;
+    font-size: 1rem !important;
+  }
+
+  /* Headers with proper spacing */
+  .blog-content h1,
+  .blog-content h2,
+  .blog-content h3,
+  .blog-content h4,
+  .blog-content h5,
+  .blog-content h6 {
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .blog-content h1:first-child,
+  .blog-content h2:first-child,
+  .blog-content h3:first-child,
+  .blog-content h4:first-child,
+  .blog-content h5:first-child,
+  .blog-content h6:first-child {
+    margin-top: 0 !important;
+  }
+
+  .blog-content h1 {
+    font-size: 1.875rem !important;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content h1 {
+      font-size: 2.25rem !important;
+    }
+  }
+
+  .blog-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content h2 {
+      font-size: 1.875rem !important;
+    }
+  }
+
+  .blog-content h3 {
+    font-size: 1.25rem !important;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content h3 {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  .blog-content h4 {
+    font-size: 1.125rem !important;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content h4 {
+      font-size: 1.25rem !important;
+    }
+  }
+
+  /* Paragraphs with proper spacing */
+  .blog-content p {
+    margin-bottom: 1.5rem !important;
+    margin-top: 0 !important;
+    color: #374151 !important;
+    line-height: 1.6 !important;
+    font-size: 1rem !important;
+  }
+
+  /* Lists with proper spacing */
+  .blog-content ul,
+  .blog-content ol {
+    margin-top: 0 !important;
+    margin-bottom: 1.5rem !important;
+    padding-left: 1.5rem !important;
+  }
+
+  .blog-content ul {
+    list-style-type: disc !important;
+  }
+
+  .blog-content ol {
+    list-style-type: decimal !important;
+  }
+
+  .blog-content li {
+    margin-bottom: 0.25rem !important;
+    margin-top: 0 !important;
+    color: #374151 !important;
+    line-height: 1.6 !important;
+    font-size: 1rem !important;
+  }
+
+  .blog-content li:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .blog-content li > ul,
+  .blog-content li > ol {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Text formatting */
+  .blog-content strong {
+    font-weight: 700 !important;
+    color: #111827 !important;
+  }
+
+  .blog-content em {
+    font-style: italic !important;
+  }
+
+  .blog-content a {
+    color: #059669 !important;
+    text-decoration: underline !important;
+  }
+
+  .blog-content a:hover {
+    color: #047857 !important;
+  }
+
+  /* Blockquotes */
+  .blog-content blockquote {
+    border-left: 4px solid #059669 !important;
+    background-color: #ecfdf5 !important;
+    padding: 1rem 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    font-style: italic !important;
+    color: #1f2937 !important;
+  }
+
+  /* Code */
+  .blog-content code {
+    background-color: #f3f4f6 !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 0.25rem !important;
+    font-size: 0.875rem !important;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace !important;
+  }
+
+  .blog-content pre {
+    background-color: #111827 !important;
+    color: #f3f4f6 !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+    overflow-x: auto !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  .blog-content pre code {
+    background-color: transparent !important;
+    padding: 0 !important;
+  }
+
+  /* Tables */
+  .blog-content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 1px solid #d1d5db !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  .blog-content th,
+  .blog-content td {
+    border: 1px solid #d1d5db !important;
+    padding: 1rem !important;
+    text-align: left !important;
+  }
+
+  .blog-content th {
+    background-color: #f3f4f6 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Horizontal rules */
+  .blog-content hr {
+    border-color: #d1d5db !important;
+    margin: 2rem 0 !important;
+  }
+
+  /* Images */
+  .blog-content img {
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+    margin: 1.5rem 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+</style>

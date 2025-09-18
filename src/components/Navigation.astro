@@ -1,5 +1,5 @@
 ---
-// Navigation component
+import Button from './Button.astro';
 ---
 
 <!-- Navigation Header -->
@@ -20,11 +20,9 @@
       
       <!-- CTA Button -->
       <div class="hidden md:flex items-center">
-        <a href="/pay" class="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white px-8 py-3 font-bold tracking-wide capitalize text-sm border-2 border-slate-700 hover:border-slate-500 transition-all duration-300 hover:shadow-2xl group overflow-hidden">
-          <span class="relative z-10 text-white group-hover:text-white">Start Training</span>
-          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
-        </a>
+        <Button href="/pay" variant="primary" size="md">
+          Start Training
+        </Button>
       </div>
       
       <div class="md:hidden">
@@ -49,10 +47,9 @@
         
         <!-- Mobile CTA Button -->
         <div class="pt-2 border-t border-slate-200 mt-2">
-          <a href="/pay" class="block w-full relative bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-4 font-bold tracking-wide capitalize text-center border-2 border-slate-700 hover:border-slate-500 transition-all duration-300 group overflow-hidden">
-            <span class="relative z-10 text-white group-hover:text-white">Start Training</span>
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </a>
+          <Button href="/pay" variant="primary" size="md" fullWidth={true}>
+            Start Training
+          </Button>
         </div>
       </div>
     </div>

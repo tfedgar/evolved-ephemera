@@ -1,49 +1,81 @@
 ---
 export interface Props {
-  href: string;
-  variant?: 'primary' | 'secondary';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'primary' | 'secondary' | 'cta' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   className?: string;
-  textColor?: string;
+  disabled?: boolean;
 }
 
 const { 
   href, 
+  type = 'button',
   variant = 'primary', 
   size = 'md', 
   fullWidth = false,
   className = '',
-  textColor = ''
+  disabled = false
 } = Astro.props;
 
-// Base classes
-const baseClasses = "inline-block font-bold text-center transition-all duration-300 shadow-lg relative transform button-component capitalize";
+// Base classes - consistent across all buttons
+const baseClasses = "relative inline-block font-bold text-center transition-all duration-300 shadow-lg transform button-component capitalize tracking-wide border-2 overflow-hidden group";
 
 // Variant classes
 const variantClasses = {
-  primary: "bg-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden group",
-  secondary: "bg-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden group"
+  primary: "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-slate-700 hover:border-slate-500 hover:shadow-2xl",
+  secondary: "bg-gradient-to-r from-gray-600 to-gray-500 text-white border-gray-500 hover:border-gray-400 hover:shadow-2xl",
+  cta: "bg-gradient-to-r from-emerald-600 to-emerald-500 text-white border-emerald-500 hover:border-emerald-400 hover:shadow-2xl",
+  outline: "bg-transparent text-emerald-600 border-emerald-600 hover:bg-emerald-600 hover:text-white hover:shadow-2xl"
 };
 
 // Size classes
 const sizeClasses = {
-  sm: "px-6 py-3 text-base",
-  md: "px-8 py-4 text-lg",
-  lg: "px-12 py-6 text-xl"
+  sm: "px-6 py-3 text-sm",
+  md: "px-8 py-3 text-sm", 
+  lg: "px-10 py-4 text-base"
 };
 
 // Width classes
 const widthClasses = fullWidth ? "w-full" : "w-auto";
 
 // Combine all classes
-const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${widthClasses} ${textColor} ${className}`;
+const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${widthClasses} ${className}`;
+
+// Generate hover overlay based on variant
+const getHoverOverlay = (variant: string) => {
+  switch (variant) {
+    case 'primary':
+      return 'from-emerald-600 to-emerald-500';
+    case 'secondary':
+      return 'from-gray-500 to-gray-400';
+    case 'cta':
+      return 'from-emerald-500 to-emerald-400';
+    case 'outline':
+      return 'from-emerald-600 to-emerald-500';
+    default:
+      return 'from-emerald-600 to-emerald-500';
+  }
+};
+
+const hoverOverlay = getHoverOverlay(variant);
 ---
 
-<a href={href} class={buttonClasses}>
-  <span class="relative z-10">
-    <slot />
-  </span>
-  <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-  <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
-</a>
+{href ? (
+  <a href={href} class={buttonClasses} aria-disabled={disabled}>
+    <span class="relative z-10 text-white group-hover:text-white">
+      <slot />
+    </span>
+    <div class={`absolute inset-0 bg-gradient-to-r ${hoverOverlay} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
+  </a>
+) : (
+  <button type={type} class={buttonClasses} disabled={disabled}>
+    <span class="relative z-10 text-white group-hover:text-white">
+      <slot />
+    </span>
+    <div class={`absolute inset-0 bg-gradient-to-r ${hoverOverlay} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-300 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
+  </button>
+)}

@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { Image } from 'astro:assets';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
 
 // Get all blog posts, filter out drafts, and sort by date
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -12,8 +13,8 @@ const sortedPosts = allPosts.sort((a, b) =>
   new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
 );
 
-const featuredPosts = sortedPosts.filter(post => post.data.featured);
-const regularPosts = sortedPosts.filter(post => !post.data.featured);
+const latestPost = sortedPosts[0];
+const remainingPosts = sortedPosts.slice(1);
 
 // Category colors for styling
 const categoryColors = {
@@ -31,150 +32,145 @@ const categoryColors = {
   description="Expert insights on training, nutrition, recovery, and performance optimization from Coach Edgar. Get actionable advice to transform your fitness journey."
   canonical="https://coachedgar.com/blog/"
 >
-  <main class="min-h-screen bg-gray-50">
+  <Navigation />
+  <main class="min-h-screen bg-gray-50 pt-16">
     <!-- Blog Header -->
-    <section class="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+    <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-20">
       <div class="max-w-4xl mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">Coach Edgar's Blog</h1>
-        <p class="text-xl opacity-90 max-w-2xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight !mt-0">Coach Edgar's Blog</h1>
+        <p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto leading-relaxed">
           Expert insights on training, nutrition, recovery, and performance optimization
         </p>
       </div>
     </section>
 
     <div class="max-w-6xl mx-auto px-4 py-12">
-      <!-- Featured Posts Section -->
-      {featuredPosts.length > 0 && (
+      <!-- Latest Post Hero Section -->
+      {latestPost && (
         <section class="mb-16">
-          <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured Posts</h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredPosts.slice(0, 3).map((post) => (
-              <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                {post.data.heroImage && (
-                  <div class="aspect-video overflow-hidden">
+          <a href={`/blog/${latestPost.slug}/`} class="block group">
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div class="md:flex">
+                {latestPost.data.heroImage && (
+                  <div class="md:w-2/5 aspect-video md:aspect-square overflow-hidden">
                     <img 
-                      src={post.data.heroImage} 
-                      alt={post.data.heroImageAlt || post.data.title}
-                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
+                      src={latestPost.data.heroImage} 
+                      alt={latestPost.data.heroImageAlt || latestPost.data.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="eager"
                     />
                   </div>
                 )}
-                <div class="p-6">
-                  <div class="flex items-center gap-2 mb-3">
-                    <span class={`px-3 py-1 rounded-full text-sm font-medium ${categoryColors[post.data.category] || 'bg-gray-100 text-gray-800'}`}>
-                      {post.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                <div class="p-8 md:w-3/5">
+                  <div class="flex items-center gap-2 mb-4">
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-sm font-medium rounded-full">
+                      Latest Post
+                    </span>
+                    <span class={`px-3 py-1 rounded-full text-sm font-medium ${categoryColors[latestPost.data.category] || 'bg-gray-100 text-gray-800'}`}>
+                      {latestPost.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </span>
                     <span class="text-sm text-gray-500">
-                      {new Date(post.data.publishDate).toLocaleDateString('en-US', { 
+                      {new Date(latestPost.data.publishDate).toLocaleDateString('en-US', { 
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric' 
                       })}
                     </span>
                   </div>
-                  <h3 class="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600">
-                    <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
-                  </h3>
-                  <p class="text-gray-600 mb-4 line-clamp-3">{post.data.excerpt}</p>
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      {post.data.author.avatar && (
-                        <img 
-                          src={post.data.author.avatar} 
-                          alt={post.data.author.name}
-                          class="w-8 h-8 rounded-full object-cover"
-                        />
-                      )}
-                      <span class="text-sm text-gray-700">{post.data.author.name}</span>
+                  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
+                    {latestPost.data.title}
+                  </h2>
+                  <p class="text-gray-600 text-lg mb-6 leading-relaxed">{latestPost.data.excerpt}</p>
+                  <div class="flex flex-wrap gap-2 mb-6">
+                    {latestPost.data.tags.slice(0, 4).map((tag) => (
+                      <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-md">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div class="flex justify-end">
+                    <div class="text-emerald-600 group-hover:text-emerald-700 font-medium flex items-center gap-2">
+                      Read Article
+                      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
                     </div>
-                    <a 
-                      href={`/blog/${post.slug}/`}
-                      class="text-blue-600 hover:text-blue-800 font-medium text-sm"
-                    >
-                      Read More →
-                    </a>
                   </div>
                 </div>
-              </article>
+              </div>
+            </article>
+          </a>
+        </section>
+      )}
+
+      <!-- Recent Posts Section -->
+      {remainingPosts.length > 0 && (
+        <section>
+          <h2 class="text-3xl font-bold text-gray-900 mb-8">Recent Posts</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {remainingPosts.map((post) => (
+              <a href={`/blog/${post.slug}/`} class="block group">
+                <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+                  {post.data.heroImage && (
+                    <div class="aspect-video overflow-hidden">
+                      <img 
+                        src={post.data.heroImage} 
+                        alt={post.data.heroImageAlt || post.data.title}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div class="p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class={`px-3 py-1 rounded-full text-sm font-medium ${categoryColors[post.data.category] || 'bg-gray-100 text-gray-800'}`}>
+                        {post.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </span>
+                      <span class="text-sm text-gray-500">
+                        {new Date(post.data.publishDate).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}
+                      </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors line-clamp-2">
+                      {post.data.title}
+                    </h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed line-clamp-3">{post.data.excerpt}</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                      {post.data.tags.slice(0, 2).map((tag) => (
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div class="flex justify-end">
+                      <div class="text-emerald-600 group-hover:text-emerald-700 font-medium flex items-center gap-1">
+                        Read More
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </a>
             ))}
           </div>
         </section>
       )}
 
-      <!-- All Posts Section -->
-      <section>
-        <h2 class="text-3xl font-bold text-gray-900 mb-8">All Posts</h2>
-        <div class="grid gap-8">
-          {regularPosts.map((post) => (
-            <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div class="md:flex">
-                {post.data.heroImage && (
-                  <div class="md:w-1/3 aspect-video md:aspect-square overflow-hidden">
-                    <img 
-                      src={post.data.heroImage} 
-                      alt={post.data.heroImageAlt || post.data.title}
-                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <div class="p-6 md:w-2/3">
-                  <div class="flex items-center gap-2 mb-3">
-                    <span class={`px-3 py-1 rounded-full text-sm font-medium ${categoryColors[post.data.category] || 'bg-gray-100 text-gray-800'}`}>
-                      {post.data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                    </span>
-                    <span class="text-sm text-gray-500">
-                      {new Date(post.data.publishDate).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
-                    </span>
-                  </div>
-                  <h3 class="text-2xl font-bold text-gray-900 mb-3 hover:text-blue-600">
-                    <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
-                  </h3>
-                  <p class="text-gray-600 mb-4">{post.data.excerpt}</p>
-                  <div class="flex flex-wrap gap-2 mb-4">
-                    {post.data.tags.slice(0, 3).map((tag) => (
-                      <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      {post.data.author.avatar && (
-                        <img 
-                          src={post.data.author.avatar} 
-                          alt={post.data.author.name}
-                          class="w-8 h-8 rounded-full object-cover"
-                        />
-                      )}
-                      <span class="text-sm text-gray-700">{post.data.author.name}</span>
-                    </div>
-                    <a 
-                      href={`/blog/${post.slug}/`}
-                      class="text-blue-600 hover:text-blue-800 font-medium"
-                    >
-                      Read More →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
+      {sortedPosts.length === 0 && (
+        <div class="text-center py-12">
+          <p class="text-gray-600 text-lg">No blog posts found. Check back soon for new content!</p>
         </div>
-
-        {sortedPosts.length === 0 && (
-          <div class="text-center py-12">
-            <p class="text-gray-600 text-lg">No blog posts found. Check back soon for new content!</p>
-          </div>
-        )}
-      </section>
+      )}
+    </div>
     </div>
   </main>
+
+  <Footer />
 
   <!-- Blog Schema -->
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -197,6 +193,13 @@ const categoryColors = {
 </Layout>
 
 <style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
