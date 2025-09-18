@@ -212,7 +212,7 @@ const structuredData = {
             <span class="text-sm font-medium">LinkedIn</span>
           </a>
           <button 
-            onclick="navigator.share({title: '${entry.data.title}', url: 'https://coachedgar.com/blog/${entry.slug}/'})"
+            onclick={`navigator.share({title: '${entry.data.title}', url: 'https://coachedgar.com/blog/${entry.slug}/'})`}
             class="flex items-center gap-2 px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
             title="Share via native share"
           >
