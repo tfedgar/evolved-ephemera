@@ -1,7 +1,7 @@
 ---
 title: Test Post
 publishDate: 2024-01-20
-category: training
+category: Test 123
 excerpt: This is a test post
 author:
   name: Coach Edgar
