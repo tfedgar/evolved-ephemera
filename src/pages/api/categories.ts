@@ -29,7 +29,9 @@ export async function GET() {
       label: category.name
     }));
     
-    return new Response(JSON.stringify(formattedCategories), {
+    return new Response(JSON.stringify({
+      items: formattedCategories
+    }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
