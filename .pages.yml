@@ -71,19 +71,20 @@ content:
         type: select
         required: true
         options:
-          choices:
-            - label: Training
-              value: training
-            - label: Nutrition
-              value: nutrition
-            - label: Recovery
-              value: recovery
-            - label: Mindset
-              value: mindset
-            - label: Client Success
-              value: client-success
-            - label: General Health
-              value: general-health
+          creatable: true
+          values:
+            - value: training
+              label: Training
+            - value: nutrition
+              label: Nutrition
+            - value: recovery
+              label: Recovery
+            - value: mindset
+              label: Mindset
+            - value: client-success
+              label: Client Success
+            - value: general-health
+              label: General Health
         
       # Content Fields
       - name: heroImage
