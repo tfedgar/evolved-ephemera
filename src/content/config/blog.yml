@@ -28,6 +28,6 @@ categories:
     name: General Health
     description: Overall wellness and health optimization tips
     color: "#06B6D4"
-  - slug: test
-    name: test
-    description: test cat
+  - slug: another test
+    name: another test
+    description: another test
