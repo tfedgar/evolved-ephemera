@@ -26,14 +26,10 @@ export async function GET() {
     // Format categories for PagesCMS select field
     const formattedCategories = categories.map((category: any) => ({
       value: category.slug,
-      label: category.name,
-      description: category.description,
-      color: category.color
+      label: category.name
     }));
     
-    return new Response(JSON.stringify({
-      categories: formattedCategories
-    }), {
+    return new Response(JSON.stringify(formattedCategories), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
