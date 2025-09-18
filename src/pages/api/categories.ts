@@ -23,11 +23,10 @@ export async function GET() {
     // Extract categories and format for PagesCMS
     const categories = config.categories || [];
     
-    // Format categories for PagesCMS select field - using GitHub API format
+    // Format categories for PagesCMS select field - using simple format
     const formattedCategories = categories.map((category: any) => ({
-      id: category.slug,
-      name: category.name,
-      login: category.slug
+      value: category.slug,
+      label: category.name
     }));
     
     return new Response(JSON.stringify({
