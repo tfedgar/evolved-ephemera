@@ -31,9 +31,7 @@ export async function GET() {
       color: category.color
     }));
     
-    return new Response(JSON.stringify({
-      categories: formattedCategories
-    }), {
+    return new Response(JSON.stringify(formattedCategories), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
