@@ -22,14 +22,11 @@ content:
     type: collection
     path: src/content/blog
     format: yaml-frontmatter
-    filename: '{year}-{month}-{day}-{primary}'
+    filename: '{year}-{month}-{day}-{title}'
     view:
-      fields: [title, publishDate, featured, excerpt, "author.name", category]
+      fields: [title, publishDate, featured, excerpt]
       primary: title
       sort: [publishDate, title]
-      default_sort: publishDate
-      default_sort_direction: desc
-      search: [title, excerpt, content, tags]
     fields:
       # SEO and Meta Fields
       - name: title
