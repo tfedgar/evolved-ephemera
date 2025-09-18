@@ -66,6 +66,25 @@ content:
         default: false
         description: Keep as draft (won't be published)
         
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          choices:
+            - label: Training
+              value: training
+            - label: Nutrition
+              value: nutrition
+            - label: Recovery
+              value: recovery
+            - label: Mindset
+              value: mindset
+            - label: Client Success
+              value: client-success
+            - label: General Health
+              value: general-health
+        
       # Content Fields
       - name: heroImage
         label: Hero Image
@@ -99,25 +118,6 @@ content:
               media: general-media
               
       # Categorization
-      - name: category
-        label: Category
-        type: select
-        required: true
-        options:
-          choices:
-            - label: Training
-              value: training
-            - label: Nutrition
-              value: nutrition
-            - label: Recovery
-              value: recovery
-            - label: Mindset
-              value: mindset
-            - label: Client Success
-              value: client-success
-            - label: General Health
-              value: general-health
-              
       - name: tags
         label: Tags
         type: string
