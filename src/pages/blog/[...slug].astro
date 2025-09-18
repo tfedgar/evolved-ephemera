@@ -65,7 +65,6 @@ const structuredData = {
   description={post.data.seo?.ogDescription || post.data.description}
   canonical={post.data.seo?.canonicalUrl || `https://coachedgar.com/blog/${post.slug}/`}
   image={post.data.seo?.ogImage || post.data.heroImage}
-  noindex={post.data.seo?.noindex}
 >
   <Navigation />
   <main class="min-h-screen bg-white pt-16">

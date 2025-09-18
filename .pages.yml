@@ -24,7 +24,7 @@ content:
     format: yaml-frontmatter
     filename: '{year}-{month}-{day}-{title}'
     view:
-      fields: [title, publishDate, featured, excerpt]
+      fields: [title, publishDate, featured, excerpt, category]
       primary: title
       sort: [publishDate, title]
     fields:
@@ -123,6 +123,7 @@ content:
       - name: tags
         label: Tags
         type: string
+        list: true
         list:
           min: 1
           max: 8
@@ -199,12 +200,13 @@ content:
       - name: relatedPosts
         label: Related Posts
         type: reference
+        list: true
         list:
           max: 3
         description: Link to related blog posts
         options:
           collection: blog
-          value_field: slug
+          value_field: title
           display_field: title
 
   # Blog settings/configuration
