@@ -4,6 +4,10 @@ dist/
 # generated types
 .astro/
 
+# local Python asset-tool caches
+__pycache__/
+*.py[cod]
+
 # dependencies
 node_modules/
 
@@ -15,7 +19,13 @@ pnpm-debug.log*
 
 # environment variables
 .env
-.env.production
+.env.*
+.dev.vars
+.dev.vars.*
+!.env.example
+!.env.*.example
+!.dev.vars.example
+!.dev.vars.*.example
 
 # macOS-specific files
 .DS_Store

@@ -1,0 +1,73 @@
+---
+import { COACHING_PLANS } from '../lib/coaching-plans';
+const usd = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+---
+
+<section class="pricing-section site-section" id="programs" aria-labelledby="pricing-heading">
+  <div class="site-container">
+    <div class="pricing-heading">
+      <div><span class="section-kicker">Your commitment</span><h2 id="pricing-heading">Make time for<br />a longer view.</h2></div>
+      <p class="section-lead">The same personal coaching and support, whichever commitment you choose. A longer initial commitment lowers the monthly rate.</p>
+    </div>
+    <div class="program-table">
+      {COACHING_PLANS.map((plan) => (
+        <article class:list={['program', { 'program--longer': plan.months === 6 }]}>
+          <div class="program-length"><h3>{plan.months} months</h3><span>minimum commitment</span></div>
+          <p class="program-price"><span class="price-amount">${usd.format(plan.monthlyUsd)}</span><span class="price-interval">USD / month</span></p>
+          <p class="program-total">${usd.format(plan.monthlyUsd * plan.months)} USD total minimum commitment</p>
+          <p class="program-saving">{plan.months === 3 ? 'A focused place to begin.' : `Save $${usd.format((500 - plan.monthlyUsd) * plan.months)} over ${plan.months} months versus $500/month.`}</p>
+          <a class="site-button site-button--outline" href={`/?program=${plan.id}#contact`} data-inquiry-program={plan.id}>Request a call</a>
+        </article>
+      ))}
+    </div>
+    <aside class="coaching-guarantee" aria-labelledby="guarantee-heading">
+      <h3 id="guarantee-heading">Your first month, backed by a 14-day money-back guarantee.</h3>
+      <p>New coaching clients can email <a href="mailto:info@coachedgar.com">info@coachedgar.com</a> within 14 calendar days of their agreed coaching start date for a full refund of the first monthly coaching payment and cancellation of the remaining commitment. Available once per person. Separately billed clinic, testing and medication costs are excluded. <a href="/terms#coaching-guarantee">Read the guarantee terms</a>.</p>
+    </aside>
+    <div class="pricing-details">
+      <p><strong>Included at every rate</strong> Personal goal-setting, a practical plan, weekly check-ins, adjustments and direct support through an agreed channel, with specialist education where relevant to your goals.</p>
+      <p>Billed monthly in USD, with the introductory guarantee above as an exception to the minimum commitment. After your minimum commitment, coaching continues monthly at the same rate until canceled. We'll agree cancellation and refund terms outside the guarantee before enrollment. Any applicable tax will be shown at checkout.</p>
+    </div>
+    <p class="pricing-conversation">Start with a conversation about fit. We can discuss your initial commitment together.</p>
+  </div>
+</section>
+
+<style>
+  .pricing-section { background: var(--color-page); }
+  .pricing-heading { display: grid; grid-template-columns: 1.1fr 1fr; gap: 100px; align-items: end; margin-bottom: 56px; }
+  .pricing-heading .section-lead { max-width: 450px; }
+  .program-table { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--color-white); border: 1px solid var(--color-line); border-radius: 8px; overflow: hidden; }
+  .program { padding: 35px 31px 31px; }
+  .program + .program { border-left: 1px solid var(--color-line); }
+  .program--longer { background: var(--color-panel); }
+  .program-length h3 { font-size: 1.35rem; }
+  .program-length > span { color: var(--color-muted); font-size: 0.875rem; }
+  .program-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-top: 30px; }
+  .price-amount { font-size: 3.35rem; font-weight: 500; letter-spacing: -0.035em; line-height: 1.15; }
+  .price-interval { color: var(--color-muted); font-size: 0.875rem; }
+  .program-total { margin-top: 15px; font-size: 0.875rem; }
+  .program-saving { min-height: 46px; margin-top: 18px; color: var(--color-muted); font-size: 0.875rem; line-height: 1.6; max-width: 230px; }
+  .program .site-button { margin-top: 27px; width: 100%; min-height: 48px; font-size: 0.9rem; }
+  .program--longer .site-button { border-color: var(--color-action); color: var(--color-action); }
+  .program--longer .site-button:hover { background: var(--color-selection); }
+  .coaching-guarantee { margin-top: 24px; padding: 25px 29px; border: 1px solid var(--color-action); border-radius: 8px; background: var(--color-panel); }
+  .coaching-guarantee h3 { font-size: 1.15rem; font-weight: 500; letter-spacing: -.02em; line-height: 1.4; }
+  .coaching-guarantee p { max-width: 900px; margin-top: 10px; color: var(--color-muted); font-size: .925rem; line-height: 1.75; }
+  .coaching-guarantee a { color: var(--color-action); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+  .pricing-details { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 29px; }
+  .pricing-details p { color: var(--color-muted); font-size: 0.875rem; line-height: 1.75; }
+  .pricing-details strong { display: block; margin-bottom: 5px; color: var(--color-ink); font-weight: 500; }
+  .pricing-conversation { text-align: center; font-size: 0.9rem; margin-top: 38px; }
+  @media (max-width: 1050px) { .pricing-heading { gap: 50px; } .program { padding: 28px 23px; } .price-amount { font-size: 3rem; } }
+  @media (max-width: 760px) {
+    .pricing-heading { grid-template-columns: 1fr; gap: 25px; margin-bottom: 36px; }
+    .program-table { grid-template-columns: 1fr; }
+    .program { padding: 29px; }
+    .program + .program { border-left: 0; border-top: 1px solid var(--color-line); }
+    .program-price { margin-top: 20px; }
+    .program-saving { min-height: 0; max-width: none; margin-top: 12px; }
+    .program .site-button { max-width: 300px; margin-top: 22px; }
+    .pricing-details { grid-template-columns: 1fr; gap: 20px; }
+    .pricing-conversation { text-align: left; margin-top: 26px; }
+  }
+</style>

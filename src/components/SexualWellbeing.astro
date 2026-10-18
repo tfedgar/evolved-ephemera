@@ -1,0 +1,61 @@
+<section class="sexual-wellbeing site-section" id="trt-sexual-wellbeing" aria-labelledby="sexual-wellbeing-heading">
+  <div class="site-container wellbeing-layout">
+    <div class="wellbeing-intro">
+      <span class="section-kicker">One area of your coaching</span>
+      <h2 id="sexual-wellbeing-heading">TRT, libido and sexual confidence.</h2>
+      <p class="section-lead">These conversations can fit alongside training, focus, recovery and long-term health within your overall health and performance coaching, where relevant to your goals.</p>
+      <p class="wellbeing-support">For men already on TRT or exploring clinical care, we can discuss libido, erection concerns and confidence alongside your clinician's care, using the same personal plan, weekly check-ins and agreed support.</p>
+    </div>
+    <div class="wellbeing-topics">
+      <article class="wellbeing-topic">
+        <h3>Libido and sexual confidence.</h3>
+        <p>Space to talk openly about changes in desire, erection concerns and confidence. You decide how much to share. Organize your observations and the questions you want to take to your clinician.</p>
+      </article>
+      <article class="wellbeing-topic">
+        <h3>Energy, focus and drive.</h3>
+        <p>Practical work on sleep, recovery, workload and routines that fit your real week. Use check-ins to review what is manageable, including during busy periods or travel, and adjust your habit plan.</p>
+      </article>
+      <article class="wellbeing-topic">
+        <h3>TRT and the options around it.</h3>
+        <p>Plain-language education on TRT, peptides, nootropics and supplement claims. We distinguish personal reports from clinical research and explain what remains uncertain, so you can take clearer questions to your prescriber or pharmacist.</p>
+      </article>
+    </div>
+    <div class="wellbeing-followup">
+      <p class="wellbeing-scope">Clinical assessment of sexual-function changes and all treatment or medication changes belong with a licensed clinician. Coaching supports habits and education; it does not promise sexual or hormone outcomes.</p>
+      <p class="wellbeing-included">An optional area within your coaching, with no separate program or additional fee.</p>
+      <a class="site-button" href="#contact">Request a call</a>
+      <p class="wellbeing-inquiry">A general inquiry is enough. No intimate details or medical records needed.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sexual-wellbeing { background: var(--color-page); }
+  .wellbeing-layout { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); grid-template-areas: "intro topics" "followup topics"; column-gap: 110px; align-items: start; }
+  .wellbeing-intro { grid-area: intro; }
+  .wellbeing-topics { grid-area: topics; }
+  .wellbeing-followup { grid-area: followup; margin-top: 24px; }
+  .wellbeing-intro h2 { max-width: 440px; font-size: clamp(2.2rem, 3.8vw, 3.25rem); }
+  .wellbeing-intro .section-lead { max-width: 440px; margin-top: 26px; font-size: 1.075rem; }
+  .wellbeing-support { max-width: 440px; margin-top: 18px; color: var(--color-muted); font-size: 1rem; }
+  .wellbeing-scope { max-width: 440px; color: var(--color-muted); font-size: 0.875rem; line-height: 1.75; }
+  .wellbeing-included { margin-top: 29px; font-size: 0.85rem; }
+  .wellbeing-followup .site-button { margin-top: 12px; }
+  .wellbeing-inquiry { max-width: 340px; margin-top: 13px; color: var(--color-muted); font-size: 0.8rem; line-height: 1.7; }
+  .wellbeing-topic { padding-block: 29px; }
+  .wellbeing-topic:first-child { padding-top: 0; }
+  .wellbeing-topic:last-child { padding-bottom: 0; }
+  .wellbeing-topic + .wellbeing-topic { border-top: 1px solid var(--color-line); }
+  .wellbeing-topic h3 { margin-bottom: 13px; font-size: 1.4rem; }
+  .wellbeing-topic p { max-width: 65ch; color: var(--color-muted); font-size: 1rem; line-height: 1.75; }
+  @media (max-width: 1050px) { .wellbeing-layout { column-gap: 60px; } }
+  @media (max-width: 760px) {
+    .wellbeing-layout { grid-template-columns: 1fr; grid-template-areas: "intro" "topics" "followup"; gap: 32px; }
+    .wellbeing-followup { margin-top: 0; }
+    .wellbeing-intro h2 { max-width: 510px; }
+    .wellbeing-intro .section-lead, .wellbeing-support, .wellbeing-scope { max-width: 540px; }
+    .wellbeing-topics { border-top: 1px solid var(--color-line); }
+    .wellbeing-topic, .wellbeing-topic:first-child { padding-block: 25px; }
+    .wellbeing-topic:last-child { padding-bottom: 0; }
+  }
+</style>

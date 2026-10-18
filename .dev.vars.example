@@ -1,0 +1,17 @@
+# Local coaching checkout configuration. This template contains no credentials.
+# Copy to .dev.vars; keep that file private (chmod 600 .dev.vars).
+# Use one owner-confirmed Stripe account's TEST environment for all four values.
+# Prices must be active USD monthly prices at 500, 450 and 400 respectively.
+# The dedicated coaching key never falls back to the legacy PDF Stripe key.
+# Keep the existing STRIPE_SECRET_KEY and webhook configuration unchanged.
+STRIPE_COACHING_SECRET_KEY=
+STRIPE_COACHING_3_MONTH_PRICE_ID=
+STRIPE_COACHING_6_MONTH_PRICE_ID=
+STRIPE_COACHING_12_MONTH_PRICE_ID=
+
+# Enable only the isolated local test after all test values are in place.
+# This file does not configure or enable production checkout.
+COACHING_CHECKOUT_ENABLED=false
+
+# Fully stop and restart npm run dev after changing .dev.vars.
+# Restarting is required because the Cloudflare proxy loads bindings at startup.

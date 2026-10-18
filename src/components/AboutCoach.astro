@@ -1,43 +1,53 @@
----
----
-
-<section class="pt-12 lg:pt-16 pb-12 lg:pb-16 bg-slate-900" id="about">
-  <div class="max-w-6xl mx-auto px-4 lg:px-6">
-    <h2 class="section-title text-center !mb-12 lg:!mb-16 text-white font-bold">
-      About Me
-    </h2>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <!-- Left side - Text Content -->
-      <div class="text-center lg:text-left">
-        <div class="space-y-8">
-          <p class="text-xl leading-relaxed text-gray-200">
-            I'm Coach Edgar — I help men and everyday people get stronger, leaner, and more confident.
-          </p>
-          <p class="text-xl leading-relaxed text-gray-200">
-            Whether you train naturally or use PEDs, I'll help you do it the right way — with structure, real strategy, and risk reduction built in.
-          </p>
-          <p class="text-xl leading-relaxed text-gray-200">
-            My coaching covers training, nutrition, recovery, and how to avoid common mistakes that hold people back.
-          </p>
-          <p class="text-xl leading-relaxed text-gray-200">
-            If you're ready to take control of your body and your results, I'm here to help.
-          </p>
-        </div>
+<section class="about-section site-section" id="about" aria-labelledby="about-heading">
+  <div class="site-container about-layout">
+    <div class="coach-background">
+      <p class="coach-name">Thomas Edgar</p>
+      <p class="coach-role">The person behind Coach Edgar</p>
+      <div class="background-note">
+        <p>Construction.<br /> Computer science.<br /> Management.</p>
+        <span>Different settings. A practical perspective on work and responsibility.</span>
       </div>
-      
-      <!-- Right side - Image -->
-      <div class="flex justify-center lg:justify-end">
-        <img
-          src="/images/optimized/coach-425.webp"
-          alt="Edgar - Professional Fitness Coach"
-          width="425"
-          height="448"
-          loading="lazy"
-          decoding="async"
-          class="rounded-2xl shadow-2xl transition-transform duration-300 hover:-translate-y-5 max-w-full h-auto aspect-[425/448] object-cover"
-        />
+      <a href="https://www.linkedin.com/in/thomas-edgar-367599383/" rel="me" class="text-link">View my professional profile</a>
+    </div>
+    <div class="about-copy">
+      <h2 id="about-heading">Work matters.<br />So does the rest<br /> of your life.</h2>
+      <div class="about-body">
+        <p>I coach people with demanding careers who want to look after themselves and make space for the people who matter to them.</p>
+        <p>My path has taken me from construction into computer science, developing my management skills along the way. That background shapes how I think about pressure, responsibilities and making practical changes.</p>
+        <p>I bring 10 years across direct and shadow coaching. Here, you work directly with me on your own priorities.</p>
+        <p>Your priorities might include strength, focus, confidence, healthy aging or being more present for your family. We work on practical habits around those values. When TRT, peptides or sexual wellbeing are relevant, there is room for clear education within the same coaching plan, alongside your licensed clinician's care.</p>
       </div>
+      <a href="#contact" class="text-link">Let's have a conversation</a>
     </div>
   </div>
-</section> 
+  <aside class="site-container discretion-note" aria-labelledby="discretion-heading">
+    <h3 id="discretion-heading">Personal support.<br /> Room for discretion.</h3>
+    <div>
+      <p>Your coaching does not require public check-ins, progress posts or participation in a group. We work one-to-one through the channel we agree.</p>
+      <p>Client stories, photographs and testimonials are shared only with explicit permission. Start with a short, general inquiry; there is no need to send sensitive health information to request a conversation. <a href="/privacy">Read how website information is handled</a>.</p>
+    </div>
+  </aside>
+</section>
+
+<style>
+  .about-section { background: var(--color-white); }
+  .about-layout { display: grid; grid-template-columns: 310px minmax(0, 1fr); align-items: start; gap: 120px; }
+  .coach-background { padding-top: 8px; }
+  .coach-name { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.035em; }
+  .coach-role { color: var(--color-muted); font-size: 0.85rem; margin-top: 4px; }
+  .background-note { margin-block: 31px 25px; padding-block: 25px; border-top: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); }
+  .background-note > p { font-size: 1.6rem; line-height: 1.5; letter-spacing: -0.025em; }
+  .background-note > span { display: block; max-width: 260px; color: var(--color-muted); font-size: 0.85rem; line-height: 1.7; margin-top: 18px; }
+  .coach-background .text-link { font-size: 0.85rem; }
+  .about-copy h2 { font-size: clamp(2.3rem, 4vw, 3.5rem); max-width: 650px; }
+  .about-body { max-width: 650px; color: var(--color-muted); margin-block: 28px; }
+  .about-body p + p { margin-top: 17px; }
+  .about-copy .text-link { font-size: 0.925rem; }
+  .discretion-note { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 120px; margin-top: 46px; padding-top: 29px; border-top: 1px solid var(--color-line); }
+  .discretion-note h3 { font-size: 1.3rem; line-height: 1.4; }
+  .discretion-note p { max-width: 650px; color: var(--color-muted); font-size: 0.9rem; line-height: 1.75; }
+  .discretion-note p + p { margin-top: 15px; }
+  .discretion-note a:hover { color: var(--color-action); }
+  @media (max-width: 1050px) { .about-layout, .discretion-note { grid-template-columns: 255px minmax(0, 1fr); gap: 65px; } }
+  @media (max-width: 760px) { .about-layout { display: flex; flex-direction: column-reverse; gap: 38px; } .coach-background { width: 100%; padding-top: 26px; border-top: 1px solid var(--color-line); } .background-note { margin-block: 20px; padding-block: 20px; } .background-note > p { font-size: 1.3rem; } .background-note > p br { display: none; } .background-note > span { max-width: 430px; margin-top: 12px; } .about-copy h2 br:last-child { display: none; } .discretion-note { grid-template-columns: 1fr; gap: 16px; margin-top: 33px; padding-top: 25px; } .discretion-note h3 br { display: none; } }
+</style>

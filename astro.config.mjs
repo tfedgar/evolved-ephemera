@@ -8,8 +8,15 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: 'https://www.coachedgar.com',
   output: 'server',
+  devToolbar: { enabled: false },
   adapter: cloudflare(),
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    filter(page) {
+      const pathname = new URL(page).pathname.replace(/\/$/, '') || '/';
+      return !['/pay', '/download-pdf', '/blog'].includes(pathname)
+        && !pathname.startsWith('/blog/');
+    }
+  })],
   vite: {
     plugins: [tailwindcss()],
     build: {

@@ -1,67 +1,70 @@
----
-import Navigation from './Navigation.astro';
-import Button from './Button.astro';
----
-
-<Navigation />
-
-<!-- Hero Section -->
-<section class="min-h-screen flex items-center relative overflow-hidden py-16 pt-24">
-
-  
-
-  
-  <!-- Subtle Fitness Pattern -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(59, 130, 246, 0.1) 20px, rgba(59, 130, 246, 0.1) 40px);"></div>
-  </div>
-  
-  <!-- Content Container -->
-  <div class="relative z-10 max-w-6xl mx-auto px-4 lg:px-8 w-full">
-    <!-- Centered Title and Description -->
-    <div class="text-center mb-16">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight !mb-2 text-gray-900 tracking-tight">
-        Feel Strong, Focused, and in Control
-      </h1>
-      <p class="text-2xl md:text-3xl lg:text-4xl font-bold mb-10 text-emerald-600">
-        with Coach Edgar
-      </p>
-      <p class="text-xl md:text-2xl lg:text-3xl leading-relaxed text-gray-700 max-w-4xl mx-auto mb-10">
-        Built for your body, goals, and mindset.
-      </p>
-      <p class="text-lg md:text-xl lg:text-2xl leading-relaxed text-gray-600 max-w-4xl mx-auto">
-        If you're tired of second-guessing your workouts, frustrated with slow progress, or just not feeling like yourself—you're not alone. Coach Edgar helps you cut through the confusion with a clear, personalized plan.
-      </p>
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="site-container hero-layout">
+    <div class="hero-copy">
+      <p class="hero-context">Personal coaching for high-performing individuals</p>
+      <h1 id="hero-heading">Strength for your life. Presence for your family.</h1>
+      <p class="hero-intro">One-to-one health and performance coaching built around demanding work and life outside it. Bring strength, focus, nutrition, sleep and recovery into one personal plan, with room for long-term health and the people who matter to you.</p>
     </div>
-    
-    <!-- YouTube Video -->
-    <div class="flex justify-center mb-16">
-      <div class="w-full max-w-4xl">
-        <div class="relative w-full" style="padding-bottom: 56.25%;">
-          <iframe
-            class="absolute top-0 left-0 w-full h-full rounded-2xl shadow-2xl"
-            src="https://www.youtube-nocookie.com/embed/UDcph7re74c?rel=0&modestbranding=1"
-            title="Coach Edgar - Transform Your Body, Mind & Performance"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
-        </div>
+    <div class="hero-details">
+      <p class="hero-coach">I'm Thomas Edgar, with 10 years across direct and shadow coaching. You work directly with me through weekly check-ins, agreed support and a plan that adapts.</p>
+      <p class="hero-discretion">Discreet support behind the scenes. No public check-ins or social-media participation required.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="site-button">Request a call</a>
+        <a href="#coaching" class="text-link">How coaching works</a>
       </div>
+      <p class="hero-price"><strong>$500 USD/month</strong> with a 3-month minimum ($1,500 minimum total), subject to the <a href="/terms#coaching-guarantee">14-day first-month money-back guarantee for new clients</a>. Then monthly at the same rate until canceled. <a href="#programs">See all options</a>.</p>
+      <a class="hero-education" href="#trt-sexual-wellbeing">TRT &amp; sexual wellbeing within coaching <span aria-hidden="true">↓</span></a>
     </div>
-    
-    <!-- Centered Buttons -->
-    <div class="text-center">
-      <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-        <Button href="/pay" variant="primary" size="lg" fullWidth={false} textColor="!text-white" className="sm:w-auto">
-          Start Your Transformation
-        </Button>
-        <Button href="#contact" variant="secondary" size="lg" fullWidth={false} textColor="!text-white" className="sm:w-auto">
-          Free Consultation Call
-        </Button>
-      </div>
-    </div>
+    <figure class="hero-portrait">
+      <picture>
+        <source type="image/webp" srcset="/images/coach-edgar/formal-320.webp 320w, /images/coach-edgar/formal-480.webp 480w, /images/coach-edgar/formal-640.webp 640w, /images/coach-edgar/formal-960.webp 960w" sizes="(max-width: 360px) 110px, (max-width: 600px) 118px, (max-width: 900px) 132px, (max-width: 1100px) 330px, 390px" />
+        <img src="/images/coach-edgar/formal-960.jpg" alt="Thomas Edgar, the coach behind Coach Edgar" width="960" height="960" loading="eager" fetchpriority="high" decoding="async" />
+      </picture>
+      <figcaption><span>Thomas Edgar</span><span>Your coach</span></figcaption>
+    </figure>
   </div>
-  </div>
-</section> 
+</section>
+
+<style>
+  .hero { padding-block: 66px 78px; }
+  .hero-layout { display: grid; grid-template-columns: minmax(0, 1fr) 390px; grid-template-areas: "intro portrait" "details portrait"; column-gap: 86px; align-items: start; }
+  .hero-copy { grid-area: intro; }
+  .hero-details { grid-area: details; }
+  .hero-context { color: var(--color-muted); font-size: 0.925rem; margin-bottom: 23px; }
+  h1 { max-width: 660px; font-size: clamp(3.1rem, 4.8vw, 4.35rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.1; text-wrap: balance; }
+  .hero-intro { max-width: 605px; margin-top: 25px; font-size: 1.075rem; line-height: 1.65; color: var(--color-muted); }
+  .hero-coach { max-width: 570px; margin-top: 22px; font-size: 0.95rem; line-height: 1.7; }
+  .hero-discretion { max-width: 520px; margin-top: 15px; font-size: 0.9rem; line-height: 1.7; color: var(--color-action); }
+  .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 27px; margin-top: 28px; }
+  .hero-actions .text-link { font-size: 0.9rem; }
+  .hero-price { max-width: 550px; margin-top: 20px; color: var(--color-muted); font-size: 0.875rem; line-height: 1.7; }
+  .hero-price strong { color: var(--color-ink); font-weight: 500; }
+  .hero-price a:hover { color: var(--color-action); }
+  .hero-education { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; padding-block: 5px; color: var(--color-action); font-size: 0.875rem; text-underline-offset: 4px; }
+  .hero-portrait { grid-area: portrait; align-self: center; width: 100%; }
+  .hero-portrait picture { display: block; aspect-ratio: 1; overflow: hidden; border-radius: 5px; }
+  .hero-portrait img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; transform: scale(1.18); transform-origin: 50% 25%; }
+  figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-top: 15px; }
+  figcaption span:first-child { font-size: 1.1rem; font-weight: 500; }
+  figcaption span:last-child { color: var(--color-muted); font-size: 0.8rem; }
+  @media (max-width: 1100px) { .hero-layout { grid-template-columns: minmax(0, 1fr) 330px; gap: 48px; } h1 { font-size: 3.6rem; } }
+  @media (max-width: 900px) {
+    .hero-layout { grid-template-columns: 1fr; grid-template-areas: "intro" "portrait" "details"; row-gap: 0; }
+    .hero-copy { max-width: 650px; }
+    .hero-portrait { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 22px; align-items: center; max-width: 520px; margin-top: 28px; }
+    figcaption { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; padding-top: 0; }
+    h1 { font-size: clamp(3.2rem, 7vw, 4.2rem); }
+  }
+  @media (max-width: 600px) {
+    .hero { padding-block: 42px 58px; }
+    .hero-context { font-size: 0.875rem; margin-bottom: 20px; }
+    h1 { font-size: clamp(2.1rem, 8.7vw, 3rem); }
+    .hero-intro { margin-top: 24px; font-size: 1rem; }
+    .hero-coach { margin-top: 23px; font-size: 0.9375rem; }
+    .hero-actions { gap: 22px; margin-top: 25px; }
+    .hero-price { font-size: 0.875rem; }
+    .hero-portrait { grid-template-columns: 118px minmax(0, 1fr); gap: 19px; }
+    figcaption span:first-child { font-size: 1.05rem; }
+  }
+  @media (max-width: 360px) { .hero-portrait { grid-template-columns: 110px minmax(0, 1fr); gap: 16px; } }
+</style>

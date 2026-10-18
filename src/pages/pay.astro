@@ -1,362 +1,230 @@
 ---
+import Stripe from 'stripe';
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { COACHING_PLANS } from '../lib/coaching-plans';
+import { getCoachingEnrollmentState, isCoachingCheckoutConfigured, readCheckoutEnvironment } from '../lib/server/coaching-checkout';
+
+const runtime = (Astro.locals as { runtime?: { env?: Record<string, unknown> } }).runtime;
+const environment = readCheckoutEnvironment(runtime?.env, typeof process !== 'undefined' ? process.env : {});
+const configured = isCoachingCheckoutConfigured(environment);
+const stripe = environment.STRIPE_COACHING_SECRET_KEY ? new Stripe(environment.STRIPE_COACHING_SECRET_KEY) : undefined;
+const { returnState, selectedPlan } = await getCoachingEnrollmentState(Astro.url, stripe);
+const formatUsd = (amount: number) => amount.toLocaleString('en-US');
+const errorMessages: Record<string, string> = {
+  'invalid-selection': 'Please choose one of the programs below and review the payment details again.',
+  'terms-required': 'Please acknowledge the monthly billing, minimum commitment, guarantee exception and coaching terms before continuing.',
+  unavailable: 'Online checkout is currently unavailable. Your program selection is below. Book a call or email Edgar to discuss the next step.',
+};
+const errorCode = Astro.url.searchParams.get('error') ?? '';
+const error = Object.hasOwn(errorMessages, errorCode) ? errorMessages[errorCode] : undefined;
+const statusMessages = {
+  confirmed: { title: 'Your first payment is confirmed.', message: 'Stripe confirms a completed payment for your coaching subscription. Email Edgar to arrange the agreed next steps.' },
+  processing: { title: 'Payment confirmation is pending.', message: 'Stripe has not confirmed a completed payment yet. Check your payment receipt or contact Edgar before trying to pay again.' },
+  cancelled: { title: 'Checkout closed.', message: 'You can review your program below or speak with Edgar before continuing.' },
+  unverified: { title: 'Payment has not been verified.', message: 'This page could not verify a completed coaching payment. If you attempted payment, check your Stripe receipt or contact Edgar before trying again.' },
+};
+const status = returnState === 'none' ? undefined : statusMessages[returnState];
+const paymentPendingOrConfirmed = returnState === 'processing' || returnState === 'confirmed';
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+// Preserve the native form POST's Origin while hiding return tokens from external sites.
+Astro.response.headers.set('Referrer-Policy', 'same-origin');
 ---
 
-<Layout title="Coaching Packages - Edgar Coaching" description="Choose from our coaching packages designed to transform your fitness journey with personalized training and nutrition plans.">
+<Layout title="Your coaching program | Coach Edgar" description="Review Coach Edgar's coaching programs, monthly USD pricing and minimum commitments before enrollment." noindex={true}>
   <Navigation />
-  <section class="pt-24 pb-16 lg:pt-28 lg:pb-20 bg-slate-50 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 lg:px-6">
-      <div class="mb-12">
-        <a href="/" class="inline-flex items-center gap-2 mb-8 px-6 py-3 text-slate-900 no-underline font-medium text-base border-2 border-slate-900 transition-all duration-200 hover:bg-slate-900 hover:text-white group relative overflow-hidden">
-          <span class="relative z-10 text-slate-900 group-hover:text-white">← Return Home</span>
-          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </a>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight m-0 mb-4 text-gray-900">
-          Coaching Packages
-        </h1>
-        <p class="text-base md:text-lg lg:text-xl text-gray-600 m-0">
-          Choose the package that fits your goals and commitment level
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border-2 border-gray-900 transition-all duration-300 relative flex flex-col h-full w-full hover:border-gray-900 hover:-translate-y-1 hover:shadow-xl bg-gradient-to-br from-gray-50 to-gray-100">
-          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-semibold">
-            Most Popular
-          </div>
-          <h2 class="text-xl md:text-2xl font-semibold m-0 mb-4 tracking-tight leading-tight text-gray-900">
-            6-Month Rebuild
-          </h2>
-          <div class="flex-grow mb-8">
-            <p class="font-semibold text-gray-900 text-lg mb-4 leading-tight">
-              Deep results with full support - plus bloodwork included.
-            </p>
-            <p class="text-gray-600 mb-6 text-base leading-relaxed">
-              Six months gives us time to correct the root issues, optimize performance, and lock in lasting changes. Includes comprehensive bloodwork to guide smarter, safer decisions.
-            </p>
-            <ul class="my-6 p-0 list-none">
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Everything in 3-month plan
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Advanced progress tracking
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                1 bloodwork panel included ($500 value)
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Lifestyle coaching: stress, sleep, routines
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Intermediate cycle support and monitoring
-              </li>
-            </ul>
-            <p class="text-gray-600 text-sm italic mt-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-900">
-              Best for: Body recomposition, energy/lifestyle reset, enhanced athletes needing data
-            </p>
-          </div>
-          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="priceId" value="price_1RbDBHATEGp1ZwvVgHoMRXSK" />
-            <!-- <input type="hidden" name="priceId" value="price_1RzlwSPDLGEkO1ERueC8Kavy" /> -->
-            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
-                    <span class="relative z-10">Get Started</span>
-          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </button>
-          </form>
-        </div>
+  <main id="main-content" tabindex="-1" class="enrollment">
+    <div class="pay-shell">
+      <a href="/#coaching" class="back-link"><span aria-hidden="true">←</span> Back to the coaching</a>
+      <header class="pay-intro">
+        <p class="eyebrow">Coach Edgar · Health &amp; Performance</p>
+        <h1>Your next chapter.<br /><span>A clear commitment.</span></h1>
+        <p class="intro-copy">Choose the program you've discussed with Edgar. Each option offers the same coaching relationship, with a lower monthly rate for a longer initial commitment.</p>
+      </header>
 
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border-2 border-gray-200 transition-all duration-300 relative flex flex-col h-full w-full hover:border-gray-900 hover:-translate-y-1 hover:shadow-xl">
-          <h2 class="text-xl md:text-2xl font-semibold m-0 mb-4 tracking-tight leading-tight text-gray-900">
-            3-Month Kickstart
-          </h2>
-          <div class="flex-grow mb-8">
-            <p class="font-semibold text-gray-900 text-lg mb-4 leading-tight">
-              A strong start for serious change.
-            </p>
-            <p class="text-gray-600 mb-6 text-base leading-relaxed">
-              Build momentum with a full reset of your training, nutrition, recovery, and lifestyle. Perfect if you're ready to get results fast and want structure without fluff.
-            </p>
-            <ul class="my-6 p-0 list-none">
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Customized training and nutrition plan
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Weekly check-ins and adjustments
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Direct coach access and ongoing support
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Performance tracking and accountability
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Basic cycle guidance and support
-              </li>
-            </ul>
-            <p class="text-gray-600 text-sm italic mt-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-900">
-              Best for: Getting unstuck, dialing in habits, and seeing visible progress
-            </p>
-          </div>
-          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="priceId" value="price_1Rbtt9ATEGp1ZwvV8o8VBAWW" />
-            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
-              <span class="relative z-10">Get Started</span>
-              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-          </form>
-        </div>
+      {status && (
+        <section class:list={['payment-notice', { 'payment-notice-confirmed': returnState === 'confirmed' }]} role="status" aria-live="polite">
+          <h2>{status.title}</h2>
+          <p>{status.message} <a href="mailto:info@coachedgar.com">info@coachedgar.com</a></p>
+        </section>
+      )}
+      {error && <p class="payment-notice payment-error" role="alert">{error}</p>}
 
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border-2 border-gray-200 transition-all duration-300 relative flex flex-col h-full w-full hover:border-gray-900 hover:-translate-y-1 hover:shadow-xl">
-          <h2 class="text-xl md:text-2xl font-semibold m-0 mb-4 tracking-tight leading-tight text-gray-900">
-            12-Month Transformation
-          </h2>
-          <div class="flex-grow mb-8">
-            <p class="font-semibold text-gray-900 text-lg mb-4 leading-tight">
-              All-in commitment. Maximum value.
-            </p>
-            <p class="text-gray-600 mb-6 text-base leading-relaxed">
-              This package is built for men ready to fully transform their body, health, and mindset - with the long-term coaching, tools, and data to back it up.
-            </p>
-            <ul class="my-6 p-0 list-none">
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Everything in the 6-month plan
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                1 month of coaching FREE
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                1 bloodwork panel included ($500 value)
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Special discount on total plan cost
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Long-term strategy, goal cycling, and lifestyle mastery
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Advanced cycle support and year-long optimization
-              </li>
-            </ul>
-            <p class="text-gray-600 text-sm italic mt-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-900">
-              Ideal for: Complete lifestyle overhauls, body recomposition, enhanced or high-performing clients who want full-spectrum support
-            </p>
-          </div>
-          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="priceId" value="price_1Rn5OMATEGp1ZwvV1n7orP1E" />
-            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
-              <span class="relative z-10">Get Started</span>
-              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-          </form>
-        </div>
+      <div class="enrollment-layout">
+        <form action="/api/create-checkout-session" method="POST" class="program-form" data-coaching-checkout>
+          <fieldset class="plan-fieldset" aria-describedby="billing-summary">
+            <legend><span class="step-number">01</span> Choose your initial commitment</legend>
+            <div class="plan-options">
+              {COACHING_PLANS.map(plan => (
+                <label class="plan-option">
+                  <input type="radio" name="plan" value={plan.id} checked={plan.id === selectedPlan.id} required data-months={plan.months} data-monthly-usd={plan.monthlyUsd} aria-describedby={`plan-${plan.id}-details`} />
+                  <span class="plan-card">
+                    <span class="plan-heading"><span>{plan.name}</span><span class="selection-mark" aria-hidden="true"></span></span>
+                    <span class="plan-rate">${plan.monthlyUsd}<span> USD / month</span></span>
+                    <span class="plan-minimum" id={`plan-${plan.id}-details`}>${formatUsd(plan.months * plan.monthlyUsd)} USD minimum commitment</span>
+                    <span class="plan-saving">{plan.months === 3 ? 'A focused place to begin' : `${plan.months === 6 ? '10%' : '20%'} lower monthly rate`}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border-2 border-gray-200 transition-all duration-300 relative flex flex-col h-full w-full hover:border-gray-900 hover:-translate-y-1 hover:shadow-xl">
-          <h2 class="text-xl md:text-2xl font-semibold m-0 mb-4 tracking-tight leading-tight text-gray-900">
-            6-Month Enhanced Support
-          </h2>
-          <div class="flex-grow mb-8">
-            <p class="font-semibold text-gray-900 text-lg mb-4 leading-tight">
-              Deep results with full support - plus premium cycle optimization.
-            </p>
-            <p class="text-gray-600 mb-6 text-base leading-relaxed">
-              Six months of dedicated coaching with our most comprehensive cycle support package. Includes advanced bloodwork analysis, specialized protocols, and expert cycle optimization.
-            </p>
-            <ul class="my-6 p-0 list-none">
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Everything in 6-month plan
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Premium cycle support and monitoring
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Advanced cycle protocols and adjustments
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Specialized ancillary guidance
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                1 bloodwork panel included ($500 value)
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Priority support response
-              </li>
-            </ul>
-            <p class="text-gray-600 text-sm italic mt-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-900">
-              Best for: People just starting enhancement and want extra guidance and services
-            </p>
+          <div id="billing-summary" class="billing-summary" aria-live="polite" aria-atomic="true">
+            <p class="summary-label">Your selected program</p>
+            <p data-selection-summary hidden><strong>${selectedPlan.monthlyUsd} USD each month</strong> for a {selectedPlan.months}-month minimum commitment of ${formatUsd(selectedPlan.months * selectedPlan.monthlyUsd)} USD.</p>
+            <noscript><p>Your monthly rate and minimum commitment appear with each program above.</p></noscript>
+            <p>After the minimum commitment, billing continues monthly at the same rate until cancelled. It does not stop automatically.</p>
+            <p>Agree your coaching start date (your first-payment date), billing arrangements and guarantee claim deadline with Edgar before paying.</p>
+            <div id="coaching-guarantee-summary" class="guarantee-summary">
+              <p><strong>14-day money-back guarantee</strong></p>
+              <p>For new clients, once per person. Receive a refund of your full first monthly coaching payment plus any applicable tax. Email <a href="mailto:info@coachedgar.com">info@coachedgar.com</a> within 14 calendar days of the agreed coaching start. A timely claim cancels coaching and billing and waives the remaining minimum commitment.</p>
+              <p>Independently billed clinic, lab and medication charges are excluded. <a href="/terms#coaching-guarantee">Read the full guarantee terms</a>.</p>
+            </div>
           </div>
-          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="priceId" value="price_1RnN54ATEGp1ZwvVGu1A4lA6" />
-            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
-              <span class="relative z-10">Get Started</span>
-              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-          </form>
-        </div>
 
-        <div class="bg-white rounded-2xl p-6 lg:p-8 border-2 border-gray-200 transition-all duration-300 relative flex flex-col h-full w-full hover:border-gray-900 hover:-translate-y-1 hover:shadow-xl md:col-span-2 lg:col-span-1 lg:col-start-2">
-          <h2 class="text-xl md:text-2xl font-semibold m-0 mb-4 tracking-tight leading-tight text-gray-900">
-            60 Minute Consultation Call
-          </h2>
-          <div class="flex-grow mb-8">
-            <p class="text-gray-600 mb-6 text-base leading-relaxed">
-              One-on-one strategy session to discuss your goals and create a personalized plan. Perfect for getting clarity before committing to a full program.
-            </p>
-            <ul class="my-6 p-0 list-none">
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Comprehensive goal assessment
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Personalized strategy recommendations
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Q&A with expert coach
-              </li>
-              <li class="pl-6 relative mb-3 text-gray-700 text-sm leading-relaxed">
-                <span class="absolute left-0 text-green-500 font-semibold">✓</span>
-                Next steps roadmap
-              </li>
-            </ul>
-          </div>
-          <form action="/api/create-checkout-session" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="priceId" value="price_1RJdKzATEGp1ZwvVjD6RRjZ5" />
-            <button type="submit" class="w-full py-4 px-8 relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700 hover:border-slate-500 text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 mt-auto group overflow-hidden capitalize">
-              <span class="relative z-10">Book Call</span>
-              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-          </form>
-        </div>
-      </div>
-      
-              <div class="text-center py-8 px-8 bg-slate-100 rounded-2xl border border-slate-200">
-                  <p class="m-2 text-slate-600 text-sm">✓ 30-day satisfaction guarantee on all coaching packages</p>
-          <p class="m-2 text-slate-600 text-sm">✓ Secure payment processing via Stripe</p>
+          <fieldset class="agreement-fieldset">
+            <legend><span class="step-number">02</span> Review before you continue</legend>
+            <p class="terms-explanation">Read the <a href="/terms">coaching terms</a>, including cancellation and refund arrangements, and the <a href="/privacy">privacy notice</a>. Confirm the service and these details with Edgar before making a payment.</p>
+            <label class="agreement">
+              <input type="checkbox" name="termsAcknowledged" value="yes" required aria-describedby="billing-summary" disabled={!configured || paymentPendingOrConfirmed} />
+              <span>I agree to the coaching terms and understand the selected minimum commitment, subject to the 14-day guarantee exception, monthly payments and ongoing billing until cancelled.</span>
+            </label>
+          </fieldset>
+
+          {!configured && (
+            <div class="checkout-availability">
+              <h2>Let's confirm the details first.</h2>
+              <p>Online enrollment is not open yet. Book a call to confirm your program and the cancellation and refund terms before payment.</p>
+              <a href="/#contact" class="pay-button">Book a call <span aria-hidden="true">↗</span></a>
+            </div>
+          )}
+          <button class="checkout-button" type="submit" disabled={!configured || paymentPendingOrConfirmed}>
+            {returnState === 'confirmed' ? 'Payment confirmed' : returnState === 'processing' ? 'Awaiting payment confirmation' : configured ? 'Continue to secure checkout' : 'Checkout not open yet'}
+          </button>
+          <p class="checkout-note">{configured ? 'You will review your payment in Stripe before confirming. Any applicable taxes will be shown there.' : 'No payment is taken on this page. Prices are in USD; any applicable taxes will be confirmed before payment.'}</p>
+        </form>
+
+        <aside class="program-context" aria-labelledby="before-you-begin">
+          <p class="eyebrow">Before you begin</p>
+          <h2 id="before-you-begin">Built around your life.</h2>
+          <p>A practical coaching relationship for people with demanding careers, focused on health habits, brain health and healthy aging.</p>
+          <div class="context-detail"><h3>One coaching offer</h3><p>Your commitment length changes the monthly price. Each option includes the same coaching support.</p></div>
+          <div class="context-detail"><h3>Agree the working details</h3><p>Confirm your goals, check-in schedule, support channel and response expectations with Edgar before enrolling.</p></div>
+          <div class="context-detail"><h3>Coaching &amp; education</h3><p>Coaching supports informed choices and practical habits. Diagnosis, prescribing and medical monitoring belong with qualified clinicians.</p></div>
+          <div class="context-contact"><h3>Still considering it?</h3><p>Start with a conversation about fit.</p><a href="/#contact">Request a call</a><a href="mailto:info@coachedgar.com">info@coachedgar.com</a></div>
+        </aside>
       </div>
     </div>
-  </section>
+  </main>
+  <Footer />
 </Layout>
 
 <script>
-  // Handle payment form submissions with error handling
-  document.addEventListener('DOMContentLoaded', function() {
-    const forms = document.querySelectorAll('form[action="/api/create-checkout-session"]');
-    
-    forms.forEach(form => {
-      form.addEventListener('submit', function(e) {
-        const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-        
-        // Show loading state
-        if (button) {
-          button.textContent = 'Processing...';
-          button.disabled = true;
-        }
-        
-        // Let the form submit normally - don't prevent default
-        // This allows the browser to handle the 303 redirect properly
-      });
-    });
-    
-    // Function to show error messages
-    function showErrorMessage(message: string) {
-      // Remove existing error messages
-      const existingError = document.querySelector('.payment-error');
-      if (existingError) {
-        existingError.remove();
-      }
-      
-      // Create error message element
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'payment-error';
-      errorDiv.innerHTML = `
-        <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg my-4 text-center">
-          <strong>Payment Error:</strong> ${message}
-          <br><small>Please contact support if this issue persists.</small>
-        </div>
-      `;
-      
-      // Insert error message at the top of the packages section
-      const packagesSection = document.querySelector('.grid');
-      if (packagesSection) {
-        packagesSection.parentNode?.insertBefore(errorDiv, packagesSection);
-      }
-      
-      // Auto-remove error after 10 seconds
-      setTimeout(() => {
-        errorDiv.remove();
-      }, 10000);
-    }
-    
-    // Check for success/cancel URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('success') === 'true') {
-      const product = urlParams.get('product');
-      if (product === 'pdf') {
-        showPDFSuccessMessage('PDF purchase successful! Your download link has been sent to your email.');
-      } else {
-        showSuccessMessage('Payment successful! You will receive confirmation details shortly.');
-      }
-    } else if (urlParams.get('canceled') === 'true') {
-      const product = urlParams.get('product');
-      if (product === 'pdf') {
-        showErrorMessage('PDF purchase was canceled. You can try again anytime.');
-      } else {
-        showErrorMessage('Payment was canceled. You can try again anytime.');
-      }
-    }
-    
-    function showSuccessMessage(message: string) {
-      const successDiv = document.createElement('div');
-      successDiv.innerHTML = `
-        <div class="bg-green-50 border border-green-200 text-green-800 p-6 rounded-lg my-8 text-center">
-          <strong>Success!</strong> ${message}
-        </div>
-      `;
-      
-      const packagesSection = document.querySelector('.grid');
-      if (packagesSection) {
-        packagesSection.parentNode?.insertBefore(successDiv, packagesSection);
-      }
-    }
-    
-    function showPDFSuccessMessage(message: string) {
-      const successDiv = document.createElement('div');
-      successDiv.innerHTML = `
-        <div class="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-lg my-8 text-center">
-          <strong>PDF Purchase Successful!</strong> ${message}
-          <br><small>Check your email for the download link.</small>
-        </div>
-      `;
-      
-      const packagesSection = document.querySelector('.grid');
-      if (packagesSection) {
-        packagesSection.parentNode?.insertBefore(successDiv, packagesSection);
-      }
-    }
+  const form = document.querySelector<HTMLFormElement>('[data-coaching-checkout]');
+  const summary = form?.querySelector<HTMLElement>('[data-selection-summary]');
+  function updateSelectionSummary() {
+    const selection = form?.querySelector<HTMLInputElement>('input[name="plan"]:checked');
+    if (!selection || !summary) return;
+    const months = Number(selection.dataset.months);
+    const monthly = Number(selection.dataset.monthlyUsd);
+    const amount = document.createElement('strong');
+    amount.textContent = `$${monthly} USD each month`;
+    summary.replaceChildren(amount, ` for a ${months}-month minimum commitment of $${(months * monthly).toLocaleString('en-US')} USD.`);
+    summary.hidden = false;
+  }
+  updateSelectionSummary();
+  form?.addEventListener('change', updateSelectionSummary);
+  form?.addEventListener('submit', () => {
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) { button.textContent = 'Opening secure checkout…'; button.disabled = true; }
   });
-</script> 
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) window.location.reload();
+  });
+</script>
+
+<style>
+  .enrollment { background: var(--color-page); color: var(--color-ink); min-height: 100vh; padding: clamp(7.5rem, 12vw, 10rem) 1.25rem 6rem; }
+  .pay-shell { max-width: 77rem; margin-inline: auto; }
+  .back-link { display: inline-flex; gap: .6rem; color: var(--color-muted); font-size: .88rem; text-decoration: none; margin-bottom: 2.8rem; }
+  .back-link:hover, a:hover { text-decoration: underline; text-underline-offset: .2em; }
+  .pay-intro { max-width: 48rem; margin-bottom: 3.5rem; }
+  .eyebrow { color: var(--color-action); font-size: .72rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 1rem; }
+  h1 { font-size: clamp(2.6rem, 5.4vw, 4.75rem); line-height: 1.08; letter-spacing: -.035em; font-weight: 550; margin: 0 0 1.5rem; }
+  h1 span { color: var(--color-muted); }
+  .intro-copy { font-size: 1.08rem; line-height: 1.75; color: var(--color-muted); max-width: 41rem; margin: 0; }
+  .enrollment-layout { display: grid; grid-template-columns: minmax(0, 2.15fr) minmax(15rem, .85fr); gap: clamp(2rem, 4vw, 4.5rem); align-items: start; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { width: 100%; display: flex; gap: .8rem; align-items: center; font-size: 1.12rem; font-weight: 600; letter-spacing: -.025em; padding: 0; margin-bottom: 1.5rem; }
+  .step-number { color: var(--color-action); font-size: .7rem; letter-spacing: .08em; border: 1px solid var(--color-line); border-radius: 50%; display: inline-grid; width: 1.9rem; height: 1.9rem; place-items: center; flex-shrink: 0; }
+  .plan-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+  .plan-option { display: block; position: relative; cursor: pointer; }
+  .plan-option > input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .plan-card { min-height: 13.8rem; height: 100%; display: flex; flex-direction: column; padding: 1.25rem 1rem; border: 1px solid var(--color-line); border-radius: .7rem; background: var(--color-white); }
+  .plan-option > input:checked + .plan-card { border-color: var(--color-action); box-shadow: 0 0 0 1px var(--color-action); background: var(--color-panel); }
+  .plan-option:hover .plan-card { border-color: var(--color-action); }
+  .plan-option > input:focus-visible + .plan-card { outline: 3px solid var(--color-action); outline-offset: 5px; }
+  .plan-heading { display: flex; justify-content: space-between; gap: .5rem; align-items: center; font-size: .9rem; font-weight: 650; }
+  .selection-mark { display: block; width: .95rem; height: .95rem; border: 1px solid var(--color-input-line); border-radius: 50%; flex-shrink: 0; }
+  input:checked + .plan-card .selection-mark { border: 4px solid var(--color-action); background: var(--color-white); }
+  .plan-rate { display: block; margin: 1.4rem 0 .6rem; font-size: 2.1rem; letter-spacing: -.035em; line-height: 1.1; font-weight: 600; }
+  .plan-rate > span { display: block; margin-top: .4rem; color: var(--color-muted); font-size: .75rem; letter-spacing: 0; font-weight: 400; }
+  .plan-minimum { color: var(--color-muted); font-size: .75rem; line-height: 1.6; }
+  .plan-saving { display: block; margin-top: auto; padding-top: 1rem; color: var(--color-action); font-size: .72rem; line-height: 1.45; font-weight: 600; }
+  .billing-summary { border-bottom: 1px solid var(--color-line); padding: 1.7rem 0 1.8rem; margin-bottom: 2.1rem; }
+  .billing-summary .summary-label { margin: 0 0 .6rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 650; }
+  .billing-summary p { font-size: .91rem; color: var(--color-muted); line-height: 1.75; margin: .4rem 0 0; }
+  .billing-summary strong { color: var(--color-ink); font-weight: 600; }
+  .guarantee-summary { margin-top: 1.25rem; padding: 1rem 1.15rem; border: 1px solid var(--color-line); border-radius: .5rem; background: var(--color-panel); }
+  .terms-explanation { color: var(--color-muted); font-size: .89rem; line-height: 1.8; margin: 0 0 1.2rem; }
+  .enrollment a { color: var(--color-action); }
+  .enrollment .back-link { color: var(--color-muted); }
+  .agreement { display: flex; gap: .8rem; align-items: start; font-size: .89rem; line-height: 1.7; cursor: pointer; }
+  .agreement input { margin-top: .3rem; width: 1.1rem; height: 1.1rem; flex-shrink: 0; accent-color: var(--color-action); }
+  .agreement input:disabled { cursor: default; }
+  .checkout-availability { background: var(--color-panel); border-radius: .65rem; padding: 1.5rem; margin: 1.8rem 0 1.2rem; }
+  .checkout-availability h2 { margin: 0 0 .5rem; font-size: 1.1rem; letter-spacing: -.025em; font-weight: 600; }
+  .checkout-availability p { margin: 0 0 1.2rem; color: var(--color-muted); font-size: .89rem; line-height: 1.7; }
+  .pay-button, .checkout-button { display: inline-flex; align-items: center; justify-content: center; gap: 1.2rem; padding: .85rem 1.15rem; min-height: 3rem; border: 1px solid var(--color-action); border-radius: .35rem; background: var(--color-action); color: var(--color-white); font-size: .86rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+  .enrollment .pay-button { color: var(--color-white); }
+  .pay-button:hover, .checkout-button:hover:enabled { background: var(--color-action-hover); text-decoration: none; }
+  .checkout-button { width: 100%; margin-top: 1.6rem; }
+  .checkout-button:disabled { background: var(--color-panel); color: var(--color-muted); border-color: var(--color-line); cursor: default; }
+  .checkout-note { text-align: center; color: var(--color-muted); font-size: .75rem; line-height: 1.7; margin: .8rem 0 0; }
+  .program-context { padding: 2rem; background: var(--color-panel); border-radius: .7rem; }
+  .program-context h2 { margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.2; font-weight: 550; letter-spacing: -.04em; }
+  .program-context p { color: var(--color-muted); font-size: .87rem; line-height: 1.8; margin: 0; }
+  .program-context .eyebrow { font-size: .65rem; color: var(--color-action); margin-bottom: 1rem; }
+  .context-detail { padding-top: 1.5rem; }
+  .context-detail h3, .context-contact h3 { font-size: .87rem; line-height: 1.5; font-weight: 650; margin: 0 0 .35rem; }
+  .context-contact { margin-top: 1.8rem; padding-top: 1.5rem; border-top: 1px solid var(--color-line); }
+  .context-contact a { display: block; font-size: .83rem; margin-top: .9rem; overflow-wrap: anywhere; }
+  .payment-notice { padding: 1.25rem 1.5rem; border: 1px solid var(--color-line); border-left: 3px solid var(--color-action); background: var(--color-white); border-radius: .4rem; margin: 0 0 2rem; }
+  .payment-notice h2 { font-size: 1.1rem; font-weight: 600; margin: 0 0 .4rem; }
+  .payment-notice p, .payment-error { font-size: .91rem; color: var(--color-muted); line-height: 1.75; }
+  .payment-notice p { margin: 0; }
+  .payment-notice-confirmed { border-left-color: #37725c; background: var(--color-panel); }
+  :is(a, button, input):focus-visible { outline: 3px solid var(--color-action); outline-offset: 4px; }
+  @media (max-width: 1000px) {
+    .enrollment-layout { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+    .program-context { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; }
+    .program-context > .eyebrow, .program-context > h2, .program-context > p { grid-column: 1 / -1; }
+    .context-contact { margin-top: 1.5rem; }
+  }
+  @media (max-width: 560px) {
+    .enrollment { padding-inline: 1.1rem; padding-bottom: 4rem; }
+    .back-link { margin-bottom: 2rem; }
+    .pay-intro { margin-bottom: 2.5rem; }
+    .intro-copy { font-size: 1rem; }
+    .plan-options { grid-template-columns: minmax(0, 1fr); }
+    .plan-card { min-height: 0; padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: .6rem 1rem; }
+    .plan-heading { grid-column: 1 / -1; }
+    .plan-rate { margin: .3rem 0 0; grid-row: span 2; }
+    .plan-rate > span { margin-top: .35rem; }
+    .plan-minimum { align-self: end; text-align: right; }
+    .plan-saving { margin: 0; padding: 0; text-align: right; align-self: start; }
+    .program-context { display: block; padding: 1.5rem; }
+    legend { font-size: 1rem; }
+  }
+</style>

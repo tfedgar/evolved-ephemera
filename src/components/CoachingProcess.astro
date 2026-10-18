@@ -1,0 +1,74 @@
+<section class="process-section site-section" aria-labelledby="process-heading">
+  <div class="site-container">
+    <div class="process-layout">
+      <div class="process-intro">
+        <span class="section-kicker">How we work together</span>
+        <h2 id="process-heading">A plan for the week you actually have.</h2>
+        <p class="section-lead">You work directly with me, with room to talk through your questions. We turn your priorities into a practical plan, then use weekly check-ins to review what happened and decide what comes next.</p>
+      </div>
+      <ol class="process-steps">
+        <li>
+          <span class="step-number" aria-hidden="true">1</span>
+          <div><h3>Start with the whole picture.</h3><p>A goal-setting conversation covers your priorities, current routines and responsibilities. Together, we decide what deserves attention first.</p></div>
+        </li>
+        <li>
+          <span class="step-number" aria-hidden="true">2</span>
+          <div><h3>Make it workable.</h3><p>Talk through the options, the reasoning behind them and any uncertainty. We build clear actions around your schedule and consider what a demanding week could change.</p></div>
+        </li>
+        <li>
+          <span class="step-number" aria-hidden="true">3</span>
+          <div><h3>Check in. Adjust. Keep going.</h3><p>Weekly check-ins give us a regular point to review and adapt. You also have direct support through an agreed channel. We agree the format, timing and response expectations before enrollment.</p></div>
+        </li>
+      </ol>
+    </div>
+    <aside class="planning-example" aria-labelledby="example-heading">
+      <div class="example-intro">
+        <p class="example-label">Illustrative planning example</p>
+        <h3 id="example-heading">Travel changes the week.<br />The plan can change with it.</h3>
+        <p>The details would depend on your goals and circumstances.</p>
+      </div>
+      <dl class="example-decisions">
+        <div><dt>The starting point</dt><dd>You planned regular gym sessions and an evening routine. Travel removes gym access, and meetings run late.</dd></div>
+        <div><dt>What we review</dt><dd>At the check-in, we look at what was manageable, what got in the way and what deserves attention next.</dd></div>
+        <div><dt>A possible adjustment</dt><dd>The next plan might use shorter movement sessions, a simple food routine and a more workable bedtime window.</dd></div>
+      </dl>
+    </aside>
+    <div class="planning-resource">
+      <div>
+        <h3>Put your own week on paper.</h3>
+        <p>A simple worksheet to choose one priority, plan for a difficult day and review what happened.</p>
+      </div>
+      <a href="/resources/demanding-week-planning-sheet.pdf" download>Get the planning sheet <span>PDF · 2 pages · no signup</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-section { background: var(--color-panel); }
+  .process-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 120px; }
+  .process-intro h2 { max-width: 410px; }
+  .process-intro .section-lead { margin-top: 25px; max-width: 380px; font-size: 1.05rem; }
+  .process-steps { list-style: none; padding: 0; margin: 0; }
+  .process-steps li { display: grid; grid-template-columns: 36px 1fr; gap: 25px; padding-block: 29px; }
+  .process-steps li:first-child { padding-top: 0; }
+  .process-steps li:last-child { padding-bottom: 0; }
+  .process-steps li + li { border-top: 1px solid var(--color-line); }
+  .step-number { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin-top: 1px; border: 1px solid var(--color-line); border-radius: 50%; font-size: 0.875rem; }
+  .process-steps h3 { font-size: 1.325rem; margin-bottom: 12px; }
+  .process-steps p { color: var(--color-muted); font-size: 1rem; }
+  .planning-example { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 120px; margin-top: 57px; padding-top: 37px; border-top: 1px solid var(--color-line); }
+  .example-label { color: var(--color-muted); font-size: 0.79rem; margin-bottom: 13px; }
+  .example-intro h3 { font-size: 1.35rem; line-height: 1.4; }
+  .example-intro > p:last-child { max-width: 330px; margin-top: 15px; color: var(--color-muted); font-size: 0.8rem; }
+  .example-decisions { margin: 0; }
+  .example-decisions > div + div { margin-top: 21px; }
+  .example-decisions dt { font-size: 0.85rem; font-weight: 500; margin-bottom: 5px; }
+  .example-decisions dd { margin: 0; color: var(--color-muted); font-size: 0.9rem; line-height: 1.7; }
+  .planning-resource { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 34px; padding: 25px 28px; background: var(--color-white); border: 1px solid var(--color-line); }
+  .planning-resource h3 { font-size: 1.1rem; margin-bottom: 7px; }
+  .planning-resource p { max-width: 610px; color: var(--color-muted); font-size: 0.9rem; }
+  .planning-resource a { flex-shrink: 0; color: var(--color-action); font-weight: 600; text-underline-offset: 4px; }
+  .planning-resource a span { display: block; margin-top: 7px; color: var(--color-muted); font-size: 0.78rem; font-weight: 400; }
+  @media (max-width: 1050px) { .process-layout, .planning-example { gap: 60px; } }
+  @media (max-width: 760px) { .process-layout, .planning-example { grid-template-columns: 1fr; gap: 34px; } .process-intro h2 { max-width: 500px; } .process-intro .section-lead { max-width: 510px; } .process-steps li { gap: 18px; } .planning-example { margin-top: 38px; padding-top: 28px; gap: 25px; } .example-intro > p:last-child { max-width: 420px; } .planning-resource { align-items: flex-start; flex-direction: column; gap: 20px; padding: 23px; } }
+</style>

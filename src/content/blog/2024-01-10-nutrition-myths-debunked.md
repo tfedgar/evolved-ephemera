@@ -1,185 +1,41 @@
 ---
-title: 5 Nutrition Myths That Are Sabotaging Your Results test
-description: Separate fact from fiction with these common nutrition myths that
-  could be holding back your fitness progress. Get the science-based truth.
-excerpt: Stop falling for these common nutrition myths that are sabotaging your
-  results. I'll break down the science and give you actionable advice.
+title: "Making food routines fit a busy week"
+description: "An archived Coach Edgar topic, revised into general reflection prompts about food routines and practical planning."
+excerpt: "Step back from sweeping food rules and consider the routines, time and resources available in your week."
 publishDate: 2024-01-10
-featured: true
+featured: false
 draft: false
-heroImage: /images/testimonial1.jpg
-heroImageAlt: Healthy meal prep containers
 author:
   name: Coach Edgar
-  bio: Expert personal trainer and performance optimization coach
-  avatar: /images/coach.jpg
 category: nutrition
-tags:
-  - nutrition myths
-  - fat loss
-  - meal timing
-  - supplements
+tags: [food routines, planning, everyday habits]
 seo:
-  ogTitle: 5 Nutrition Myths That Are Sabotaging Your Results - Coach Edgar
-  ogDescription: Separate fact from fiction with these common nutrition myths that
-    could be holding back your fitness progress
-  noindex: false
+  noindex: true
 ---
-The fitness industry is full of misinformation, especially when it comes to nutrition. I've seen countless clients struggle because they believed these common myths. Let's set the record straight with science-based facts.
 
-## Myth #1: "You Must Eat 6 Small Meals Per Day"
+The original topic looked at common nutrition claims. This revised archive keeps the practical question beneath it: how can you make room for food routines that fit your work and home life?
 
-**The Truth:** Meal frequency doesn't significantly impact metabolism or fat loss.
+It does not settle nutrition research, prescribe a diet or provide an individual meal plan.
 
-For decades, we've been told that eating frequently "stokes the metabolic fire." Research shows this isn't true. What matters is your **total daily caloric intake**, not when you eat it.
+## Look at the practical barriers
 
-**What Actually Works:**
+Before adopting a new rule, describe what gets in the way. Work hours, travel, money, access to food and family responsibilities can all be part of the picture.
 
-*   Eat in a pattern that fits your lifestyle
-*   2-3 larger meals or 4-6 smaller meals - both work
-*   Focus on consistency and adherence
+Useful questions include:
 
-## Myth #2: "Carbs After 6 PM Make You Fat"
+- When do you usually have time to buy and prepare food?
+- Which parts of the working week feel most rushed?
+- What equipment, storage or food options are available at work?
+- Who else needs to be considered when planning meals at home?
 
-**The Truth:** Timing of carbohydrate intake doesn't determine fat gain - total calories do.
+## Be curious about sweeping promises
 
-Your body doesn't have a magical switch that turns carbs to fat after 6 PM. Some research even suggests eating carbs at night may improve sleep quality and recovery.
+A claim that one food, supplement or rigid schedule will transform your results deserves questions. Ask what the claim is based on, who it applies to, what uncertainties are missing and whether the person making it has a commercial interest.
 
-**Smart Carb Strategy:**
+An anecdote or advertisement does not tell you how an approach will fit your circumstances.
 
-*   Time carbs around your workouts for performance
-*   Choose complex carbs (rice, potatoes, oats)
-*   Don't fear evening carbs if they fit your daily targets
+## Plan one realistic adjustment
 
-## Myth #3: "Detox Teas and Cleanses Burn Fat"
+You might choose to plan a shopping trip, set aside a preparation window or discuss shared responsibilities at home. Keep the first step specific enough to review next week.
 
-**The Truth:** Your liver and kidneys already detox your body naturally.
-
-"Detox" products are marketing scams. They may cause temporary water weight loss, but they don't burn fat or remove "toxins" any better than your organs already do.
-
-**Real Detox Methods:**
-
-*   Drink plenty of water
-*   Eat fiber-rich foods
-*   Get quality sleep
-*   Exercise regularly
-*   Limit alcohol and processed foods
-
-## Myth #4: "Fat Makes You Fat"
-
-**The Truth:** Dietary fat is essential for hormone production and doesn't directly cause fat gain.
-
-In the 1980s, we demonized fat. Now we know that healthy fats are crucial for:
-
-*   Testosterone and growth hormone production
-*   Vitamin absorption (A, D, E, K)
-*   Satiety and meal satisfaction
-*   Brain function
-
-**Healthy Fat Sources:**
-
-*   Avocados and olive oil
-*   Nuts and seeds
-*   Fatty fish (salmon, mackerel)
-*   Grass-fed butter
-*   Coconut oil
-
-Aim for 20-35% of your daily calories from fat.
-
-## Myth #5: "Supplements Are Magic Pills"
-
-**The Truth:** Supplements supplement a good diet - they don't replace it.
-
-The supplement industry wants you to believe their products are the secret to transformation. Reality check: **nutrition fundamentals** matter most.
-
-**Supplements That Actually Help:**
-
-*   **Creatine**: 3-5g daily for strength and power
-*   **Protein powder**: Convenient way to hit protein targets
-*   **Vitamin D**: If you're deficient (get tested)
-*   **Omega-3s**: If you don't eat fish regularly
-
-Everything else is likely unnecessary if your diet is on point.
-
-## The Real Nutrition Fundamentals
-
-Instead of chasing myths, focus on these proven principles:
-
-### 1\. Caloric Balance
-
-*   Fat loss: Eat in a moderate deficit (300-500 calories)
-*   Muscle gain: Eat in a slight surplus (200-300 calories)
-*   Maintenance: Match intake to expenditure
-
-### 2\. Protein Priority
-
-*   0.8-1.2g per pound of body weight
-*   Spread across 3-4 meals
-*   Choose high-quality sources
-
-### 3\. Micronutrient Density
-
-*   Eat a variety of colorful vegetables
-*   Include fruits for vitamins and antioxidants
-*   Don't rely solely on processed foods
-
-### 4\. Hydration
-
-*   Half your body weight in ounces minimum
-*   More if you're active or in hot climates
-*   Water is the best choice
-
-### 5\. Consistency Over Perfection
-
-*   Aim for 80-90% adherence
-*   Don't let perfect be the enemy of good
-*   Build sustainable habits
-
-## Sample Day of Eating
-
-**Breakfast:**
-
-*   3 whole eggs + 2 egg whites
-*   1 cup oatmeal with berries
-*   1 tbsp almond butter
-
-**Lunch:**
-
-*   6 oz chicken breast
-*   1.5 cups jasmine rice
-*   Mixed vegetables
-*   1 tbsp olive oil
-
-**Pre-Workout:**
-
-*   Protein shake with banana
-
-**Post-Workout:**
-
-*   Protein shake with rice cakes
-
-**Dinner:**
-
-*   6 oz salmon
-*   8 oz sweet potato
-*   Large salad with avocado
-
-**Before Bed:**
-
-*   Greek yogurt with nuts
-
-## The Bottom Line
-
-Stop falling for nutrition myths and focus on the fundamentals. Sustainable results come from:
-
-*   Eating appropriate calories for your goals
-*   Prioritizing protein intake
-*   Including healthy fats and carbs
-*   Staying hydrated
-*   Being consistent
-
-Remember: if a nutrition claim sounds too good to be true, it probably is.
-
-* * *
-
-_Want a personalized nutrition plan that cuts through the BS? My coaching programs include custom meal plans based on science, not myths. [Get started today](/pay)._
+The coaching conversation is about goals, habits and follow-through. Individual nutritional assessment, health conditions, eating concerns and questions about supplements or medication should be discussed with an appropriately qualified health professional.
