@@ -1,0 +1,86 @@
+---
+const questions = [
+  {
+    question: 'Who is this coaching for?',
+    answer: 'High-performing individuals who want a practical way to look after their health alongside demanding work and life outside it. Your priorities might include strength, focus, recovery, healthy-aging habits or being more present for your family. Coaching brings these goals into one personal plan. Education on TRT and peptides, and support around sexual wellbeing, can be included where relevant; no particular treatment or family situation is required.',
+  },
+  {
+    question: 'What is your role with TRT and peptides?',
+    answer: 'These are optional topics within your overall health and performance coaching. I provide nonclinical coaching and education alongside care from your licensed treating clinician, and I also work with On Wellness. We can discuss testosterone replacement therapy (TRT) and peptide research, examine claims and uncertainties, and prepare questions for your clinician. Clinical assessment, prescribing, laboratory testing and medical monitoring are separate medical services provided by the treating clinician. Coaching does not guarantee a prescription or access to a particular treatment.',
+  },
+  {
+    question: 'Can we discuss libido and sexual confidence while I am on TRT?',
+    answer: 'Yes. These can be part of your overall coaching plan, using the same weekly check-ins and agreed support. We can discuss changes you have noticed, work on practical routines and prepare questions for your treating clinician. Clinical assessment of sexual-function concerns, treatment and any medication changes remain with that clinician. A general inquiry is enough to arrange a conversation; no intimate details or medical records are needed in the form.',
+  },
+  {
+    question: 'What does working together look like?',
+    answer: 'Coaching is remote and one-to-one. We set your goals, discuss the practical options and build a personal plan. Weekly check-ins give us a regular point to review and adjust, with direct support through an agreed channel. I explain the reasoning behind suggestions and where information is uncertain. We agree the format, timing and response expectations before you enroll.',
+  },
+  {
+    question: 'Do I need to share my progress publicly?',
+    answer: 'No. Coaching does not require public check-ins, progress posts or participation in a group. We work directly through the channel we agree. Client stories, photographs and testimonials are shared only with explicit permission. The website privacy page explains how inquiry and payment services handle information.',
+  },
+  {
+    question: 'Do I need to use TRT or peptides?',
+    answer: 'No. You do not need to use or be interested in TRT, peptides or anabolic steroids to work with me. Your coaching can focus entirely on sleep, recovery, strength, movement and food habits, with brain-health habits and healthy aging in mind. Treatment decisions belong with your licensed clinician and depend on your individual circumstances.',
+  },
+  {
+    question: 'Do you offer anabolic-steroid harm-reduction education?',
+    answer: 'Yes. We can discuss research claims, risks, uncertainty and the limits of harm reduction, and prepare questions for a qualified clinician. Coaching does not supply drugs, prescribe, provide dosing or cycle plans, interpret laboratory results as a medical service, or provide medical monitoring. Education cannot make drug use risk-free.',
+  },
+  {
+    question: 'Is this a medical service?',
+    answer: 'Coach Edgar provides coaching and education. Medical assessment, diagnosis, treatment, prescriptions, laboratory testing and medical monitoring are provided separately by your licensed treating clinician. Those services, medications and any clinical fees are not included in the coaching price. Coaching does not replace medical care or promise a particular health, hormone or performance outcome.',
+  },
+  {
+    question: 'How do the commitments and payments work?',
+    answer: 'The three-month minimum is USD 500 per month (USD 1,500 minimum total), six months is USD 450 per month (USD 2,700 minimum total), and twelve months is USD 400 per month (USD 4,800 minimum total). Every option includes the same coaching support. The introductory 14-day first-month money-back guarantee is an exception to the minimum commitment. Otherwise, billing is monthly in USD and continues at the same rate after the minimum commitment until canceled. We agree cancellation and refund terms outside the guarantee before enrollment. Any applicable tax is shown at checkout.',
+  },
+  {
+    question: 'How does the money-back guarantee work?',
+    answer: 'It is a first-month coaching-fee guarantee, available once to new coaching clients. If you decide coaching is not right for you, for any reason, email info@coachedgar.com within the first 14 calendar days of your agreed coaching start date. Sending the email by your deadline ends coaching and releases you from the remaining minimum commitment; no cancellation call or coach approval is required. We refund your full first monthly coaching payment, including any tax charged on it, and stop billing. You can also cancel before coaching starts without a remaining commitment. We confirm your start date, time zone and exact deadline before payment. No participation requirement or proof of failed results applies. Separately billed clinic, testing and medication costs are excluded. We initiate the refund to the original payment method within 10 business days of receiving your request; your bank may take longer to show it. Your statutory rights are unaffected. Full details are on the coaching terms page.',
+  },
+  {
+    question: 'What happens on the first call?',
+    answer: "We talk about what you would like to change, the realities of your week and what support you are looking for. There is time for your questions, and we can discuss the initial commitment if we decide to work together. Use the short inquiry form to request a call; we arrange the time by email. You do not need to send medical records or detailed health information.",
+  },
+];
+---
+
+<section class="questions-section site-section" id="questions" aria-labelledby="questions-heading">
+  <div class="site-container questions-layout">
+    <div class="questions-intro">
+      <span class="section-kicker">Before we talk</span>
+      <h2 id="questions-heading">A few practical<br />questions.</h2>
+      <p>Something else on your mind?<br /><a href="mailto:info@coachedgar.com" class="text-link">Ask Edgar</a></p>
+    </div>
+    <div class="questions-list">
+      {questions.map(({ question, answer }) => (
+        <details>
+          <summary><span>{question}</span><span class="question-icon" aria-hidden="true"></span></summary>
+          <div class="question-answer"><p>{answer}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .questions-section { background: var(--color-white); }
+  .questions-layout { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 100px; }
+  .questions-intro > p { margin-top: 27px; color: var(--color-muted); font-size: 0.925rem; line-height: 1.8; }
+  .questions-intro .text-link { margin-top: 3px; }
+  .questions-list { border-top: 1px solid var(--color-line); }
+  details { border-bottom: 1px solid var(--color-line); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 28px; min-height: 84px; padding-block: 24px; font-size: 1.025rem; line-height: 1.5; font-weight: 500; cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--color-action); }
+  .question-icon { position: relative; width: 15px; height: 15px; flex-shrink: 0; }
+  .question-icon::before, .question-icon::after { content: ''; position: absolute; background: currentColor; }
+  .question-icon::before { height: 1px; width: 15px; top: 7px; }
+  .question-icon::after { width: 1px; height: 15px; left: 7px; }
+  details[open] .question-icon::after { display: none; }
+  .question-answer { color: var(--color-muted); font-size: 0.95rem; line-height: 1.75; padding: 0 35px 25px 0; }
+  @media (max-width: 1050px) { .questions-layout { gap: 50px; } }
+  @media (max-width: 760px) { .questions-layout { grid-template-columns: 1fr; gap: 37px; } summary { font-size: 1rem; min-height: 76px; padding-block: 22px; } }
+</style>

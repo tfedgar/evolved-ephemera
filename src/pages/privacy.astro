@@ -1,75 +1,83 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout>
+<Layout
+  title="Privacy | Coach Edgar — Health & Performance"
+  description="Information shared with Coach Edgar, the services handling website inquiries and payments, and how to ask a privacy question."
+>
   <Navigation />
-  <div class="max-w-4xl mx-auto py-8 px-6">
-    <h1 class="mb-8 text-4xl font-semibold text-gray-900">
-      Privacy Policy
-    </h1>
-    
-    <section class="mb-12">
-      <h2 class="text-gray-900 mb-6 text-2xl font-semibold">
-        Cookie Policy
-      </h2>
-      <p class="mb-4 text-gray-700">
-        We use only essential cookies to provide core functionality of our website. These cookies are strictly necessary for the website to function and cannot be switched off in our systems.
-      </p>
-      
-      <h3 class="text-gray-800 mt-8 mb-4 text-xl font-medium">
-        Essential Cookies We Use:
-      </h3>
-      <ul class="my-4 ml-5 text-gray-700">
-        <li class="mb-2">
-          <span class="font-semibold text-gray-900">cookie-consent</span>: Stores your cookie preferences
-        </li>
-      </ul>
+  <main id="main-content" class="policy-main">
+    <div class="policy-inner">
+      <header>
+        <p class="page-kicker">Coach Edgar · Health &amp; Performance</p>
+        <h1>Your information.</h1>
+        <p class="page-intro">What you share through this website, how it is handled and how to ask a question.</p>
+        <p class="updated">Last updated: 15 October 2026</p>
+      </header>
 
-      <h3 class="text-gray-800 mt-8 mb-4 text-xl font-medium">
-        Cookie Settings
-      </h3>
-      <p class="mb-4 text-gray-700">Our cookies are:</p>
-      <ul class="my-4 ml-5 text-gray-700">
-        <li class="mb-2">First-party only (no third-party cookies)</li>
-        <li class="mb-2">Secure (on HTTPS connections)</li>
-        <li class="mb-2">SameSite=Strict (enhanced security)</li>
-        <li class="mb-2">Essential only (no tracking or analytics)</li>
-      </ul>
+      <div class="policy-copy">
+        <section aria-labelledby="inquiries">
+          <h2 id="inquiries">When you get in touch</h2>
+          <p>The inquiry form asks for your name and email, with a service interest and optional broad goals and initial commitment preference. Formspree receives the information submitted through this form. Edgar uses your inquiry to respond to your request and discuss whether coaching fits. If you email directly, your email provider and Edgar’s email service handle that message.</p>
+          <p>Please keep an initial inquiry general. Do not include medical records, laboratory results, drug regimens or payment-card details. The short form is for requesting a conversation, rather than collecting a detailed health history.</p>
+        </section>
 
-      <h3 class="text-gray-800 mt-8 mb-4 text-xl font-medium">
-        Your Rights
-      </h3>
-      <p class="mb-4 text-gray-700">You have the right to:</p>
-      <ul class="my-4 ml-5 text-gray-700">
-        <li class="mb-2">Accept or reject non-essential cookies</li>
-        <li class="mb-2">Clear cookies through your browser settings</li>
-        <li class="mb-2">Use browser privacy modes to prevent cookie storage</li>
-      </ul>
-    </section>
+        <section aria-labelledby="discretion">
+          <h2 id="discretion">Discretion and sharing</h2>
+          <p>Coaching does not require public check-ins, progress posts or participation in a group. Client stories, photographs and testimonials are shared only with explicit permission.</p>
+          <p>Website delivery, inquiry processing and payment administration involve the service providers described below. Before coaching begins, you and Edgar agree how you will communicate and what information is needed.</p>
+        </section>
 
-    <section class="mb-12">
-      <h2 class="text-gray-900 mb-6 text-2xl font-semibold">
-        Data Collection
-      </h2>
-      <p class="mb-4 text-gray-700">
-        We collect only the minimum amount of data necessary to provide our services:
-      </p>
-      <ul class="my-4 ml-5 text-gray-700">
-        <li class="mb-2">Contact information you provide</li>
-        <li class="mb-2">Payment information (processed securely by Stripe)</li>
-        <li class="mb-2">Cookie preferences</li>
-      </ul>
-    </section>
+        <section aria-labelledby="email-updates">
+          <h2 id="email-updates">Email updates</h2>
+          <p>Requesting a call does not subscribe you to a newsletter or authorize promotional emails. If a newsletter or other marketing emails are offered, sign-up will be separate and optional, with an unsubscribe option. Service messages about your inquiry or coaching are separate from marketing.</p>
+        </section>
 
-    <section class="mb-12">
-      <h2 class="text-gray-900 mb-6 text-2xl font-semibold">
-        Contact
-      </h2>
-      <p class="mb-4 text-gray-700">
-        For any privacy-related questions, please contact us directly.
-      </p>
-    </section>
-  </div>
-</Layout> 
+        <section aria-labelledby="booking-payments">
+          <h2 id="booking-payments">Conversations and payments</h2>
+          <p>The inquiry form can be used to request a conversation; a time is arranged separately. If a scheduling or call service is agreed, review that service’s privacy information before sharing information there.</p>
+          <p>Stripe processes payments when checkout is available. Payment details are entered on Stripe’s hosted checkout page. The website can receive transaction information such as a payment or subscription status, the selected program and a customer email to support payment administration.</p>
+          <p>Existing digital-guide customers can also use their purchase information to verify access to their download.</p>
+        </section>
+
+        <section aria-labelledby="site-delivery">
+          <h2 id="site-delivery">Website delivery and cookies</h2>
+          <p>Cloudflare provides the website’s hosting and delivery. Delivering a page involves technical request information, such as an IP address, browser information and the page requested.</p>
+          <p>This website does not load browser advertising or analytics trackers. External services you choose to use, including Formspree and Stripe, handle information under their own privacy notices and may use their own cookies where applicable. You can inspect and clear cookies through your browser settings.</p>
+        </section>
+
+        <section aria-labelledby="privacy-contact">
+          <h2 id="privacy-contact">Questions and requests</h2>
+          <p>Email <a href="mailto:info@coachedgar.com">info@coachedgar.com</a> to ask about information held in connection with an inquiry, coaching or payment, how long it is kept, or to request a correction or deletion.</p>
+          <p>Include enough detail to identify your inquiry or transaction, without sending sensitive health information or full payment-card details. Some records may need to be retained for payment administration or applicable record-keeping requirements; Edgar can explain what applies to your request.</p>
+        </section>
+      </div>
+
+      <nav class="page-links" aria-label="Related pages">
+        <a href="/terms">Coaching scope &amp; program terms</a>
+        <a href="/#contact">Contact Edgar</a>
+      </nav>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .policy-main { padding: clamp(7rem, 12vw, 10rem) 1.25rem 5rem; color: var(--color-ink); background: var(--color-page); }
+  .policy-inner { max-width: 48rem; margin-inline: auto; }
+  .page-kicker { color: var(--color-action); font-size: .875rem; font-weight: 500; letter-spacing: .01em; }
+  h1 { margin: 1.1rem 0 1.5rem; font-size: clamp(2.75rem, 8vw, 4.8rem); line-height: 1.06; font-weight: 500; letter-spacing: -.045em; }
+  .page-intro { max-width: 35rem; font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.6; color: var(--color-muted); }
+  .updated { margin-top: 1.4rem; font-size: .85rem; color: var(--color-muted); }
+  .policy-copy { margin-top: 3rem; padding-top: .25rem; border-top: 1px solid var(--color-panel); }
+  section { margin-top: 2.6rem; }
+  h2 { font-size: 1.3rem; line-height: 1.3; margin-bottom: .9rem; font-weight: 600; letter-spacing: -.02em; }
+  section p, li { color: var(--color-muted); line-height: 1.8; }
+  section p + p { margin-top: 1rem; }
+  a { color: var(--color-action); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+  a:hover { text-decoration-thickness: 2px; }
+  .page-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-panel); font-size: .95rem; }
+</style>

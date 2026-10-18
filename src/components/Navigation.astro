@@ -1,122 +1,76 @@
----
-import Button from './Button.astro';
----
-
-<!-- Navigation Header -->
-<nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50">
-  <div class="max-w-7xl mx-auto px-4 lg:px-6">
-    <div class="flex items-center justify-between h-16">
-      <div class="flex items-center">
-        <a href="/" class="text-2xl font-bold text-gray-900">
-          CoachEdgar
-        </a>
-      </div>
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="/#about" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">About</a>
-        <a href="/#services" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">Services</a>
-        <a href="/#testimonials" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">Results</a>
-        <a href="/#contact" class="text-gray-700 hover:text-emerald-600 font-medium transition-colors">Contact</a>
-      </div>
-      
-      <!-- CTA Button -->
-      <div class="hidden md:flex items-center">
-        <Button href="/pay" variant="primary" size="md">
-          Start Training
-        </Button>
-      </div>
-      
-      <div class="md:hidden">
-        <button id="mobile-menu-button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-md p-2">
-          <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
+<header class="site-header">
+  <nav class="site-container navigation" aria-label="Main navigation">
+    <a href="/" class="brand" aria-label="Coach Edgar, home">
+      <span class="brand-name">Coach Edgar<span class="brand-dot" aria-hidden="true">.</span></span>
+      <span class="brand-description">Health &amp; Performance</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="navigation-links" aria-expanded="false" hidden>
+      <span class="menu-label">Menu</span>
+      <span class="menu-glyph" aria-hidden="true"><span></span><span></span></span>
+    </button>
+    <div class="navigation-links" id="navigation-links">
+      <a href="/#coaching">Coaching</a>
+      <a href="/#programs">Programs &amp; pricing</a>
+      <a href="/#about">About Edgar</a>
+      <a href="/#questions">Questions</a>
+      <a href="/#contact" class="site-button nav-booking">Request a call</a>
     </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-      <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="/#about" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">About</a>
-            <a href="/#services" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">Services</a>
-            <a href="/#testimonials" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">Results</a>
-            <a href="/#contact" class="block px-3 py-2 text-slate-700 hover:text-emerald-600 hover:bg-slate-50 font-medium transition-colors">Contact</a>
-        
-        <!-- Mobile CTA Button -->
-        <div class="pt-2 border-t border-slate-200 mt-2">
-          <Button href="/pay" variant="primary" size="md" fullWidth={true}>
-            Start Training
-          </Button>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
-    const closeIcon = document.getElementById('close-icon');
-    
-    if (mobileMenuButton && mobileMenu && hamburgerIcon && closeIcon) {
-      mobileMenuButton.addEventListener('click', function() {
-        const isHidden = mobileMenu.classList.contains('hidden');
-        
-        if (isHidden) {
-          // Show menu
-          mobileMenu.classList.remove('hidden');
-          hamburgerIcon.classList.add('hidden');
-          closeIcon.classList.remove('hidden');
-        } else {
-          // Hide menu
-          mobileMenu.classList.add('hidden');
-          hamburgerIcon.classList.remove('hidden');
-          closeIcon.classList.add('hidden');
-        }
-      });
-      
-      // Handle smooth scrolling with offset for all navigation links
-      const allNavLinks = document.querySelectorAll('nav a[href^="/#"]');
-      allNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const href = this.getAttribute('href');
-          if (href.startsWith('/#')) {
-            const targetId = href.substring(2); // Remove '/#'
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-              // Close mobile menu if open
-              if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-              }
-              
-              // Use global smooth scroll function
-              // Calculate offset for fixed navigation - measure actual height
-              const navElement = document.querySelector('nav');
-              const navHeight = navElement ? navElement.offsetHeight : 64;
-              const targetPosition = targetElement.offsetTop - navHeight;
-              
-              // Smooth scroll to target
-              window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-              });
-              
-              // Update URL
-              history.pushState(null, '', '#' + targetId);
-            }
-          }
-        });
-      });
-    }
-  });
+  const toggle = document.querySelector<HTMLButtonElement>('#menu-toggle');
+  const links = document.querySelector<HTMLElement>('#navigation-links');
+  const mobile = window.matchMedia('(max-width: 960px)');
+
+  if (toggle && links) {
+    const setMenu = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      links.hidden = mobile.matches && !open;
+    };
+    const syncMenu = () => {
+      toggle.hidden = !mobile.matches;
+      setMenu(false);
+    };
+    syncMenu();
+    mobile.addEventListener('change', syncMenu);
+    toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+    links.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (mobile.matches && event.target instanceof Node && !toggle.contains(event.target) && !links.contains(event.target)) setMenu(false);
+    });
+  }
 </script>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 30; background: var(--color-page); border-bottom: 1px solid var(--color-line); }
+  .navigation { display: flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 97px; }
+  .brand { display: inline-flex; flex-direction: column; text-decoration: none; line-height: 1.25; flex-shrink: 0; }
+  .brand-name { font-size: 1.55rem; font-weight: 600; letter-spacing: -0.04em; }
+  .brand-dot { color: var(--color-action); }
+  .brand-description { margin-top: 3px; font-size: 0.72rem; color: var(--color-muted); letter-spacing: 0.01em; }
+  .navigation-links { display: flex; align-items: center; gap: 33px; }
+  .navigation-links > a { font-size: 0.9rem; font-weight: 500; text-decoration: none; }
+  .navigation-links > a:not(.site-button):hover { color: var(--color-action); }
+  .nav-booking { min-height: 44px; padding: 11px 21px; margin-left: 4px; }
+  .menu-toggle { background: transparent; border: 1px solid var(--color-line); border-radius: 4px; padding: 10px 12px; display: flex; align-items: center; gap: 12px; font-size: 0.9rem; min-height: 44px; }
+  .menu-glyph { width: 17px; display: flex; flex-direction: column; gap: 5px; }
+  .menu-glyph span { height: 1px; width: 100%; background: var(--color-ink); transition: transform 160ms ease; }
+  [aria-expanded="true"] .menu-glyph span:first-child { transform: translateY(3px) rotate(45deg); }
+  [aria-expanded="true"] .menu-glyph span:last-child { transform: translateY(-3px) rotate(-45deg); }
+  @media (max-width: 900px) { .navigation-links { gap: 22px; } }
+  @media (max-width: 960px) {
+    .navigation { min-height: 82px; flex-wrap: wrap; gap: 0; }
+    .brand-name { font-size: 1.4rem; }
+    .brand-description { font-size: 0.68rem; }
+    .navigation-links { width: 100%; display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 10px 0 22px; border-top: 1px solid var(--color-line); }
+    .navigation-links > a { padding: 13px 0; }
+    .navigation-links > .nav-booking { margin: 10px 0 0; padding: 13px 20px; }
+  }
+</style>

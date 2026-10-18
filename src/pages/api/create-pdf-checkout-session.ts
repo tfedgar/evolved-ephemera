@@ -44,7 +44,7 @@ export async function POST({ request, locals }: { request: Request; locals: any 
     
     // Check if we have a valid price ID
     if (!PDF_PRICE_ID) {
-      console.error('PDF_PRICE_ID not configured:', PDF_PRICE_ID);
+      console.error('PDF product not configured');
       return new Response(
         JSON.stringify({ error: 'PDF product not configured. Please contact support.' }), 
         { 
@@ -83,9 +83,6 @@ export async function POST({ request, locals }: { request: Request; locals: any 
       
 
     } catch (stripeError: any) {
-      console.error('Stripe session creation failed:', stripeError);
-      console.error('Stripe error type:', stripeError.type);
-      console.error('Stripe error message:', stripeError.message);
       throw stripeError;
     }
 
@@ -119,7 +116,7 @@ export async function POST({ request, locals }: { request: Request; locals: any 
     );
 
   } catch (error: any) {
-    console.error('Stripe PDF session creation error:', error);
+    console.error('PDF checkout creation failed');
     
     // Handle specific Stripe errors
     if (error.type === 'StripeAuthenticationError') {
@@ -137,8 +134,7 @@ export async function POST({ request, locals }: { request: Request; locals: any 
 
     return new Response(
       JSON.stringify({ 
-        error: 'Unable to create checkout session. Please try again later.',
-        details: error.message 
+        error: 'Unable to create checkout session. Please try again later.'
       }), 
       { 
         status: 500,

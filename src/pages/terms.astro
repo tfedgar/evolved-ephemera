@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { COACHING_PLANS } from '../lib/coaching-plans';
+
+const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+---
+
+<Layout
+  title="Coaching scope & program terms | Coach Edgar"
+  description="Health and performance coaching scope, USD monthly pricing, the 14-day first-month money-back guarantee, cancellation and the distinction from clinical care."
+>
+  <Navigation />
+  <main id="main-content" class="policy-main">
+    <div class="policy-inner">
+      <header>
+        <p class="page-kicker">Coach Edgar · Health &amp; Performance</p>
+        <h1>A clear starting point.</h1>
+        <p class="page-intro">Coaching scope, program prices and what to agree before you enroll.</p>
+        <p class="updated">Last updated: 17 October 2026</p>
+      </header>
+
+      <aside class="terms-note" aria-labelledby="before-enrollment">
+        <h2 id="before-enrollment">Before enrollment</h2>
+        <p>The introductory first-month guarantee is set out below. Early cancellation and refund conditions outside that guarantee are still being finalized. These conditions, your service details, coaching start date, time zone and exact guarantee deadline must be agreed in writing before a new coaching payment is taken.</p>
+      </aside>
+
+      <div class="policy-copy">
+        <section aria-labelledby="scope">
+          <h2 id="scope">What coaching covers</h2>
+          <p>Coach Edgar — Health &amp; Performance offers remote, one-to-one health and performance coaching for high-performing individuals with demanding work and personal lives. One personal plan brings together strength, movement, food, sleep and recovery habits, with brain-health habits and healthy aging in mind.</p>
+          <p>Education on testosterone replacement therapy (TRT), peptides and anabolic-steroid harm reduction can be part of coaching alongside care from your licensed treating clinician. We discuss research claims, evidence, risks, uncertainty and questions to take to that clinician. These topics are optional; using or seeking treatment is not a condition of coaching.</p>
+          <p>Libido, sexual confidence and concerns while on TRT can be discussed within this same coaching relationship where relevant. These are optional areas of support included in your chosen coaching plan. Support focuses on practical habits, education and preparing questions for your treating clinician. Assessment and treatment of sexual dysfunction, hormone or medication changes, and medical monitoring belong with that clinician.</p>
+          <p>Edgar also works with <a href="https://www.onwellness.life/">On Wellness</a>. His role is coaching and education; the clinic's medical team makes clinical decisions. Medical services, eligibility and any clinical fees are separate from this coaching subscription.</p>
+          <p>Clinical assessment, diagnosis, medical treatment, prescribing, laboratory testing and medical monitoring are provided separately by your licensed treating clinician. Coach Edgar's coaching does not supply medication, prescribe, provide dosing or cycle plans, interpret laboratory results as a medical service, or guarantee a prescription or treatment access. Education cannot make drug use risk-free.</p>
+          <p>Your own goals, preferences and circumstances guide the coaching plan. Strength, confidence, masculinity and being present for family are personal priorities, not promised effects of medication. Coaching does not promise a particular health, hormone, performance, appearance or relationship outcome and does not replace medical care.</p>
+        </section>
+
+        <section aria-labelledby="service-agreement">
+          <h2 id="service-agreement">Agreeing how you will work together</h2>
+          <p>The core service includes a goal-setting conversation, a practical personal plan, weekly check-ins, adjustments and direct support through an agreed channel. Before starting, you and Edgar will agree your goals, the format and timing of support, how you will communicate and response expectations. Confirm these details in writing before committing.</p>
+          <p>The initial inquiry form is for a broad description of your goals. Please do not send medical records, laboratory results or drug regimens through it.</p>
+          <p>Coaching does not require public check-ins, progress posts or participation in a group. Client stories, photographs and testimonials are shared only with explicit permission. The <a href="/privacy">privacy page</a> explains the website services involved in handling inquiries and payments.</p>
+        </section>
+
+        <section aria-labelledby="program-prices">
+          <h2 id="program-prices">Program prices</h2>
+          <p>Every commitment option includes the same core coaching support and is billed monthly in US dollars. A longer initial commitment changes the monthly rate, rather than access to that support:</p>
+          <p>The coaching fee does not include medical consultations, laboratory testing, prescriptions, medication or other clinical services. Any clinical fees and arrangements are separate from the coaching program.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Monthly rate and total minimum program commitment</caption>
+              <thead><tr><th scope="col">Minimum term</th><th scope="col">Monthly rate</th><th scope="col">Minimum total</th></tr></thead>
+              <tbody>
+                {COACHING_PLANS.map((plan) => (
+                  <tr>
+                    <th scope="row">{plan.months} months</th>
+                    <td>{usd.format(plan.monthlyUsd)} USD</td>
+                    <td>{usd.format(plan.months * plan.monthlyUsd)} USD</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p>The minimum commitments above are subject to the <a href="#coaching-guarantee">introductory guarantee</a>. After the initial commitment, billing continues monthly at the selected program’s monthly rate until canceled, unless a change is separately agreed. These programs do not automatically end after three, six or twelve payments.</p>
+          <p>Any applicable tax must be confirmed and displayed before payment. Review the selected program, billing interval and complete terms before confirming a Stripe checkout.</p>
+        </section>
+
+        <section aria-labelledby="coaching-guarantee">
+          <h2 id="coaching-guarantee">14-day first-month money-back guarantee</h2>
+          <p>This voluntary coaching-fit guarantee is available once per person to new coaching clients, for their first coaching enrollment. If you decide coaching is not right for you, for any reason, email <a href="mailto:info@coachedgar.com">info@coachedgar.com</a> within the first 14 calendar days of your agreed coaching start date. Include your name and the email used for payment so we can locate your enrollment; no medical records or explanation is required.</p>
+          <p>Your first monthly payment is taken on your agreed coaching start date, which counts as day one. The deadline is 11:59 p.m. on day fourteen in the time zone stated in your written enrollment confirmation. Your start date, time zone and exact deadline must be confirmed before payment. The guarantee period will not run before coaching is ready to begin.</p>
+          <p>Sending your request by that deadline ends your coaching and releases you from all remaining payments under the original three-, six- or twelve-month minimum commitment, without waiting for our approval or reply. We stop recurring billing and refund any coaching charge taken after your effective cancellation. No cancellation call, attendance or participation requirement, proof of adherence, or demonstration of failed results is required.</p>
+          <p>You may also cancel by email before your agreed coaching start date without a remaining commitment or cancellation charge. If a coaching payment has already been taken, it will be refunded in full using the same process below.</p>
+          <p>We refund your full first monthly coaching payment, including any tax charged on that payment. There is no deduction for delivered coaching, onboarding, administration or payment-processing costs, and no separate mandatory setup fee. For the standard programs, the coaching fee refunded is $500, $450 or $400 USD, depending on your plan. We initiate the refund to the original payment method within 10 business days of receiving your request. Your bank or payment provider may take additional time to display the refund. If the original method cannot receive it, we will contact you to arrange an alternative without a refund fee.</p>
+          <p>This first-month guarantee covers Coach Edgar coaching fees only. It does not reimburse separately billed third-party medical consultations, laboratory tests, medication or other clinical costs; those providers' own terms apply. It does not promise a particular health, hormone, sexual-function, fitness or performance result.</p>
+          <p>The refund and release described here define this voluntary guarantee. They do not cap every possible legal claim, require a release of liability, or limit any refund, cancellation right or other remedy you have under applicable law. Your statutory rights are unaffected.</p>
+        </section>
+
+        <section aria-labelledby="cancellation">
+          <h2 id="cancellation">Cancellation, refunds and payment questions</h2>
+          <p>The introductory guarantee above is an exception to the minimum commitment. Outside that guarantee, ask Edgar for the complete written early cancellation and refund conditions before paying. Nothing on this page limits a right or remedy that applicable law does not allow us to exclude.</p>
+          <p>To discuss cancellation, an existing payment or a digital-guide purchase, email <a href="mailto:info@coachedgar.com">info@coachedgar.com</a>. Include your contact details and a general description of the question. Do not email full payment-card details.</p>
+        </section>
+      </div>
+
+      <nav class="page-links" aria-label="Related pages">
+        <a href="/#contact">Request a conversation</a>
+        <a href="/privacy">Privacy information</a>
+      </nav>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .policy-main { padding: clamp(7rem, 12vw, 10rem) 1.25rem 5rem; color: var(--color-ink); background: var(--color-page); }
+  .policy-inner { max-width: 48rem; margin-inline: auto; }
+  .page-kicker { color: var(--color-action); font-size: .875rem; font-weight: 500; letter-spacing: .01em; }
+  h1 { margin: 1.1rem 0 1.5rem; font-size: clamp(2.75rem, 8vw, 4.8rem); line-height: 1.06; font-weight: 500; letter-spacing: -.045em; }
+  .page-intro { max-width: 35rem; font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.6; color: var(--color-muted); }
+  .updated { margin-top: 1.4rem; font-size: .85rem; color: var(--color-muted); }
+  .terms-note { margin-top: 2.5rem; padding: 1.5rem; background: var(--color-panel); }
+  .terms-note p, section p { color: var(--color-muted); line-height: 1.8; }
+  .policy-copy { margin-top: 3rem; padding-top: .25rem; border-top: 1px solid var(--color-panel); }
+  section { margin-top: 2.6rem; }
+  h2 { font-size: 1.3rem; line-height: 1.3; margin-bottom: .9rem; font-weight: 600; letter-spacing: -.02em; }
+  section p + p { margin-top: 1rem; }
+  .table-wrap { overflow-x: auto; margin-block: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  caption { text-align: left; font-size: .85rem; color: var(--color-muted); padding-bottom: .8rem; }
+  th, td { text-align: left; vertical-align: top; padding: .9rem .65rem; border-bottom: 1px solid var(--color-panel); line-height: 1.6; }
+  thead th { color: var(--color-muted); font-size: .85rem; font-weight: 500; }
+  tbody th { font-weight: 500; }
+  a { color: var(--color-action); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+  a:hover { text-decoration-thickness: 2px; }
+  .page-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-panel); font-size: .95rem; }
+  @media (max-width: 420px) { th, td { padding-inline: .3rem; font-size: .85rem; } }
+</style>

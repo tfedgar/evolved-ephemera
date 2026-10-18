@@ -1,55 +1,70 @@
----
-import Button from './Button.astro';
----
-
-<section class="pt-12 lg:pt-16 pb-12 lg:pb-16 bg-white" id="services">
-  <div class="max-w-6xl mx-auto px-4 lg:px-6">
-    <h2 class="section-title text-center !mb-12 lg:!mb-16 text-gray-900 font-bold">
-      What I Offer
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-4xl mx-auto mb-16">
-      <div class="bg-white p-8 lg:p-10 rounded-2xl text-center shadow-lg border border-gray-100">
-        <div class="text-4xl lg:text-5xl mb-6">🏋️‍♂️</div>
-        <h3 class="text-xl lg:text-2xl mb-6 text-gray-900 font-bold">
-          Performance & Body Recomp Coaching
-        </h3>
-        <p class="text-base lg:text-lg leading-relaxed text-gray-600">
-          Get stronger, leaner, and more focused with a plan built for real results - not generic workouts or guesswork.
-        </p>
-      </div>
-      <div class="bg-white p-8 lg:p-10 rounded-2xl text-center shadow-lg border border-gray-100">
-        <div class="text-4xl lg:text-5xl mb-6">⚠️</div>
-        <h3 class="text-xl lg:text-2xl mb-6 text-gray-900 font-bold">
-          PED Risk Management & Strategy
-        </h3>
-        <p class="text-base lg:text-lg leading-relaxed text-gray-600">
-          Using PEDs or thinking about it? I'll help you avoid common mistakes and train smart - with a focus on risk reduction, not recklessness.
-        </p>
-      </div>
-      <div class="bg-white p-8 lg:p-10 rounded-2xl text-center shadow-lg border border-gray-100">
-        <div class="text-4xl lg:text-5xl mb-6">🔄</div>
-        <h3 class="text-xl lg:text-2xl mb-6 text-gray-900 font-bold">
-          Energy, Lifestyle & Sexual Performance Reset
-        </h3>
-        <p class="text-base lg:text-lg leading-relaxed text-gray-600">
-          Rebuild your energy, improve your sleep, sharpen your habits, and reignite your sex drive with a no-BS approach that actually works..
-        </p>
-      </div>
-      <div class="bg-white p-8 lg:p-10 rounded-2xl text-center shadow-lg border border-gray-100">
-        <div class="text-4xl lg:text-5xl mb-6">📈</div>
-        <h3 class="text-xl lg:text-2xl mb-6 text-gray-900 font-bold">
-          Results-Based Accountability
-        </h3>
-        <p class="text-base lg:text-lg leading-relaxed text-gray-600">
-          You don't need more motivation — you need a system, consistent support, and someone who stays in your corner and won't let you coast.
-        </p>
-      </div>
+<section class="focus-section site-section" id="coaching" aria-labelledby="focus-heading">
+  <div class="site-container">
+    <div class="focus-introduction">
+      <h2 id="focus-heading">One plan.<br />Your whole life.</h2>
+      <p class="section-lead">Your goals, your work and your responsibilities shape the plan. We bring training, nutrition, sleep, recovery and brain-health habits into one practical coaching relationship, with weekly check-ins and personal support.</p>
     </div>
-    
-    <div class="text-center">
-      <Button href="/pay" variant="primary" size="lg" textColor="!text-white">
-        View Coaching Packages
-      </Button>
+    <div class="focus-areas">
+      <article class="focus-area">
+        <h3>Sleep and recovery.</h3>
+        <p>Look at your evening routine, the time you leave for sleep and how you recover between demanding days. Work on habits that fit your schedule.</p>
+        <p class="focus-detail">Give sleep and recovery a deliberate place in your week.</p>
+      </article>
+      <article class="focus-area">
+        <h3>Strength and food habits.</h3>
+        <p>Give movement, training and everyday eating a practical place in your week. Build around your starting point, preferences and available time.</p>
+        <p class="focus-detail">Make room for strength and confidence on your own terms.</p>
+      </article>
+      <article class="focus-area">
+        <h3>Consistency through change.</h3>
+        <p>Review what happens when meetings run late, travel interrupts a routine or family needs come first. Adjust the plan around the responsibilities you want to show up for.</p>
+        <p class="focus-detail">For the weeks that don't go to plan.</p>
+      </article>
     </div>
+    <p class="foundations-note">Brain-health habits and healthy aging give these foundations a longer view. TRT and peptides are not requirements for coaching; your plan can focus entirely on everyday habits. We explain the reasoning, alternatives and uncertainty so you can decide what fits.</p>
+    <section class="advanced-topics" id="education" aria-labelledby="education-heading">
+      <div>
+        <p class="advanced-label">Specialist topics within your coaching</p>
+        <h3 id="education-heading">TRT, peptides<br /> and informed choices.</h3>
+      </div>
+      <div class="advanced-copy">
+        <p>Where relevant to your goals, your coaching can include education on testosterone replacement therapy (TRT), peptides and anabolic-steroid harm reduction. We discuss claims, evidence, risks and uncertainty, and prepare questions for your treating clinician. These conversations sit alongside your practical plan for training, nutrition, sleep and recovery.</p>
+        <p class="clinic-relationship">I also work with <a href="https://www.onwellness.life/">On Wellness</a>. My role is coaching and education; the clinic's medical team makes clinical decisions. Medical care and medication remain separate from this coaching subscription.</p>
+        <p class="coaching-scope">Clinical assessment, prescribing, laboratory testing and medical monitoring are provided separately by your licensed treating clinician. Coaching does not supply medication, prescribe, or provide dosing or cycle plans. Medical services and medication costs are not included in coaching. Education cannot make drug use risk-free.</p>
+      </div>
+    </section>
   </div>
-</section> 
+</section>
+
+<style>
+  .focus-section { background: var(--color-white); }
+  .focus-introduction { display: grid; grid-template-columns: 1.1fr 1fr; gap: 100px; align-items: end; }
+  .focus-introduction .section-lead { max-width: 475px; padding-bottom: 2px; }
+  .focus-areas { margin-top: 58px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .focus-area { display: flex; flex-direction: column; padding-right: 35px; }
+  .focus-area + .focus-area { padding-left: 35px; border-left: 1px solid var(--color-line); }
+  .focus-area:last-child { padding-right: 0; }
+  .focus-area h3 { max-width: 280px; min-height: 66px; margin-bottom: 18px; font-size: 1.5rem; }
+  .focus-area p { color: var(--color-muted); font-size: 1rem; line-height: 1.7; }
+  .focus-area .focus-detail { margin-top: auto; padding-top: 22px; color: var(--color-ink); font-size: 0.79rem; }
+  .foundations-note { max-width: 800px; margin-top: 37px; color: var(--color-muted); font-size: 0.9rem; }
+  .advanced-topics { display: grid; grid-template-columns: 1fr 1.8fr; gap: 70px; margin-top: 47px; padding-top: 35px; border-top: 1px solid var(--color-line); }
+  .advanced-label { color: var(--color-muted); font-size: 0.8rem; margin-bottom: 12px; }
+  .advanced-topics h3 { font-size: 1.4rem; }
+  .advanced-copy > p { max-width: 670px; color: var(--color-muted); font-size: 0.95rem; line-height: 1.75; }
+  .advanced-copy .clinic-relationship { margin-top: 17px; }
+  .clinic-relationship a { color: var(--color-action); text-decoration: underline; text-underline-offset: 3px; }
+  .advanced-copy .coaching-scope { margin-top: 17px; font-size: 0.8rem; }
+  @media (max-width: 1050px) { .focus-introduction { gap: 50px; } .focus-area { padding-right: 25px; } .focus-area + .focus-area { padding-left: 25px; } .advanced-topics { gap: 45px; } }
+  @media (max-width: 760px) {
+    .focus-introduction { grid-template-columns: 1fr; gap: 25px; }
+    .focus-areas { grid-template-columns: 1fr; margin-top: 36px; }
+    .focus-area, .focus-area + .focus-area { padding: 25px 0; border-left: 0; border-top: 1px solid var(--color-line); }
+    .focus-area h3 { min-height: 0; max-width: 400px; margin-bottom: 13px; }
+    .focus-area p { max-width: 540px; }
+    .focus-area .focus-detail { padding-top: 15px; }
+    .foundations-note { margin-top: 10px; }
+    .advanced-topics { grid-template-columns: 1fr; gap: 21px; margin-top: 32px; padding-top: 28px; }
+    .advanced-topics h3 br { display: none; }
+  }
+</style>

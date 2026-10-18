@@ -1,11 +1,11 @@
 {
-  "name": "Edgar Coaching",
-  "short_name": "Edgar Coach",
-  "description": "Expert Training & Performance Optimization",
+  "name": "Coach Edgar — Health & Performance",
+  "short_name": "Coach Edgar",
+  "description": "Health and performance coaching for demanding professional lives.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#10b981",
+  "background_color": "#F7F9FC",
+  "theme_color": "#142C40",
   "icons": [
     {
       "src": "/icon-192x192.png",
@@ -18,4 +18,4 @@
       "type": "image/png"
     }
   ]
-} 
+}
